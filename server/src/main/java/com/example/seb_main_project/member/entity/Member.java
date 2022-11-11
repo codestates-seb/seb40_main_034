@@ -10,4 +10,7 @@ import javax.persistence.*;
 public class Member {
     @Id
     private Long id;
+
+    @Column
+    private String email;
 }
