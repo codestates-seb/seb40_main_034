@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Optional;
@@ -37,4 +39,15 @@ public class SecurityConfig {
 
     }
 
+    /**
+     * 사용자 패스워드 생성에 사용되는 passwordEncoder 메서드를 등록하는 Spring Bean <br>
+     * default 암호화 알고리즘은 bcrypt
+     *
+     * @return PasswordEncoder
+     * @author dev32user
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 }
