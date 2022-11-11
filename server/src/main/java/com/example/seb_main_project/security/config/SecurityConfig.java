@@ -18,7 +18,14 @@ import static org.springframework.security.authorization.AuthorityAuthorizationM
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-
+    /**
+     * Use authorizeHttpRequests <br>
+     * override the default by declare a SecurityFilterChain
+     *
+     * @param http HttpSecurity 클래스
+     * @return SecurityFilterChain
+     * @author dev32user
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
