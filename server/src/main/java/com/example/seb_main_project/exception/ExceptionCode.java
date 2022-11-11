@@ -1,4 +1,4 @@
-package com.example.seb_main_project.member.service;
+package com.example.seb_main_project.exception;
 
 import lombok.Getter;
 
