@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import Mypage from '../Pages/Mypage/Mypage';
-import Map from '../Pages/Map/Map';
+import Map from '../Pages/Map';
 
 const Layout = lazy(() => import('../Pages/Layout'));
 const Main = lazy(() => import('../Pages/Main'));
