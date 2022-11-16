@@ -1,21 +1,18 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  flex-direction:column;
-  align-items:center;
+  flex-direction: column;
+  align-items: center;
 `;
-
 
 export const Article = styled.div`
-display: flex;
+  display: flex;
 `;
-
 
 export const Bookmark = styled.div`
-display: flex;
+  display: flex;
 `;
-
 
 export const ToggleBtn = styled.form`
 position: relative;
@@ -72,8 +69,8 @@ input[type="radio"] {
 
 .blob {
   top: 4.4rem;
-  left: 2.1rem;
-  width: 5.7rem;
+  left: 2.45rem;
+  width: 5.2rem;
   height: 0.1rem;
   position: absolute;
   z-index: -1;
@@ -96,7 +93,7 @@ input[type="radio"] {
   transform: translateX(0) scaleX(1.3);
 }
 100% {
-  transform: translateX(9.9rem) scaleX(1);
+  transform: translateX(9.65rem) scaleX(1);
 }
 }
 
@@ -114,4 +111,6 @@ input[type="radio"] {
 
 
 `;
-
+export const ListContainer = styled.div`
+  display: flex;
+`;
