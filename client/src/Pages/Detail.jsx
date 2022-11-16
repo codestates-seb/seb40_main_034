@@ -42,7 +42,25 @@ const D_Images = styled.div`
     }
   }
 `;
-const D_Thumbnails = styled.div``;
+
+const D_Thumbnails = styled.div`
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  img {
+    width: 60px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    &.active {
+      border: 2px solid #fff;
+    }
+  }
+`;
+
 const D_BackBtn = styled.div`
   position: absolute;
   top: 0;
@@ -83,6 +101,9 @@ function Detail() {
   const nextImg = () => {
     setImgIdx(imgIdx === imgS.length - 1 ? 0 : imgIdx + 1);
   };
+  const thumbnailImg = (idx) => {
+    setImgIdx(idx);
+  };
 
   return (
     <>
@@ -91,10 +112,23 @@ function Detail() {
           <D_Img_Slider>
             <D_Images>
               {imgS.map((img, index) => (
-                <img src={img} className={index === imgIdx && "active"} />
+                <img
+                  src={img}
+                  className={index === imgIdx && "active"}
+                  key={index}
+                />
               ))}
             </D_Images>
-            <D_Thumbnails></D_Thumbnails>
+            <D_Thumbnails>
+              {imgS.map((img, index) => (
+                <img
+                  src={img}
+                  className={index === imgIdx && "active"}
+                  onClick={(index) => thumbnailImg(index)}
+                  key={index}
+                />
+              ))}
+            </D_Thumbnails>
             <D_BackBtn onClick={prevImg}>
               <svg
                 class="feather feather-chevron-left"
