@@ -13,6 +13,12 @@ import java.util.Optional;
 
 import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
 
+/**
+ * 시큐리티 컨피그 클래스입니다. <br>
+ * 어노테이션 @Configuration @EnableWebSecurity @RequiredArgsConstructor 을 사용해서 시큐리티 필터를 필터 체인에 등록한다.
+ *
+ * @author dev32user
+ */
 @Configuration
 @EnableWebSecurity  // 스프링 시큐리티 필터가 필터 체인에 등록된다. 스프링 시큐리티 필터 : 하단의 클래스
 @RequiredArgsConstructor
