@@ -1,9 +1,5 @@
-import React from 'react';
-
 const Map = () => {
-  return 
- 
-  
-}
+	return;
+};
 
 export default Map;
