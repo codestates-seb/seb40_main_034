@@ -2,69 +2,74 @@ import styled from 'styled-components';
 
 
 export const Container = styled.div`
-  box-sizing: border-box;
-  padding: 1rem;
-  width: auto; 
-  margin-left: 11rem;
   padding-top: 4.5rem;
-  display: flex;
-  justify-content: space-between;
-  @media screen and (max-width: 981px) {
-    box-sizing: border-box;
-  }
-  @media screen and (max-width: 817px) {
-  }
-  @media screen and (max-width: 640px) {
-    box-sizing: border-box;
-    margin-left: 0em;
-    padding-top: 4em;
-  }
-  @media screen and (max-width: 565px) {
-  }
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0.6rem;
+  grid-template-rows: repeat(10, 1fr);
+ 
+    .item:nth-child(1) {
+      grid-column: 6 / 8;
+      grid-row: 1 / 5;
+    }
+    .item:nth-child(2) {
+      grid-column: 2 / 12;
+      grid-row: 5 / 10;
+    }
+
 `;
 
 
 export const ProfileContainer = styled.div`
-display: flex;
+  display: flex;
+  flex-direction:column;
+  align-items:center;
+  .nickname-text{
+    padding-top:0.67rem;
+    font-size:2.25rem;
+    margin-top:0.5rem;
+  }
 `;
 
 export const ProfilePic = styled.div`
-min-width: 128px;
-min-height: 128px;
-margin-right: 1rem;
-border-radius: 5%;
+width: 7.5rem;
+height: 7.5rem;
+border-radius: 50%;
 box-shadow: rgb(0 0 0 / 5%) 0px 10px 24px, rgb(0 0 0 / 5%) 0px 20px 48px,
   rgb(0 0 0 / 10%) 0px 1px 4px;
 background-color: black;
 @media screen and (max-width: 981px) {
-  min-width: 96px;
-  max-width: 96px;
-  min-height: 96px;
-  max-height: 96px;
+
 }
 @media screen and (max-width: 640px) {
-  min-width: 64px;
-  max-width: 64px;
-  min-height: 64px;
-  max-height: 64px;
+
 }
 `;
 
 
 export const FollowContainer = styled.div`
-display: flex;
+  display: flex;
+  text-align:center;
+  justify-content: space-around;
+  margin-top:1.5rem;
+  .follow-text{
+    font-size:1rem;
+  }
 `;
 
 export const FollowingList = styled.div`
-display: flex;
+  display: flex;
 `;
 
 export const FollowerList = styled.div`
-display: flex;
+  display: flex;
 `;
 
 export const InfoContainer = styled.div`
-display: flex;
+  display: flex;
+  justify-content: space-around;
+  margin-top:1rem;
+  align-items:center;
 `;
 
 export const ShareButton = styled.button`
@@ -78,7 +83,7 @@ export const ShareButton = styled.button`
   font-size: 0.85rem;
   color: white;
   background-color: #379fef;
-  width: 100%;
+  width: 3.75rem;
   height: 1.5rem;
   cursor: pointer;
 `;
@@ -94,7 +99,7 @@ export const EditButton = styled.button`
   font-size: 0.85rem;
   color: white;
   background-color: #379fef;
-  width: 100%;
+  width: 3.75rem;
   height: 1.5rem;
   cursor: pointer;
 `;
