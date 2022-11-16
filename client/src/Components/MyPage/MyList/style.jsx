@@ -17,7 +17,7 @@ display: flex;
 `;
 
 
-export const ToggleButton = styled.form`
+export const ToggleBtn = styled.form`
 position: relative;
 display: flex;
 align-items: stretch;
