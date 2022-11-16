@@ -1,20 +1,19 @@
 import React from 'react';
-import {Container, ProfileContainer, ProfilePic, FollowContainer, FollowerList, FollowingList, InfoContainer, ShareButton, EditButton} from './style'
+import { ProfileContainer, ProfilePic, FollowContainer, FollowerList, FollowingList, InfoContainer, ShareButton, EditButton} from './style'
 
 
 const MyInfo = () => {
   return (
-    <Container>
+    <div>
+      <div>
       <ProfileContainer>
         <ProfilePic />
         <div className='nickname-text'>임시닉네임</div>
       </ProfileContainer>
       <FollowContainer>
-        <FollowingList>
-          <div className='follow-text'>0 following</div>
+        <FollowingList className='follow-text'>0 following
         </FollowingList>
-        <FollowerList>
-          <div className='follow-text'>0 follower</div>
+        <FollowerList className='follow-text'>0 follower
         </FollowerList>
       </FollowContainer>
       <InfoContainer>
@@ -25,7 +24,8 @@ const MyInfo = () => {
           <span>Edit</span>
         </EditButton>
       </InfoContainer>
-    </Container>
+      </div>
+    </div>
   )
 }
 
