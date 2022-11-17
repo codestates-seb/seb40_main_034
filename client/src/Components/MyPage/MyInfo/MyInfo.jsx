@@ -7,18 +7,21 @@ import {
 	FollowerList,
 	FollowingList,
 	InfoContainer,
-	ShareButton,
-	EditButton,
-	FollowButton,
+	ShareBtn,
+	EditBtn,
+	FollowBtn,
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
+import ShareModal from '../ShareModal/ShareModal';
 import { getFollowInfo } from '../../../Api/MyinfoApi';
 
 const MyInfo = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [shareModal, setShareModal] = useState(false);
 	const [select, setSelect] = useState('');
 	const [userName, setUserName] = useState('');
 	const [userProfile, setUserProfile] = useState('');
+	const url = window.location.href;
 
 	const openModalFollowing = () => {
 		setModalOpen(true);
@@ -31,6 +34,15 @@ const MyInfo = () => {
 	const closeModal = () => {
 		setModalOpen(false);
 	};
+	const copyUrl = () => {
+		navigator.clipboard.writeText(url).then(() => {
+			setShareModal(true);
+		});
+	};
+
+	const closeShareModal = () => {
+		setShareModal(false);
+	};
 
 	useEffect(() => {
 		getFollowInfo().then((res) => {
@@ -39,6 +51,7 @@ const MyInfo = () => {
 			setUserProfile(res[0].profileImg);
 		});
 	}, []);
+
 	return (
 		<MyContainer>
 			<ProfileContainer>
@@ -49,26 +62,27 @@ const MyInfo = () => {
 			</ProfileContainer>
 			<FollowContainer>
 				<FollowingList className="follow-text">
-					<FollowButton onClick={openModalFollowing}>
+					<FollowBtn onClick={openModalFollowing}>
 						<span>0</span>
 						<span>following</span>
-					</FollowButton>
+					</FollowBtn>
 				</FollowingList>
 				<FollowerList className="follow-text">
-					<FollowButton onClick={openModalFollower}>
+					<FollowBtn onClick={openModalFollower}>
 						<span>0</span>
 						<span>follower</span>
-					</FollowButton>
+					</FollowBtn>
 				</FollowerList>
 				{modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
 			</FollowContainer>
 			<InfoContainer>
-				<ShareButton>
+				<ShareBtn onClick={copyUrl}>
 					<span>Share</span>
-				</ShareButton>
-				<EditButton>
+				</ShareBtn>
+				{shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
+				<EditBtn>
 					<span>Edit</span>
-				</EditButton>
+				</EditBtn>
 			</InfoContainer>
 		</MyContainer>
 	);
