@@ -87,7 +87,7 @@ const Login = () => {
 				</LoginContainer>
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
-					<WelcomeStr>Hello, we're PostON!</WelcomeStr>
+					<WelcomeStr>Hello, were PostON!</WelcomeStr>
 				</Wrap>
 			</PageContainer>
 		</div>
