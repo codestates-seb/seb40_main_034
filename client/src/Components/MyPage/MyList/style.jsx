@@ -1,17 +1,17 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 export const Article = styled.div`
-  display: flex;
+	display: flex;
 `;
 
 export const Bookmark = styled.div`
-  display: flex;
+	display: flex;
 `;
 
 export const ToggleBtn = styled.form`
@@ -53,7 +53,7 @@ input[type="radio"] {
   &#t1:checked {
     
     ~ .blob {
-      background: cornflowerblue;
+      background: rgb(132, 255, 47);
       animation-name: stretchyRev;
     }
   }
@@ -61,7 +61,7 @@ input[type="radio"] {
   &#t2:checked {
     
     ~ .blob {
-      background-color: cornflowerblue;
+      background-color: rgb(132, 255, 47);
       animation-name: stretchy;
     }
   }
@@ -90,7 +90,7 @@ input[type="radio"] {
   transform: translateX(0) scaleX(1);
 }
 50% {
-  transform: translateX(0) scaleX(1.3);
+  transform: translateX(0) scaleX(1.2);
 }
 100% {
   transform: translateX(9.65rem) scaleX(1);
@@ -99,10 +99,10 @@ input[type="radio"] {
 
 @keyframes stretchyRev {
 0% {
-  transform: translateX(100%) scaleX(1);
+  transform: translateX(9.65rem) scaleX(1);
 }
 50% {
-  transform: translateX(0) scaleX(1.3);
+  transform: translateX(0) scaleX(1.2);
 }
 100% {
   transform: translateX(0) scaleX(1);
@@ -112,5 +112,5 @@ input[type="radio"] {
 
 `;
 export const ListContainer = styled.div`
-  display: flex;
+	display: flex;
 `;

@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Modal = styled.div`
-display: ${(props) => (props.popup ? "flex" : "none")};
+display: ${(props) => (props.popup ? 'flex' : 'none')};
 position: fixed;
 align-items: center;
 top: 0;
@@ -84,6 +84,7 @@ position: relative;
 display: flex;
 align-items: stretch;
 justify-content: center;
+color:rgb(31, 31, 31);
 
 label {
   user-select: none;
@@ -95,30 +96,24 @@ label {
   transition:
     transform 125ms ease-in-out,
     filter 125ms ease-in-out;
-  // filter: blur(.25rem);
+
   
   &:hover {
     transform: scale(1.15);
-    // filter: blur(0px);
+
   }
 }
 
 input[type="radio"] {
   display: none;
 
-  // static
-  &#t1 ~ .inblob {
-    transform-origin: right center;
-  }
+
   
-  &#t2 ~ .inblob {
-    transform-origin: left center;
-  }
-  
-  // animated
+
   &#t1:checked {
     
     ~ .inblob {
+      left:2rem;
       background-color: white;
       animation-name: stretchyRev;
     }
@@ -127,6 +122,7 @@ input[type="radio"] {
   &#t2:checked {
     
     ~ .inblob {
+      left:2rem;
       background-color: white;
       animation-name: stretchy;
     }
@@ -135,8 +131,8 @@ input[type="radio"] {
 
 .inblob {
   top: 3rem;
-  left: 2rem;
-  width: 12rem;
+  left:2rem;
+  width: 10rem;
   height: 1.6rem;
   position: absolute;
   z-index: 3;
@@ -147,49 +143,74 @@ input[type="radio"] {
   animation-fill-mode: forwards;
   transition:
     transform 150ms ease,
-    background 150ms ease;
 }
 }
 .outblob {
   top: 2.8rem;
-  left: 2rem;
   width: 22rem;
   height: 2rem;
   position: absolute;
-  background-color:#92FF3D;
+  background-color:rgb(132, 255, 47);
   z-index: 2;
   border-radius: 1.3rem;
-  animation-duration: .5s;
-  animation-direction: forwards;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  transition:
-    transform 150ms ease,
-    background 150ms ease;
+
 }
 }
 @keyframes stretchy {
 0% {
-  transform: translateX(0) scaleX(1);
+  transform: translateX(0.2rem) scaleX(1);
 }
 50% {
-  transform: translateX(0) scaleX(1.3);
+  transform: translateX(0) scaleX(1.2);
 }
 100% {
-  transform: translateX(9.8rem) scaleX(1);
+  transform: translateX(11.8rem) scaleX(1);
 }
 }
 
 @keyframes stretchyRev {
 0% {
-  transform: translateX(100%) scaleX(1);
+  transform: translateX(11.8rem) scaleX(1);
 }
 50% {
-  transform: translateX(0) scaleX(1.3);
+  transform: translateX(0) scaleX(1.2);
 }
 100% {
   transform: translateX(0.2rem) scaleX(1);
 }
 }
 
+`;
+
+export const Following = styled.div`
+	display: flex;
+	.followimg {
+		img {
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 50%;
+		}
+		.followname {
+			font-size: 0.5rem;
+		}
+	}
+`;
+
+export const Follower = styled.div`
+	display: flex;
+	justify-content: space-around;
+	.followimg {
+		img {
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 50%;
+		}
+		.followname {
+			font-size: 0.5rem;
+		}
+	}
+`;
+
+export const FollowContainer = styled.div`
+	display: flex;
 `;
