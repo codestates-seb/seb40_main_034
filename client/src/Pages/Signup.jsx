@@ -73,17 +73,18 @@ const WelcomeStr = styled.div`
 	font-weight: 700;
 `;
 
-const Login = () => {
+const Signup = () => {
 	return (
 		<div>
 			<PageContainer>
 				<LoginContainer>
 					<LogoDiv />
+					<LoginInput type="text" name="name" placeholder=" Enter your Nickname"></LoginInput>
 					<LoginInput type="email" name="loginEmail" placeholder=" Enter your email"></LoginInput>
 					<LoginInput type="password" name="loginPassword" placeholder=" Enter your password"></LoginInput>
-					<LoginButton>Log in</LoginButton>
+					<LoginButton>Sign up</LoginButton>
 					<div>
-						Don’t have an account? <Link to="/signup">Sign up</Link>
+						Already have an account? <Link to="/login">Login</Link>
 					</div>
 				</LoginContainer>
 				<Wrap>
@@ -95,4 +96,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Signup;
