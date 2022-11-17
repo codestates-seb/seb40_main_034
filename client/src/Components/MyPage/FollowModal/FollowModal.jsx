@@ -1,5 +1,4 @@
 import { Modal, ToggleBtn, Follow, FollowContainer, TogglebtnContainer, Container, FollowBtn } from './style';
-import { GreenBtn } from '../../Common/Btn';
 import { getFollowInfo } from '../../../Api/MyinfoApi';
 import { useState, useEffect } from 'react';
 const FollowModal = (props) => {

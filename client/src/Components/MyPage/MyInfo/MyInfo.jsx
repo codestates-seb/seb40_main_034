@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	MyContainer,
 	ProfileContainer,
@@ -15,11 +16,13 @@ import FollowModal from '../FollowModal/FollowModal';
 import { getFollowInfo } from '../../../Api/MyinfoApi';
 
 const MyInfo = () => {
+	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState(false);
 	const [select, setSelect] = useState('');
 	const [userName, setUserName] = useState('');
 	const [userProfile, setUserProfile] = useState('');
 
+	// follow 모달
 	const openModalFollowing = () => {
 		setModalOpen(true);
 		setSelect('following');
@@ -31,7 +34,10 @@ const MyInfo = () => {
 	const closeModal = () => {
 		setModalOpen(false);
 	};
-
+	const navigateEdit = () => {
+		// edit 화면 이동
+		navigate('/edit');
+	};
 	useEffect(() => {
 		getFollowInfo().then((res) => {
 			console.log(res);
@@ -66,9 +72,7 @@ const MyInfo = () => {
 				<ShareButton>
 					<span>Share</span>
 				</ShareButton>
-				<EditButton>
-					<span>Edit</span>
-				</EditButton>
+				<EditButton onClick={navigateEdit}>Edit</EditButton>
 			</InfoContainer>
 		</MyContainer>
 	);
