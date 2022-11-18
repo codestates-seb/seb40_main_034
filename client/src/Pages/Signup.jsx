@@ -84,7 +84,6 @@ const ErrorPw = styled.div`
 	margin-top: 0.5rem;
 	margin-right: 4rem;
 `;
-
 const Signup = () => {
 	const [email, setEmail] = useState('');
 	const [pw, setPw] = useState('');
