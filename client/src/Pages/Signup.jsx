@@ -38,6 +38,7 @@ const SignupInput = styled.input`
 		outline: solid 0.2rem #91f841;
 	}
 `;
+
 const SignupButton = styled(GreenBtn)`
 	margin: 1rem;
 `;

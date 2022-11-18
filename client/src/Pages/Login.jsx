@@ -127,7 +127,7 @@ const Login = () => {
 						)}
 					</div>
 					<LoginButton text="Log in" />
-					<div>
+          <div>
 						Don’t have an account? <Link to="/signup">Sign up</Link>
 					</div>
 				</LoginContainer>
