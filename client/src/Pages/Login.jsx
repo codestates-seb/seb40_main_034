@@ -22,9 +22,6 @@ const LoginContainer = styled.div`
 	justify-content: center;
 `;
 
-const Login = () => {
-
-
 const LoginInput = styled.input`
 	width: 25rem;
 	height: 2.5rem;
@@ -148,7 +145,6 @@ const Login = () => {
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
 					<WelcomeStr>Hello, we are PostON!</WelcomeStr>
-
 				</Wrap>
 			</PageContainer>
 		</div>
