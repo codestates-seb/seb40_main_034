@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import FollowList from './FallowList';
+import FollowList from './FollowList';
 import Tag from './Tag';
 
 const Sidebar = ({ followlist }) => {
