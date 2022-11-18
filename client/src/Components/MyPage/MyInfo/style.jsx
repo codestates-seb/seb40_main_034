@@ -14,6 +14,10 @@ export const Container = styled.div`
 		grid-column: 2 / 12;
 		grid-row: 5 / 10;
 	}
+	.edititem {
+		grid-column: 4 / 6;
+		grid-row: 1 / 10;
+	}
 `;
 
 export const MyContainer = styled.div`

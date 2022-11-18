@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	MyContainer,
 	ProfileContainer,
@@ -16,6 +17,7 @@ import ShareModal from '../ShareModal/ShareModal';
 import { getFollowInfo } from '../../../Api/MyinfoApi';
 
 const MyInfo = () => {
+	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState(false);
 	const [shareModal, setShareModal] = useState(false);
 	const [select, setSelect] = useState('');
@@ -23,6 +25,7 @@ const MyInfo = () => {
 	const [userProfile, setUserProfile] = useState('');
 	const url = window.location.href;
 
+	// follow 모달
 	const openModalFollowing = () => {
 		setModalOpen(true);
 		setSelect('following');
@@ -34,6 +37,7 @@ const MyInfo = () => {
 	const closeModal = () => {
 		setModalOpen(false);
 	};
+
 	const copyUrl = () => {
 		navigator.clipboard.writeText(url).then(() => {
 			setShareModal(true);
@@ -42,6 +46,11 @@ const MyInfo = () => {
 
 	const closeShareModal = () => {
 		setShareModal(false);
+	};
+
+	const navigateEdit = () => {
+		// edit 화면 이동
+		navigate('/edit');
 	};
 
 	useEffect(() => {
@@ -76,13 +85,10 @@ const MyInfo = () => {
 				{modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
 			</FollowContainer>
 			<InfoContainer>
-				<ShareBtn onClick={copyUrl}>
-					<span>Share</span>
-				</ShareBtn>
+				<ShareBtn onClick={copyUrl}>Share</ShareBtn>
 				{shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
-				<EditBtn>
-					<span>Edit</span>
-				</EditBtn>
+				<EditBtn onClick={navigateEdit}>Edit</EditBtn>
+
 			</InfoContainer>
 		</MyContainer>
 	);
