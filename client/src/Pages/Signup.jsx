@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
+import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { GreenBtn } from '../Components/Common/Btn';
+import Login from './Login';
 
 const PageContainer = styled.div`
 	width: 100%;
@@ -21,23 +24,25 @@ const LoginContainer = styled.div`
 	justify-content: center;
 `;
 
-const Login = () => {
-
-
-const LoginInput = styled.input`
+const SignupInput = styled.input`
 	width: 25rem;
 	height: 2.5rem;
 	margin-top: 2rem;
 	border-radius: 0.5rem;
 	text-indent: 10px;
+    backgroung-image {
+        src={Openeye}
+    }
 	outline: solid 0.125rem #dddddd;
 	&:focus {
 		outline: solid 0.2rem #91f841;
 	}
 `;
-const LoginButton = styled(GreenBtn)`
+
+const SignupButton = styled(GreenBtn)`
 	margin: 1rem;
 `;
+
 const LogoDiv = styled.img.attrs({
 	src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
 })`
@@ -80,7 +85,7 @@ const ErrorPw = styled.div`
 	margin-top: 0.5rem;
 	margin-right: 4rem;
 `;
-const Login = () => {
+const Signup = () => {
 	const [email, setEmail] = useState('');
 	const [pw, setPw] = useState('');
 
@@ -109,42 +114,41 @@ const Login = () => {
 	return (
 		<div>
 			<PageContainer>
-				<LoginContainer>
-					<LogoDiv />
-
-					<LoginInput
-						type="email"
-						name="loginEmail"
-						value={email}
-						onChange={handleEmail}
-						placeholder="Enter your email"></LoginInput>
-					<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-					<LoginInput
-						type="password"
-						name="loginPassword"
-						value={pw}
-						onChange={handlePw}
-						placeholder="Enter your password"></LoginInput>
-					<div>
-						{!pwValid && pw.length > 0 && (
-							<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
-						)}
-					</div>
-					<LoginButton text="Log in" />
-          <div>
-
-						Don’t have an account? <Link to="/signup">Sign up</Link>
-					</div>
-				</LoginContainer>
+				<form>
+					<LoginContainer>
+						<LogoDiv />
+						<SignupInput type="text" name="name" placeholder="Enter your Nickname"></SignupInput>
+						<SignupInput
+							type="email"
+							name="loginEmail"
+							value={email}
+							onChange={handleEmail}
+							placeholder="Enter your email"></SignupInput>
+						<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
+						<SignupInput
+							type="password"
+							name="loginPassword"
+							value={pw}
+							onChange={handlePw}
+							placeholder="Enter your password"></SignupInput>
+						<div>
+							{!pwValid && pw.length > 0 && (
+								<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+							)}
+						</div>
+						<SignupButton text="Sign up" />
+						<div>
+							Already have an account? <Link to="/login">Login</Link>
+						</div>
+					</LoginContainer>
+				</form>
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
-
 					<WelcomeStr>Hello, we are PostON!</WelcomeStr>
-
 				</Wrap>
 			</PageContainer>
 		</div>
 	);
 };
 
-export default Login;
+export default Signup;

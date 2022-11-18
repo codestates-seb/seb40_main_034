@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap');
 body {
 	margin: 0;
-}
-
-pre,
-code {
+	font-family: 'Poppins', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+		Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 html,
@@ -136,4 +134,5 @@ table {
 }
 a {
 	text-decoration: none;
+	color: inherit;
 }
