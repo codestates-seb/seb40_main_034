@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
+import axios from 'axios';
 
 const PageContainer = styled.div`
 	width: 100%;
@@ -83,7 +84,7 @@ const Login = () => {
 
 	const [emailValid, setEmailValid] = useState(false);
 	const [pwValid, setPwValid] = useState(false);
-
+	// email 유효성 검사 결과
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
 		const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
@@ -93,6 +94,7 @@ const Login = () => {
 			setEmailValid(false);
 		}
 	};
+	// password 유효성 검사 결과
 	const handlePw = (e) => {
 		setPw(e.target.value);
 		const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
@@ -103,34 +105,43 @@ const Login = () => {
 		}
 	};
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (emailValid && pwValid) {
+			axios.post('http://localhost:8080/login', { email, pw });
+		}
+	};
 	return (
 		<div>
 			<PageContainer>
-				<LoginContainer>
-					<LogoDiv />
-					<LoginInput
-						type="email"
-						name="loginEmail"
-						value={email}
-						onChange={handleEmail}
-						placeholder="Enter your email"></LoginInput>
-					<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-					<LoginInput
-						type="password"
-						name="loginPassword"
-						value={pw}
-						onChange={handlePw}
-						placeholder="Enter your password"></LoginInput>
-					<div>
-						{!pwValid && pw.length > 0 && (
-							<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
-						)}
-					</div>
-					<LoginButton text="Log in" />
-          <div>
-						Don’t have an account? <Link to="/signup">Sign up</Link>
-					</div>
-				</LoginContainer>
+				<form onSubmit={handleSubmit}>
+					<LoginContainer>
+						<LogoDiv />
+						<LoginInput
+							type="email"
+							name="loginEmail"
+							value={email}
+							onChange={handleEmail}
+							placeholder="Enter your email"></LoginInput>
+						<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
+						<LoginInput
+							type="password"
+							name="loginPassword"
+							value={pw}
+							onChange={handlePw}
+							placeholder="Enter your password"></LoginInput>
+						<div>
+							{!pwValid && pw.length > 0 && (
+								<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+							)}
+						</div>
+						<LoginButton text="Log in" type="submit" />
+						<div>
+							Don’t have an account? <Link to="/signup">Sign up</Link>
+						</div>
+					</LoginContainer>
+				</form>
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
 					<WelcomeStr>Hello, we are PostON!</WelcomeStr>

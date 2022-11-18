@@ -88,7 +88,6 @@ const MyInfo = () => {
 				<ShareBtn onClick={copyUrl}>Share</ShareBtn>
 				{shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
 				<EditBtn onClick={navigateEdit}>Edit</EditBtn>
-
 			</InfoContainer>
 		</MyContainer>
 	);

@@ -13,7 +13,7 @@ const PageContainer = styled.div`
 	align-items: center;
 	justify-content: center;
 `;
-const LoginContainer = styled.div`
+const SignupContainer = styled.div`
 	width: 35rem;
 	height: 50rem;
 	display: flex;
@@ -92,6 +92,7 @@ const Signup = () => {
 	const [emailValid, setEmailValid] = useState(false);
 	const [pwValid, setPwValid] = useState(false);
 
+	// email 유효성 검사 결과
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
 		const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
@@ -101,6 +102,7 @@ const Signup = () => {
 			setEmailValid(false);
 		}
 	};
+	// password 유효성 검사 결과
 	const handlePw = (e) => {
 		setPw(e.target.value);
 		const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
@@ -115,7 +117,7 @@ const Signup = () => {
 		<div>
 			<PageContainer>
 				<form>
-					<LoginContainer>
+					<SignupContainer>
 						<LogoDiv />
 						<SignupInput type="text" name="name" placeholder="Enter your Nickname"></SignupInput>
 						<SignupInput
@@ -140,7 +142,7 @@ const Signup = () => {
 						<div>
 							Already have an account? <Link to="/login">Login</Link>
 						</div>
-					</LoginContainer>
+					</SignupContainer>
 				</form>
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
