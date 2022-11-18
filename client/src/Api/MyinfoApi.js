@@ -17,3 +17,12 @@ export const getFollowInfo = async () => {
 		return err;
 	}
 };
+
+export const addFollow = async (id) => {
+	try {
+		const res = await instance.delete(`/follow/${id}`);
+		return res;
+	} catch (err) {
+		return err;
+	}
+};

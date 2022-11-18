@@ -1,14 +1,21 @@
 import { Modal, ToggleBtn, Follow, FollowContainer, TogglebtnContainer, Container, FollowBtn } from './style';
-import { getFollowInfo } from '../../../Api/MyinfoApi';
+import { getFollowInfo, addFollow } from '../../../Api/MyinfoApi';
 import { useState, useEffect } from 'react';
 const FollowModal = (props) => {
 	// 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
 	const { open, close, header, select } = props;
 	const [choice, setChoice] = useState(select);
+	const [userList, setUserList] = useState([]);
+
 	const handleChoice = (e) => {
 		setChoice(e.target.value);
 	};
-	const [userList, setUserList] = useState([]);
+	const removeFollowing = (id) => {
+		setUserList(userList.filter((user) => user.id !== id));
+		addFollow(id).then((res) => {
+			console.log(res);
+		});
+	};
 
 	useEffect(() => {
 		getFollowInfo().then((res) => {
@@ -50,7 +57,13 @@ const FollowModal = (props) => {
 															<img src={follow.profileImg} alt="UserPic" />
 														</div>
 														<div className="follow-name">{follow.nickname}</div>
-														<FollowBtn>Unfollow</FollowBtn>
+														<FollowBtn
+															key={follow.id}
+															onClick={() => {
+																removeFollowing(follow.id);
+															}}>
+															Unfollow
+														</FollowBtn>
 													</div>
 												);
 										  })
