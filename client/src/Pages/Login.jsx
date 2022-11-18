@@ -21,6 +21,9 @@ const LoginContainer = styled.div`
 	justify-content: center;
 `;
 
+const Login = () => {
+
+
 const LoginInput = styled.input`
 	width: 25rem;
 	height: 2.5rem;
@@ -108,6 +111,7 @@ const Login = () => {
 			<PageContainer>
 				<LoginContainer>
 					<LogoDiv />
+
 					<LoginInput
 						type="email"
 						name="loginEmail"
@@ -128,12 +132,15 @@ const Login = () => {
 					</div>
 					<LoginButton text="Log in" />
           <div>
+
 						Don’t have an account? <Link to="/signup">Sign up</Link>
 					</div>
 				</LoginContainer>
 				<Wrap>
 					<WelcomeImg></WelcomeImg>
+
 					<WelcomeStr>Hello, we are PostON!</WelcomeStr>
+
 				</Wrap>
 			</PageContainer>
 		</div>
