@@ -71,7 +71,7 @@ export const InfoContainer = styled.div`
 	align-items: center;
 `;
 
-export const ShareButton = styled.button`
+export const ShareBtn = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -87,8 +87,8 @@ export const ShareButton = styled.button`
 	}
 `;
 
-export const EditButton = styled(ShareButton)``;
-export const FollowButton = styled.button`
+export const EditBtn = styled(ShareBtn)``;
+export const FollowBtn = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
