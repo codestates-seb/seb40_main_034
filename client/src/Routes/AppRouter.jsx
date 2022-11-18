@@ -2,7 +2,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
 const Loading = lazy(() => import('../Pages/Loading'));
-const Layout = lazy(() => import('../Pages/Layout'));
+const LayoutHS = lazy(() => import('../Pages/LayoutHS'));
+const LayoutH = lazy(() => import('../Pages/LayoutH'));
 const Main = lazy(() => import('../Pages/Main'));
 const Login = lazy(() => import('../Pages/Login'));
 const Signup = lazy(() => import('../Pages/Signup'));
@@ -16,15 +17,17 @@ export const AppRouter = () => {
 		<BrowserRouter>
 			<Suspense fallback={<Loading />}>
 				<Routes>
-					<Route element={<Layout />}>
+					<Route element={<LayoutHS />}>
 						<Route path="/" element={<Main />} />
 						<Route path="/mypage" element={<Mypage />} />
 						<Route path="/edit" element={<Edit />} />
 						<Route path="/detail" element={<Detail />} />
 						<Route path="/map" element={<Map />} />
 					</Route>
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
+					<Route element={<LayoutH />}>
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<Signup />} />
+					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Suspense>
