@@ -24,7 +24,7 @@ const LoginContainer = styled.div`
 	justify-content: center;
 `;
 
-const LoginInput = styled.input`
+const SignupInput = styled.input`
 	width: 25rem;
 	height: 2.5rem;
 	margin-top: 2rem;
@@ -38,8 +38,9 @@ const LoginInput = styled.input`
 		outline: solid 0.2rem #91f841;
 	}
 `;
-const PasswordInput = styled(LoginInput)`
-	margin-bottom: 2rem;
+
+const SignupButton = styled(GreenBtn)`
+	margin: 1rem;
 `;
 
 const LogoDiv = styled.img.attrs({
@@ -72,18 +73,70 @@ const WelcomeStr = styled.div`
 	text-align: center;
 	font-weight: 700;
 `;
-
+const ErrorEmail = styled.div`
+	color: red;
+	font-size: 0.8rem;
+	margin-top: 0.5rem;
+	margin-right: 14rem;
+`;
+const ErrorPw = styled.div`
+	color: red;
+	font-size: 0.8rem;
+	margin-top: 0.5rem;
+	margin-right: 4rem;
+`;
 const Signup = () => {
+	const [email, setEmail] = useState('');
+	const [pw, setPw] = useState('');
+
+	const [emailValid, setEmailValid] = useState(false);
+	const [pwValid, setPwValid] = useState(false);
+
+	const handleEmail = (e) => {
+		setEmail(e.target.value);
+		const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+		if (regex.test(email)) {
+			setEmailValid(true);
+		} else {
+			setEmailValid(false);
+		}
+	};
+	const handlePw = (e) => {
+		setPw(e.target.value);
+		const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
+		if (regex.test(pw)) {
+			setPwValid(true);
+		} else {
+			setPwValid(false);
+		}
+	};
+
 	return (
 		<div>
 			<PageContainer>
 				<form>
 					<LoginContainer>
 						<LogoDiv />
-						<LoginInput type="text" name="name" placeholder="Enter your Nickname"></LoginInput>
-						<LoginInput type="email" name="loginEmail" placeholder="Enter your email"></LoginInput>
-						<PasswordInput type="password" name="loginPassword" placeholder="Enter your password"></PasswordInput>
-						<GreenBtn text="Sign up" />
+						<SignupInput type="text" name="name" placeholder="Enter your Nickname"></SignupInput>
+						<SignupInput
+							type="email"
+							name="loginEmail"
+							value={email}
+							onChange={handleEmail}
+							placeholder="Enter your email"></SignupInput>
+						<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
+						<SignupInput
+							type="password"
+							name="loginPassword"
+							value={pw}
+							onChange={handlePw}
+							placeholder="Enter your password"></SignupInput>
+						<div>
+							{!pwValid && pw.length > 0 && (
+								<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+							)}
+						</div>
+						<SignupButton text="Sign up" />
 						<div>
 							Already have an account? <Link to="/login">Login</Link>
 						</div>
