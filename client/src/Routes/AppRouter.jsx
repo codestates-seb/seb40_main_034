@@ -9,6 +9,7 @@ const Signup = lazy(() => import('../Pages/Signup'));
 const Detail = lazy(() => import('../Pages/Detail'));
 const Mypage = lazy(() => import('../Pages/Mypage'));
 const Map = lazy(() => import('../Pages/Map'));
+const Edit = lazy(() => import('../Pages/Edit'));
 
 export const AppRouter = () => {
 	return (
@@ -18,6 +19,7 @@ export const AppRouter = () => {
 					<Route element={<Layout />}>
 						<Route path="/" element={<Main />} />
 						<Route path="/mypage" element={<Mypage />} />
+						<Route path="/edit" element={<Edit />} />
 						<Route path="/detail" element={<Detail />} />
 						<Route path="/map" element={<Map />} />
 					</Route>
