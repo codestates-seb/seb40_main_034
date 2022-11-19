@@ -15,7 +15,9 @@ export const Bookmark = styled.div`
 `;
 
 export const ToggleBtn = styled.button`
+	margin: 0.4rem;
 	padding: 0.5rem 1rem 0.5rem 1rem;
+	width: 6rem;
 	border-radius: 22px;
 	font-weight: 500;
 	font-size: 0.85rem;

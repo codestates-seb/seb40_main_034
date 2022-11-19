@@ -27,7 +27,7 @@ const FollowModal = (props) => {
 
 	return (
 		// 모달이 열릴때 openModal 클래스가 생성된다.
-		<Modal popup={open ? 'popup' : ''}>
+		<Modal popup={open ? 'popup' : ''} onClick={close}>
 			{open ? (
 				<section>
 					<header>
@@ -37,7 +37,7 @@ const FollowModal = (props) => {
 						</button>
 					</header>
 					<main>
-						<Container>
+						<Container onClick={(e) => e.stopPropagation()}>
 							<TogglebtnContainer>
 								<ToggleBtn onClick={handleChoice} value="following" choice={choice}>
 									Following
@@ -82,11 +82,7 @@ const FollowModal = (props) => {
 							</FollowContainer>
 						</Container>
 					</main>
-					<footer>
-						<button className="close" onClick={close}>
-							close
-						</button>
-					</footer>
+					<footer></footer>
 				</section>
 			) : null}
 		</Modal>

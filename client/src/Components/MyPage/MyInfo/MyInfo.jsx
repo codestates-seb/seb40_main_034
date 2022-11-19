@@ -5,12 +5,11 @@ import {
 	ProfileContainer,
 	ProfilePic,
 	FollowContainer,
-	FollowerList,
-	FollowingList,
 	InfoContainer,
 	ShareBtn,
 	EditBtn,
-	FollowBtn,
+	FollowingBtn,
+	FollowerBtn,
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
@@ -70,18 +69,15 @@ const MyInfo = () => {
 				<div className="nickname-text">{userName}</div>
 			</ProfileContainer>
 			<FollowContainer>
-				<FollowingList className="follow-text">
-					<FollowBtn onClick={openModalFollowing}>
-						<span>0</span>
-						<span>following</span>
-					</FollowBtn>
-				</FollowingList>
-				<FollowerList className="follow-text">
-					<FollowBtn onClick={openModalFollower}>
-						<span>0</span>
-						<span>follower</span>
-					</FollowBtn>
-				</FollowerList>
+				<FollowingBtn onClick={openModalFollowing}>
+					<span className="ingSpan">0</span>
+					<span>following</span>
+				</FollowingBtn>
+				<FollowerBtn onClick={openModalFollower}>
+					<span className="erSpan">0</span>
+					<span>follower</span>
+				</FollowerBtn>
+
 				{modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
 			</FollowContainer>
 			<InfoContainer>
