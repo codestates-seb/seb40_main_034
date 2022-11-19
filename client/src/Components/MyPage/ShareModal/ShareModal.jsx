@@ -6,7 +6,7 @@ const ShareModal = (props) => {
 
 	return (
 		// 모달이 열릴때 openModal 클래스가 생성된다.
-		<Modal popup={open ? 'popup' : ''}>
+		<Modal popup={open ? 'popup' : ''} onClick={close}>
 			{open ? (
 				<section>
 					<header>
@@ -16,15 +16,11 @@ const ShareModal = (props) => {
 						</button>
 					</header>
 					<main>
-						<Container>
+						<Container onClick={(e) => e.stopPropagation()}>
 							<span>링크가 복사되었습니다.</span>
 						</Container>
 					</main>
-					<footer>
-						<button className="close" onClick={close}>
-							close
-						</button>
-					</footer>
+					<footer></footer>
 				</section>
 			) : null}
 		</Modal>

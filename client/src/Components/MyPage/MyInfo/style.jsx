@@ -3,28 +3,29 @@ import styled from 'styled-components';
 export const Container = styled.div`
 	padding-top: 4.5rem;
 	display: grid;
-	grid-template-columns: repeat(12, 1fr);
+	grid-template-columns: repeat(11, 1fr);
 	gap: 0.6rem;
-	grid-template-rows: repeat(10, 1fr);
+	grid-template-rows: repeat(9, 1fr);
 	.item:nth-child(1) {
-		grid-column: 6 / 8;
+		grid-column: 5 / 8;
 		grid-row: 1 / 5;
+		margin: 2rem;
 	}
 	.item:nth-child(2) {
-		grid-column: 2 / 12;
-		grid-row: 5 / 10;
+		grid-column: 2 / 11;
+		grid-row: 5 / 9;
+		margin: 2rem;
 	}
 	.edititem {
 		grid-column: 4 / 6;
-		grid-row: 1 / 10;
+		grid-row: 1 / 9;
 	}
 `;
 
 export const MyContainer = styled.div`
 	display: flex;
-	margin-bottom: 3.5rem;
 	flex-direction: column;
-	justify-content: space-around;
+	align-items: space-between;
 `;
 
 export const ProfileContainer = styled.div`
@@ -49,19 +50,9 @@ export const ProfilePic = styled.div`
 
 export const FollowContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
+	align-items: center;
 	margin-top: 1.5rem;
-	.follow-text {
-		font-size: 1rem;
-	}
-`;
-
-export const FollowingList = styled.div`
-	display: flex;
-`;
-
-export const FollowerList = styled.div`
-	display: flex;
 `;
 
 export const InfoContainer = styled.div`
@@ -72,35 +63,63 @@ export const InfoContainer = styled.div`
 `;
 
 export const ShareBtn = styled.button`
+	padding: 0.5rem 1rem 0.5rem 1rem;
+	border-radius: 22px;
+	font-weight: 500;
+	font-size: 0.85rem;
+	text-align: center;
+	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-radius: 150rem;
+	width: 5rem;
 	border: solid 0.08rem rgb(132, 255, 47);
 	color: rgb(31, 31, 31);
 	background-color: white;
-	width: 6.25rem;
-	height: 3.1rem;
-	cursor: pointer;
+
 	span {
 		font-size: 0.85rem;
 	}
 `;
 
 export const EditBtn = styled(ShareBtn)``;
-export const FollowBtn = styled.button`
+export const FollowingBtn = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 	border-radius: 150rem;
-	width: 6.25rem;
-	height: 3.1rem;
-	font-size: 0.85rem;
+
+	height: 3rem;
 	background-color: white;
 	cursor: pointer;
+	span {
+		font-size: 0.9rem;
+	}
 	span:nth-child(1) {
 		color: rgb(132, 255, 47);
-		padding-right: 0.4rem;
+		margin-right: 0.4rem;
+	}
+	span:nth-child(2) {
+		color: rgb(31, 31, 31);
+	}
+`;
+export const FollowerBtn = styled(FollowingBtn)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	border-radius: 150rem;
+	width: 6rem;
+	height: 3rem;
+	background-color: white;
+	cursor: pointer;
+	span {
+		font-size: 0.9rem;
+	}
+	span:nth-child(1) {
+		color: rgb(132, 255, 47);
+		margin-right: 0.4rem;
 	}
 	span:nth-child(2) {
 		color: rgb(31, 31, 31);

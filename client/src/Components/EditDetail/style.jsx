@@ -78,8 +78,7 @@ export const BtnContainer = styled.div`
 	display: flex;
 	width: 18rem;
 	margin-top: 3.5rem;
-	flex-direction: row;
-	justify-content: space-between;
+	flex-direction: column;
 `;
 export const EditText = styled.div`
 	display: flex;
@@ -104,16 +103,23 @@ export const EditAbout = styled.div`
 	display: flex;
 `;
 
-export const QuitBtn = styled(EditBtn)`
+export const QuitBtn = styled.button`
+	padding: 0.3rem 1rem 0.3rem 1rem;
+	border-radius: 22px;
+	font-weight: 500;
+	height: 2rem;
+	text-align: center;
 	cursor: pointer;
-	background-color: #333333;
-	color: #91f841;
-
+	background-color: white;
+	width: 6rem;
+	font-size: 0.8rem;
+	color: rgb(230, 58, 33);
+	margin-bottom: 4rem;
+	text-align: start;
 	&:hover {
-		filter: brightness(90%);
-	}
-	&:active {
-		filter: brightness(80%);
+		color: rgb(253, 58, 33);
 	}
 `;
-export const SubmitBtn = styled(EditBtn)``;
+export const SubmitBtn = styled(EditBtn)`
+	width: 6rem;
+`;
