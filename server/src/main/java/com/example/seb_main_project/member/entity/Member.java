@@ -1,6 +1,7 @@
 package com.example.seb_main_project.member.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -12,9 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
