@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +22,8 @@ public class Member {
 
     @Column(nullable = false)
     private String password;
+
+    // Security 유저 권한
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 }
