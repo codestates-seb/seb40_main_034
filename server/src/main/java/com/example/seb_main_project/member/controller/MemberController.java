@@ -16,9 +16,15 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
 
+    /**
+     * 회원가입을 위한 컨트롤러 호출 메서드
+     *
+     * @param joinDto 회원가입 Dto
+     * @author dev32user
+     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/signup")
-    public void joinMember(@RequestBody MemberDto.Join member) {
-        memberService.createMember(memberMapper.joinToMemberEntity(member));
+    public void joinMember(@RequestBody MemberDto.Join joinDto) {
+        memberService.createMember(memberMapper.joinToMemberEntity(joinDto));
     }
 }
