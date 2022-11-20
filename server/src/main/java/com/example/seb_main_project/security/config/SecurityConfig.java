@@ -35,12 +35,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .formLogin()
+                .headers().frameOptions().sameOrigin()
                 .and()
+                .csrf().disable()
+                .formLogin().disable()
+                // .loginPage("/member/login")
+                // .loginProcessingUrl("/process_login")
+                // .failureUrl("/member/login-form?error")
+                // .and()
+                // .logout()
+                // .logoutUrl("/member/logout")
+                // .logoutSuccessUrl("/")
+                // .and()
                 .authorizeHttpRequests(authorize -> authorize
+                        .mvcMatchers("/**").permitAll()
                         .mvcMatchers("/admin").hasRole("ADMIN")
-                        .mvcMatchers("/h2/**").access((authentication, request) ->
+                        .mvcMatchers("/h2/**")
+                        .access((authentication, request) ->
                                 Optional.of(hasRole("ADMIN").check(authentication, request))
                                         .filter(decision -> !decision.isGranted())
                                         .orElseGet(() -> hasRole("DBA")

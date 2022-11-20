@@ -3,7 +3,8 @@ package com.example.seb_main_project.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    USER_EXISTS(506, "User already exists.");
+    MEMBER_EXISTS(506, "User already exists."),
+    MEMBER_NOT_FOUND(504,"Member not found");
 
     @Getter
     private final int status;
