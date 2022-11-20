@@ -2,10 +2,8 @@ package com.example.seb_main_project.member.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

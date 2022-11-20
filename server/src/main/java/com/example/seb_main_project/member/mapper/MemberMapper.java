@@ -5,7 +5,7 @@ import com.example.seb_main_project.member.entity.Member;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface MemberMapper {
     Member joinToMemberEntity(MemberDto.Join member);
 }
