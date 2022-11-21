@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const PageContainer = styled.div`
 	width: 100%;
@@ -84,6 +85,8 @@ const Login = () => {
 
 	const [emailValid, setEmailValid] = useState(false);
 	const [pwValid, setPwValid] = useState(false);
+
+	const navigate = useNavigate();
 	// email 유효성 검사 결과
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
@@ -108,8 +111,20 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
+		//로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
+		if (!email) {
+			return alert('email을 입력하세요.');
+		} else if (!pw) {
+			return alert('Password를 입력하세요.');
+		}
+		//로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
 		if (emailValid && pwValid) {
-			axios.post('http://localhost:8080/login', { email, pw });
+			axios.post('http://localhost:8080/login', { email, pw }).then((res) => {
+				if (res.status === 201) {
+					navigate('/');
+					console.log(res.data);
+				}
+			});
 		}
 	};
 	return (
@@ -132,9 +147,7 @@ const Login = () => {
 							onChange={handlePw}
 							placeholder="Enter your password"></LoginInput>
 						<div>
-							{!pwValid && pw.length > 0 && (
-								<ErrorPw>최소 8 자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
-							)}
+							{!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
 						</div>
 						<LoginButton text="Log in" type="submit" />
 						<div>
