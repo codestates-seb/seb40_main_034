@@ -17,7 +17,7 @@ import java.util.List;
 public class Member extends Auditable implements Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String email;
