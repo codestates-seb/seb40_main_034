@@ -11,13 +11,13 @@ import {
 	BtnContainer,
 } from './style';
 import { useState, useEffect } from 'react';
-import { getFollowInfo } from '../../Api/MyinfoApi';
+import { getFollowing } from '../../Api/MyinfoApi';
 
 const EditDetail = () => {
 	const [userProfile, setUserProfile] = useState('');
 
 	useEffect(() => {
-		getFollowInfo().then((res) => {
+		getFollowing().then((res) => {
 			console.log(res);
 			setUserProfile(res[0].profileImg);
 		});

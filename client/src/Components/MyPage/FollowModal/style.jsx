@@ -147,5 +147,5 @@ export const FollowBtn = styled(ToggleBtn)`
 	width: 4.3rem;
 	height: 1.8rem;
 	font-size: 0.6rem;
-	background-color: rgb(235, 235, 235);
+	background-color: ${(props) => (props.status === 'following' ? 'rgb(235, 235, 235)' : '#91f841')};
 `;

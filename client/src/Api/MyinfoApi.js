@@ -1,4 +1,5 @@
 import instance from './root';
+import axios from 'axios';
 
 export const getUserInfo = async () => {
 	try {
@@ -9,18 +10,36 @@ export const getUserInfo = async () => {
 	}
 };
 
-export const getFollowInfo = async () => {
+// export const getFollowing = async () => {
+// 	try {
+// 		const res = await instance.get('/following');
+// 		return res.data;
+// 	} catch (err) {
+// 		return err;
+// 	}
+// };
+
+export const getFollowing = async () => {
 	try {
-		const res = await instance.get('/follow');
+		const res = await axios.get(`http://localhost:4000/following`);
 		return res.data;
 	} catch (err) {
 		return err;
 	}
 };
 
-export const addFollow = async (id) => {
+export const getFollower = async () => {
 	try {
-		const res = await instance.delete(`/follow/${id}`);
+		const res = await instance.get('/follower');
+		return res.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const addFollow = async () => {
+	try {
+		const res = await instance.post(`/follow/add`);
 		return res;
 	} catch (err) {
 		return err;
