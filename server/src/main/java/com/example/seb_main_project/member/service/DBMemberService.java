@@ -22,13 +22,17 @@ public class DBMemberService implements MemberService {
 
     /**
      * Member 회원가입 DB 저장 메서드
+     *
+     * @param member Member 객체를 받는다.
+     * @return 저장한 Member 객체를 반환한다.
+     * @author dev32user
      */
     @Override
     public Member createMember(Member member) {
         verifyExistEmail(member.getEmail());
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
-        member.setRoles(customAuthorityUtils.createRoles(member.getEmail()));
+        member.setRoles(customAuthorityUtils.createAuthorities(member.getEmail()));
         log.info("# Create Member in DB");
 
         return memberRepository.save(member);
