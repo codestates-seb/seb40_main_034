@@ -22,18 +22,26 @@ const EditDetail = () => {
 	const initialInfo = {
 		nickname: '',
 		password: '',
+		profileImg: '',
 	};
 	const [userInfo, setUserInfo] = useState(initialInfo);
 
 	const handleInput = (e) => {
+		//이미지파일 제외 회원정보
 		const { name, value } = e.target;
 		setUserInfo({ ...userInfo, [name]: value });
+	};
+	const handleFileOnChange = (fileBlob) => {
+		//이미지파일 불러오기
+		setFile(fileBlob);
+		const fileUrl = URL.createObjectURL(fileBlob);
+		setPreviewURL(fileUrl);
 	};
 	const handleSubmit = () => {
 		var data = {
 			nickname: userInfo.nickname,
 			password: userInfo.password,
-			profileImg: userInfo.profileImg,
+			profileImg: previewURL,
 		};
 		editUserInfo(data).then(() => {
 			console.log(data);
@@ -46,19 +54,7 @@ const EditDetail = () => {
 		e.preventDefault();
 		photoInput.current.click();
 	};
-	const handleFileOnChange = (event) => {
-		//파일 불러오기
-		event.preventDefault();
-		let file = event.target.files[0];
-		let reader = new FileReader();
 
-		reader.onload = () => {
-			setFile(file);
-			setPreviewURL(reader.result);
-			setUserInfo({ ...userInfo, profileImg: previewURL });
-		};
-		if (file) reader.readAsDataURL(file);
-	};
 	useEffect(() => {
 		if (file !== '') setPreview(<img src={previewURL} alt="preview" />);
 		return () => {
@@ -88,7 +84,9 @@ const EditDetail = () => {
 									accept="image/*"
 									ref={photoInput}
 									hidden={true}
-									onChange={handleFileOnChange}
+									onChange={(e) => {
+										handleFileOnChange(e.target.files[0]);
+									}}
 								/>
 								<EditBtn onClick={handleEditBtn}>Edit</EditBtn>
 							</PhotoEditBtn>
