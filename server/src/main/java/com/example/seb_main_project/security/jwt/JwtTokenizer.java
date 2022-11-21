@@ -4,6 +4,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -16,7 +19,22 @@ import java.util.Map;
  *
  * @author dev32user
  */
+@Component
 public class JwtTokenizer {
+
+    @Getter
+    @Value("{jwt.secret-key}")
+    private String secretKey;
+
+    @Getter
+    @Value("${jwt.access-token-expiration-minutes}")
+    private int accessTokenExpirationMinutes;
+
+    @Getter
+    @Value("${jwt.refresh-token-expiration-minutes}")
+    private int refreshTokenExpirationMinutes;
+
+
     /**
      * 평문 형태의 시크릿 키를 Base64 형식의 문자열로 인코딩하는 메서드
      *
@@ -104,4 +122,18 @@ public class JwtTokenizer {
                 .parseClaimsJws(jws);
     }
 
+
+    /**
+     * JWT 만료 일시 지정 메서드, JWT 생성 시 사용된다.
+     *
+     * @param expirationMinutes 토큰 만료기간, 단위 : 분
+     * @return 토큰 만료 일시
+     * @author dev32user
+     */
+    public Date getTokenExpiration(int expirationMinutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, expirationMinutes);
+
+        return calendar.getTime();
+    }
 }
