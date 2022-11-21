@@ -26,3 +26,12 @@ export const addFollow = async (id) => {
 		return err;
 	}
 };
+
+export const editUserInfo = async (id, data) => {
+	try {
+		const res = await instance.put(`/member/${id}/edit`);
+		return res;
+	} catch (err) {
+		return err;
+	}
+};
