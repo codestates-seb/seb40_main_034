@@ -1,15 +1,21 @@
 package com.example.seb_main_project.security.jwt;
 
+import com.example.seb_main_project.exception.BusinessLogicException;
+import com.example.seb_main_project.exception.ExceptionCode;
+import com.example.seb_main_project.member.entity.Member;
+import com.example.seb_main_project.member.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -20,6 +26,7 @@ import java.util.Map;
  * @author dev32user
  */
 @Component
+@RequiredArgsConstructor
 public class JwtTokenizer {
 
     @Getter
@@ -33,6 +40,8 @@ public class JwtTokenizer {
     @Getter
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
+
+    private final MemberRepository memberRepository;
 
 
     /**
@@ -135,5 +144,22 @@ public class JwtTokenizer {
         calendar.add(Calendar.MINUTE, expirationMinutes);
 
         return calendar.getTime();
+    }
+
+
+    /**
+     * 인증 성공 시 사용되는 사용자 엔티티를 반환하는 메서드 <br>
+     * 데이터베이스에서 멤버를 찾고 없으면 예외 반환, 있을 경우 최근 로그인 일자 갱신 후 찾은 멤버를 반환한다.
+     *
+     * @param email 찾을 멤버의 이메일
+     * @return 찾은 멤버 객체
+     * @author dev32user
+     */
+    public Member findMemberByEmail(String email) {
+        Member findMember = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        findMember.setLatestLogin(LocalDateTime.now());
+        memberRepository.save(findMember);
+        return findMember;
     }
 }

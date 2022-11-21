@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class Member extends Auditable implements Principal {
 
     @Column(nullable = false)
     private String password;
+
+    @Column
+    private LocalDateTime latestLogin;
 
     // Security 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
