@@ -28,7 +28,7 @@ public class CustomAuthorityUtils {
      * @return 유저 권한 String 리스트
      * @author dev32user
      */
-    public List<String> createRoles(String email) {
+    public List<String> createAuthorities(String email) {
         if (email.equals(adminMailAddress)) {
             return ADMIN_ROLES_STRING;
         }
