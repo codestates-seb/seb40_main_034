@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-
-const Tag = ({ className, tagName, callback }) => {
+import { Link } from 'react-router-dom';
+const Tag = ({ className, tagName }) => {
 	return (
-		<TagStyle onClick={callback} className={className}>
-			{tagName}
-		</TagStyle>
+		<Link to="/">
+			<TagStyle className={className}>{tagName}</TagStyle>
+		</Link>
 	);
 };
 // 태그 선택 여부(정렬)을 redux로 전역 상태로 올려볼까... 고민임
