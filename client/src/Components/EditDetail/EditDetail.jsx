@@ -15,8 +15,6 @@ import { useState, useEffect, useRef } from 'react';
 import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
 
-
-
 const EditDetail = () => {
 	const photoInput = useRef();
 	const [modalOpen, setModalOpen] = useState(false);
@@ -30,7 +28,6 @@ const EditDetail = () => {
 		profileImg: '',
 	};
 	const [userInfo, setUserInfo] = useState(initialInfo);
-
 
 	const handleInput = (e) => {
 		//이미지파일 제외 회원정보
@@ -55,7 +52,8 @@ const EditDetail = () => {
 			console.log(data);
 			alert('Save Succeess');
 			setUserInfo(initialInfo);
-
+		});
+	};
 	const handleEditBtn = (e) => {
 		e.preventDefault();
 		photoInput.current.click();

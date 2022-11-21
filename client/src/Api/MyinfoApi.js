@@ -36,7 +36,14 @@ export const getFollower = async () => {
 		return err;
 	}
 };
-
+export const getFollowInfo = async () => {
+	try {
+		const res = await instance.get('/follower');
+		return res.data;
+	} catch (err) {
+		return err;
+	}
+};
 export const addFollow = async () => {
 	try {
 		const res = await instance.post(`/follow/add`);
