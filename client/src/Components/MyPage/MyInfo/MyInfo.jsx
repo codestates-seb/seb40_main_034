@@ -13,7 +13,7 @@ import {
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
-import { getFollowInfo } from '../../../Api/MyinfoApi';
+import { getFollowing } from '../../../Api/MyinfoApi';
 
 const MyInfo = () => {
 	const navigate = useNavigate();
@@ -53,7 +53,7 @@ const MyInfo = () => {
 	};
 
 	useEffect(() => {
-		getFollowInfo().then((res) => {
+		getFollowing().then((res) => {
 			console.log(res);
 			setUserName(res[0].nickname);
 			setUserProfile(res[0].profileImg);
