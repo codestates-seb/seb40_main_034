@@ -14,7 +14,8 @@ const Sidebar = ({ followlist }) => {
 				<Tag tagName="조유종" />
 				<Tag tagName="skynotlimit" />
 			</TagConatiner>
-			<RankContainer>
+			<RankContainer></RankContainer>
+			<FollowContainer>
 				<FollowList nickname="aroowsVd" />
 				<FollowList nickname="dev32user" />
 				<FollowList nickname="김재훈" />
@@ -22,8 +23,7 @@ const Sidebar = ({ followlist }) => {
 				<FollowList nickname="seung-yoon-yu" />
 				<FollowList nickname="skynotlimit" />
 				<FollowList nickname="조유종" />
-			</RankContainer>
-			<FollowContainer></FollowContainer>
+			</FollowContainer>
 		</Container>
 	);
 };
