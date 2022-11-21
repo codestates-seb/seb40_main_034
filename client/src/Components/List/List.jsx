@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { GreenBtn } from '../Common/Btn';
+import { GreyBtn } from '../Common/Btn';
 
 export const List = ({ img, creator, location, profileImg, nickname }) => {
 	return (
@@ -9,14 +9,15 @@ export const List = ({ img, creator, location, profileImg, nickname }) => {
 				{/* <div className="overlay" /> */}
 				<div className="thumbnailHover">
 					<div className="overlay" />
-					<GreenBtn text="Bookmark" />
+					<GreyBtn text="Bookmark" className="GrBtn" />
 				</div>
 				<img src={img} alt={location} />
 			</Thumbnail>
 			<InfoContainer>
 				<Location location={location}>location</Location>
 				<Nickname nickname={nickname}>
-					<img src={profileImg} alt={nickname} /> nickname
+					<img src={profileImg} alt={nickname} />
+					nickname
 				</Nickname>
 			</InfoContainer>
 		</Container>
@@ -32,6 +33,18 @@ const Thumbnail = styled.div`
 	img {
 		display: ${(props) => (props.img === undefined ? 'none' : 'block')};
 	}
+	:hover img {
+		filter: brightness(85%);
+	}
+	:hover .thumbnailHover {
+		position: absolute;
+		display: block;
+		right: 0.5rem;
+		top: 0.5rem;
+	}
+	:hover .GrBtn {
+		color: white;
+	}
 	.placeholder {
 		border: 1px solid #dddddd;
 		color: #bbbbbb;
@@ -44,28 +57,15 @@ const Thumbnail = styled.div`
 	.thumbnailHover {
 		display: none;
 	}
-	:hover {
-		.thumbnailHover {
-			position: absolute;
-			border-radius: 16px;
-			top: 0;
-			left: 0;
-			display: block;
-			width: 225px;
-			height: 330px;
-		}
-		.overlay {
-			position: absolute;
-			border-radius: 16px;
-			top: 0;
-			left: 0;
-			background-color: black;
-			opacity: 0.5;
-			width: 100%;
-			height: 100%;
-		}
-	}
 `;
-const InfoContainer = styled.div``;
-const Location = styled.div``;
-const Nickname = styled.div``;
+const InfoContainer = styled.div`
+	margin-top: 0.5rem;
+	margin-bottom: 2.5rem;
+`;
+const Location = styled.div`
+	font-size: 0.85rem;
+	line-height: 1;
+`;
+const Nickname = styled.div`
+	font-size: 0.85rem;
+`;

@@ -4,16 +4,20 @@ const Main = () => {
 	return (
 		<>
 			<Container>
-				<List />
-				<List />
-				<List />
-				<List />
-				<List />
+				<Lists>
+					<List />
+					<List />
+					<List />
+					<List />
+					<List />
+				</Lists>
 			</Container>
 		</>
 	);
 };
-const Container = styled.div`
+const Container = styled.div``;
+const Lists = styled.div`
 	display: flex;
+	flex-wrap: wrap;
 `;
 export default Main;
