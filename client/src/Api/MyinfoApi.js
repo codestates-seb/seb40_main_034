@@ -54,3 +54,12 @@ export const editUserInfo = async (id, data) => {
 		return err;
 	}
 };
+
+export const deleteUser = async (id) => {
+	try {
+		const res = await instance.delete('member/delete');
+		return res;
+	} catch (err) {
+		return err;
+	}
+};

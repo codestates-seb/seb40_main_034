@@ -13,11 +13,13 @@ import {
 
 import { useState, useEffect, useRef } from 'react';
 import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
+import DeleteModal from './DeleteModal/DeleteModal';
 
 
 
 const EditDetail = () => {
 	const photoInput = useRef();
+	const [modalOpen, setModalOpen] = useState(false);
 	const [file, setFile] = useState('');
 	const [previewURL, setPreviewURL] = useState('');
 	const [preview, setPreview] = useState(null);
@@ -36,6 +38,8 @@ const EditDetail = () => {
 		setUserInfo({ ...userInfo, [name]: value });
 	};
 	const handleFileOnChange = (fileBlob) => {
+		//이미지 URL 삭제
+		if (previewURL) URL.revokeObjectURL(previewURL);
 		//이미지파일 불러오기
 		setFile(fileBlob);
 		const fileUrl = URL.createObjectURL(fileBlob);
@@ -56,7 +60,13 @@ const EditDetail = () => {
 		e.preventDefault();
 		photoInput.current.click();
 	};
-
+	//회원탈퇴 모달
+	const openDeleteModal = () => {
+		setModalOpen(true);
+	};
+	const closeModal = () => {
+		setModalOpen(false);
+	};
 	useEffect(() => {
 		if (file !== '') setPreview(<img src={previewURL} alt="preview" />);
 		return () => {
@@ -106,7 +116,8 @@ const EditDetail = () => {
 					</div>
 				</form>
 				<BtnContainer>
-					<QuitBtn>회원탈퇴</QuitBtn>
+					<QuitBtn onClick={openDeleteModal}>회원탈퇴</QuitBtn>
+					{modalOpen && <DeleteModal open={modalOpen} close={closeModal} header=""></DeleteModal>}
 					<SubmitBtn onClick={handleSubmit}>Submit</SubmitBtn>
 				</BtnContainer>
 			</EditContainer>
