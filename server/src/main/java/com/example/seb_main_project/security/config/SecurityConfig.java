@@ -8,10 +8,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * 시큐리티 컨피그 클래스입니다. <br>
@@ -38,9 +44,11 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
+                .cors(withDefaults())   // TODO : cors setting
                 .formLogin().disable()
+                .httpBasic().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                        .mvcMatchers("/**").permitAll()
+                        .anyRequest().permitAll()
                         .mvcMatchers("/admin").hasRole("ADMIN")
                         .mvcMatchers("/h2/**")
                         .access((authentication, request) ->
@@ -65,5 +73,23 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    /**
+     * 구체적인 CORS 정책 설정을 위한 빈
+     * <p>
+     * 모든 출처에 대해 스크립트 기반의 HTTP 통신 허용 <br>
+     * HTTP 메서드에 대한 통신을 허용 <br>
+     * 구성한 CORS 정책을 적용 대상 : 모든 URL
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
