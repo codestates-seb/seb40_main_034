@@ -80,72 +80,72 @@ to {
 `;
 
 export const ToggleBtn = styled.button`
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	border-radius: 22px;
-	font-weight: 500;
-	font-size: 0.85rem;
-	text-align: center;
-	cursor: pointer;
-	background-color: ${(props) => (props.choice === props.value ? '#91f841' : 'rgb(235, 235, 235)')};
-	color: #333333;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 22px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: ${(props) => (props.choice === props.value ? '#91f841' : 'rgb(235, 235, 235)')};
+  color: #333333;
 
-	&:hover {
-		filter: brightness(90%);
-	}
-	&:active {
-		filter: brightness(80%);
-	}
+  &:hover {
+    filter: brightness(90%);
+  }
+  &:active {
+    filter: brightness(80%);
+  }
 `;
 
 export const Follow = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 20rem;
-	justify-content: space-between;
-	.follow-item {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 1rem 0 0 0;
-	}
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  justify-content: space-between;
+  .follow-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0 0 0;
+  }
 
-	.follow-img {
-		padding: 0 1rem 0 0;
-		img {
-			width: 2.5rem;
-			height: 2.5rem;
-			border-radius: 50%;
-		}
-	}
-	.follow-name {
-		display: flex;
-		font-size: 0.7rem;
-		justify-content: center;
-		align-items: center;
-	}
+  .follow-img {
+    padding: 0 1rem 0 0;
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+    }
+  }
+  .follow-name {
+    display: flex;
+    font-size: 0.7rem;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const FollowContainer = styled.div`
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 `;
 
 export const TogglebtnContainer = styled.div`
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 export const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const FollowBtn = styled(ToggleBtn)`
-	padding: 0.25rem 0.85rem 0.25rem 0.85rem;
-	width: 4.3rem;
-	height: 1.8rem;
-	font-size: 0.6rem;
-	background-color: ${(props) => (props.status === 'following' ? 'rgb(235, 235, 235)' : '#91f841')};
+  padding: 0.25rem 0.85rem 0.25rem 0.85rem;
+  width: 4.3rem;
+  height: 1.8rem;
+  font-size: 0.6rem;
+  background-color: ${(props) => (props.status === 'following' ? 'rgb(235, 235, 235)' : '#91f841')};
 `;

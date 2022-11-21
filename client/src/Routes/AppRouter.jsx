@@ -13,24 +13,24 @@ const Map = lazy(() => import('../Pages/Map'));
 const Edit = lazy(() => import('../Pages/Edit'));
 
 export const AppRouter = () => {
-	return (
-		<BrowserRouter>
-			<Suspense fallback={<Loading />}>
-				<Routes>
-					<Route element={<LayoutHS />}>
-						<Route path="/" element={<Main />} />
-						<Route path="/mypage" element={<Mypage />} />
-						<Route path="/edit" element={<Edit />} />
-						<Route path="/detail" element={<Detail />} />
-						<Route path="/map" element={<Map />} />
-					</Route>
-					<Route element={<LayoutH />}>
-						<Route path="/login" element={<Login />} />
-						<Route path="/signup" element={<Signup />} />
-					</Route>
-					<Route path="*" element={<Navigate to="/" replace />} />
-				</Routes>
-			</Suspense>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route element={<LayoutHS />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/detail" element={<Detail />} />
+            <Route path="/map" element={<Map />} />
+          </Route>
+          <Route element={<LayoutH />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
 };

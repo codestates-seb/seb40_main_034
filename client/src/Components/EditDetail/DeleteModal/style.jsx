@@ -79,45 +79,45 @@ to {
 `;
 
 export const ToggleBtn = styled.button`
-	padding: 0.5rem 1rem 0.5rem 1rem;
-	border-radius: 22px;
-	font-weight: 500;
-	font-size: 0.85rem;
-	text-align: center;
-	cursor: pointer;
-	background-color: ${(props) => (props.choice === props.value ? '#91f841' : 'rgb(235, 235, 235)')};
-	color: #333333;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 22px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: ${(props) => (props.choice === props.value ? '#91f841' : 'rgb(235, 235, 235)')};
+  color: #333333;
 
-	&:hover {
-		filter: brightness(90%);
-	}
-	&:active {
-		filter: brightness(80%);
-	}
+  &:hover {
+    filter: brightness(90%);
+  }
+  &:active {
+    filter: brightness(80%);
+  }
 `;
 
 export const Follow = styled.div`
-	display: flex;
-	flex-direction: row;
-	width: 20rem;
-	justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  width: 20rem;
+  justify-content: space-around;
 `;
 
 export const FollowContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export const Container = styled.div`
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const FollowBtn = styled(ToggleBtn)`
-	padding: 0.25rem 0.85rem 0.25rem 0.85rem;
-	width: 4.3rem;
-	height: 1.8rem;
-	font-size: 0.6rem;
-	background-color: rgb(235, 235, 235);
+  padding: 0.25rem 0.85rem 0.25rem 0.85rem;
+  width: 4.3rem;
+  height: 1.8rem;
+  font-size: 0.6rem;
+  background-color: rgb(235, 235, 235);
 `;

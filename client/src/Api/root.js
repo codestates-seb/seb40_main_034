@@ -5,8 +5,8 @@ import axios from 'axios';
 const root = 'http://localhost:8080';
 
 const axiosConfig = {
-	headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-	baseURL: root,
+  headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+  baseURL: root,
 };
 
 const instance = axios.create(axiosConfig);

@@ -2,25 +2,25 @@ import { Container, Article, Bookmark, ToggleBtn, TogglebtnContainer, ListContai
 import { useState } from 'react';
 
 const MyList = () => {
-	const [choice, setChoice] = useState('article');
-	const handleChoice = (e) => {
-		setChoice(e.target.value);
-	};
+  const [choice, setChoice] = useState('article');
+  const handleChoice = (e) => {
+    setChoice(e.target.value);
+  };
 
-	return (
-		<Container>
-			<TogglebtnContainer>
-				<ToggleBtn onClick={handleChoice} value="article" choice={choice}>
-					Created
-				</ToggleBtn>
-				<ToggleBtn onClick={handleChoice} value="bookmark" choice={choice}>
-					Saved
-				</ToggleBtn>
-			</TogglebtnContainer>
+  return (
+    <Container>
+      <TogglebtnContainer>
+        <ToggleBtn onClick={handleChoice} value="article" choice={choice}>
+          Created
+        </ToggleBtn>
+        <ToggleBtn onClick={handleChoice} value="bookmark" choice={choice}>
+          Saved
+        </ToggleBtn>
+      </TogglebtnContainer>
 
-			<ListContainer>{choice === 'article' ? <Article>article</Article> : <Bookmark>bookmark</Bookmark>}</ListContainer>
-		</Container>
-	);
+      <ListContainer>{choice === 'article' ? <Article>article</Article> : <Bookmark>bookmark</Bookmark>}</ListContainer>
+    </Container>
+  );
 };
 
 export default MyList;
