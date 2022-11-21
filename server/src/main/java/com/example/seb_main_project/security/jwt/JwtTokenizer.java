@@ -30,9 +30,9 @@ public class JwtTokenizer {
     /**
      * 인증된 사용자에게 JWT 최초 발급을 위한 JWT 생성 메서드
      *
-     * @param claims 인증된 사용자와 관련된 정보(email, 권한)
-     * @param expiration 토큰 만료 시간
-     * @param subject 사용자 subject(email)
+     * @param claims                 인증된 사용자와 관련된 정보(email, 권한)
+     * @param expiration             토큰 만료 시간
+     * @param subject                사용자 subject(email)
      * @param base64EncodedSecretKey base64 인코딩 키
      */
     public String generateAccessToken(
@@ -55,8 +55,8 @@ public class JwtTokenizer {
      * Access Token 만료 시 새로 토큰을 생성하는 메서드
      * 별도의 Claims 없음
      *
-     * @param expiration 토큰 만료 시간
-     * @param subject 사용자 subject(email)
+     * @param expiration             토큰 만료 시간
+     * @param subject                사용자 subject(email)
      * @param base64EncodedSecretKey base64 인코딩 키
      */
     public String generateRefreshToken(String subject, Date expiration, String base64EncodedSecretKey) {
@@ -86,5 +86,22 @@ public class JwtTokenizer {
         return key;
     }
 
+
+    /**
+     * 토큰에 포함되어 있는 Signature 검증으로 JWT 위변조 여부 확인
+     * <p>
+     * 서명에 사용된 시크릿 키를 설정하고, JWT를 파싱해서 Claims를 얻는다.
+     *
+     * @param jws                    Signature 포함 JWT
+     * @param base64EncodedSecretKey base64 형식으로 인코딩 된 시크릿 키
+     */
+    public void verifySignature(String jws, String base64EncodedSecretKey) {
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+
+        Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jws);
+    }
 
 }
