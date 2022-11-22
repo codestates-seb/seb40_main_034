@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Post extends BaseTimeEntity {
-//https://github.com/codestates-seb/seb39_main_051/blob/main/server/main/src/main/java/com/codestates/main/post/entity/Post.java
 
     //< 기본 칼럼 설정 >
     @Id
@@ -41,23 +40,19 @@ public class Post extends BaseTimeEntity {
     @Column
     private long likeCount;
 
-    //< 1:N 관계 >
-    //https://www.oppadu.com/%EA%B4%80%EA%B3%84%ED%98%95-%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4/
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PostLike> postLikes = new ArrayList<>();
-    //https://github.com/codestates-seb/seb39_main_051/blob/main/server/main/src/main/java/com/codestates/main/post/entity/Post.java
 
 
     public void changeMember(Member member) {
         this.member = member;
-    } //https://github.com/codestates-seb/seb39_main_010/blob/main/DeployServer/src/main/java/com/team10/preproject/question/entity/Question.java
-
+    }
     public void changeTag(Tag tag) {
         this.tag = tag;
     }
 }
 
-    //< 위도, 경도 추가하기 >

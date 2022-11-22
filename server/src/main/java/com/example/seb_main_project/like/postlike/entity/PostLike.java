@@ -19,9 +19,9 @@ public class PostLike {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public void setMember(Member member){ //'엔티티'에는 'Setter' 안되지 않나..?
+    public void setMember(Member member){
         this.member = member;
-        member.setPostLikes(this); //이거 정확한 뜻...
+        member.setPostLikes(this);
     }
 
     public void setPost(Post post){

@@ -26,7 +26,7 @@ public class PostLikeController {
 
         boolean isVoted;
         isVoted = postLikeService.postLike(postId);
-        long likeCount = postService.showPost(postId).getLikeCount(); //'postService'에는 'getLikeCount'가 없는데 어떻게 되지 이게?
+        long likeCount = postService.showPost(postId).getLikeCount();
         PostLikeResponseDto postLikeResponse = new PostLikeResponseDto(likeCount, isVoted);
         return new ResponseEntity(postLikeResponse, HttpStatus.OK);
     }

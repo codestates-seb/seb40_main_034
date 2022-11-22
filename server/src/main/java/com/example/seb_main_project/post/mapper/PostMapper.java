@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PostMapper {
 
-    Post postPostDtoToPost(PostPostDto postPostDto); //'클라이언트'로부터 '컨트롤러의 @PostMapping'으로 들어옴
+    Post postPostDtoToPost(PostPostDto postPostDto);
 
-    Post postPatchDtoToPost(PostPatchDto postPatchDto); //'클라이언트'로부터 '컨트롤러의 @PatchMapping'으로 들어옴
+    Post postPatchDtoToPost(PostPatchDto postPatchDto);
 
     PostPostDto toPostResponseDto(Post post);
 

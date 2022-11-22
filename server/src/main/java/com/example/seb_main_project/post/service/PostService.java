@@ -55,13 +55,12 @@ public class PostService {
 
         Member member = memberRepository.findById(memberId).orElseThrow(()->{
                             return new IllegalArgumentException("글 작성 실패! 없는 사용자입니다.");
-        });//https://github.com/codestates-seb/seb39_main_010/blob/main/DeployServer/src/main/java/com/team10/preproject/question/service/QuestionService.java
-
+        });
         Tag tag = tagRepository.findById(tagId).orElseThrow(()->{
                             return new IllegalArgumentException("글 작성 실패! 없는 태그입니다.")
         });
 
-        Post.changeMember(member); //이거 'Post 엔티티'에 넣에 '메소드 changeMember'확인해서 넣어주기
+        Post.changeMember(member);
         Post.changeTag(tag);
 
         return postRepository.save(post);

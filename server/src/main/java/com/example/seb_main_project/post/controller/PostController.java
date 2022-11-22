@@ -46,10 +46,9 @@ public class PostController {
 //============================================================================================================
 
     //[ GET ]: '모든 게시글 조회'를 요청
-    //https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
-    //https://github.com/codestates-seb/seb39_main_059/blob/main/server/catvillage/src/main/java/com/twentyfour_seven/catvillage/board/controller/BoardController.java
+
     @PreAuthorize("hasAuthority('CERTIFIED')")
-    @GetMapping() //이거 요청 URL을 API명세에서 이렇게 수정하기.
+    @GetMapping() .
     public ResponseEntity show(@@RequestParam int page,
                                @RequestParam int size){
 
@@ -65,7 +64,7 @@ public class PostController {
 
     //[ GET ]: '특정 하나의 게시글 조회'를 요청
     @PreAuthorize("hasAuthority('CERTIFIED')")
-    @GetMapping("/{post-id}") //- URL 주소 확인
+    @GetMapping("/{post-id}")
     public ResponseEntity<> show(@PathVariable Long postId) {
 
         Post shownPost = postService.showPost(postId);
@@ -79,8 +78,8 @@ public class PostController {
 
 //============================================================================================================
 
-    //[ POST ]: '새로운 게시글을 작성'하는 요청.
-    @PreAuthorize("hasAuthority('CERTIFIED')") //https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
+    //[ POST ]
+    @PreAuthorize("hasAuthority('CERTIFIED')")
     @PostMapping
     public ResponseEntity create (@Valid @RequestBody PostPostDto postPostDto) {
 
@@ -90,11 +89,9 @@ public class PostController {
                 new SingleResponseDto<>(postMapper.toPostResponseDto(createdPost)), HttpStatus.OK);
     }
 
-
 //============================================================================================================
 
-    //[ PATCH ] : '기존의 게시글을 수정'하는 요청 //이미 '게시글 작성 /post'에서 더 URL 들어간 것이니깐
-                           //'@PreAuthorize hasAuthority('CERTIFIED')'를 안 써도 없는 것인가?
+    //[ PATCH ] :
     @Transactional
     @PatchMapping("/post/{post-id}")
     public ResponseEntity update(@PathVariable("post-id") Long postId, @Valid @RequestBody PostPatchDto postPatchDto){
@@ -112,7 +109,7 @@ public class PostController {
 
 //============================================================================================================
 
-    //[ DELETE ]: 기존의 게시글 삭제하는 요청
+    //[ DELETE ]
     @Transactional
     @DeleteMapping("/{post-id}")
     public ResponseEntity delete (@PathVariable Long postId){

@@ -14,14 +14,12 @@ import java.time.LocalDateTime;
 //https://dkswnkk.tistory.com/542
 
 @Getter
-@MappedSuperclass //BaseEntity를 상속한 엔티티들은 아래 필드들을 컬럼으로 인식하게 된다.
-                  //즉, 'JPA Entity 클래스들'이 이제 'BaseTimeEntity'를 상속할 경우, 'createdTime'과 'lastModifiedTime'을
-                  //'컬럼'으로 인식하게 됨
-@EntityListeners(AuditingEntityListener.class)  // Auditing(자동으로 값 매핑) 기능 추가
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
 
 
-    @CreatedDate //'entity'가 최초로 생성되어 저장될 때 시간이 자동으로 저장됨
+    @CreatedDate
     private LocalDateTime createdTime;
 
 
