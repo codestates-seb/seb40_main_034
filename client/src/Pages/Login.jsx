@@ -6,6 +6,10 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { InputForm } from '../Components/Common/InputForm';
 
+import { loginUser } from '../Api/LoginApi';
+import { setRefreshToken } from '../storage/Cookie';
+import { SET_TOKEN } from '../Store/Auth';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
@@ -13,6 +17,7 @@ const Login = () => {
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // email 유효성 검사 결과
   const handleEmail = (e) => {

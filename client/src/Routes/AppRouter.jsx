@@ -11,6 +11,7 @@ const Detail = lazy(() => import('../Pages/Detail'));
 const Mypage = lazy(() => import('../Pages/Mypage'));
 const Map = lazy(() => import('../Pages/Map'));
 const Edit = lazy(() => import('../Pages/Edit'));
+const Logout = lazy(() => import('../Pages/Logout'));
 
 export const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ export const AppRouter = () => {
           <Route element={<LayoutH />}>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/logout" element={<Logout />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
