@@ -1,6 +1,7 @@
 package com.example.seb_main_project.post.controller;
 
 
+import com.example.seb_main_project.post.dto.PostPatchDto;
 import com.example.seb_main_project.post.dto.PostPostDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -29,6 +31,7 @@ import java.util.List;
 //https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
 
 @Slf4j
+@Validated
 @RequestMapping("/main")
 @RestController
 public class PostController {
@@ -47,8 +50,8 @@ public class PostController {
     //https://github.com/codestates-seb/seb39_main_059/blob/main/server/catvillage/src/main/java/com/twentyfour_seven/catvillage/board/controller/BoardController.java
     @PreAuthorize("hasAuthority('CERTIFIED')")
     @GetMapping() //이거 요청 URL을 API명세에서 이렇게 수정하기.
-    public ResponseEntity show(@Positive @RequestParam int page,
-                               @Positive @RequestParam int size){
+    public ResponseEntity show(@@RequestParam int page,
+                               @RequestParam int size){
 
         Page<Post> pagePosts = postService.showPosts(page - 1, size);
         List<Post> shownPosts = pagePosts.getContent; //'Page 타입의 내장 메소드 getContent'
@@ -62,8 +65,8 @@ public class PostController {
 
     //[ GET ]: '특정 하나의 게시글 조회'를 요청
     @PreAuthorize("hasAuthority('CERTIFIED')")
-    @GetMapping("/{id}") //- URL 주소 확인
-    public Post show(@PathVariable Long postId) {
+    @GetMapping("/{post-id}") //- URL 주소 확인
+    public ResponseEntity<> show(@PathVariable Long postId) {
 
         Post shownPost = postService.showPost(postId);
 
@@ -78,8 +81,8 @@ public class PostController {
 
     //[ POST ]: '새로운 게시글을 작성'하는 요청.
     @PreAuthorize("hasAuthority('CERTIFIED')") //https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
-    @PostMapping("/post")
-    public ResponseEntity<Post> create (@Valid @RequestBody PostPostDto postPostDto) {
+    @PostMapping
+    public ResponseEntity create (@Valid @RequestBody PostPostDto postPostDto) {
 
         Post createdPost = postService.createPost(postMapper.postPostDtoToPost(postPostDto));
 
@@ -93,10 +96,11 @@ public class PostController {
     //[ PATCH ] : '기존의 게시글을 수정'하는 요청 //이미 '게시글 작성 /post'에서 더 URL 들어간 것이니깐
                            //'@PreAuthorize hasAuthority('CERTIFIED')'를 안 써도 없는 것인가?
     @Transactional
-    @PatchMapping("/post/{postId}")
-    public ResponseEntity<Post> update(@PathVariable Long postId, @Valid @RequestBody PostPostDto postPostDto){
+    @PatchMapping("/post/{post-id}")
+    public ResponseEntity update(@PathVariable("post-id") Long postId, @Valid @RequestBody PostPatchDto postPatchDto){
 
-        Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPostDto));
+        postPatchDto.setPostId(postId);
+        Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));
 
         return new ResponseEntity<>(
                     new SingleResponseDto<>(postMapper.toPostResponseDto(updatedPost)), HttpStatus.OK);
@@ -110,10 +114,10 @@ public class PostController {
 
     //[ DELETE ]: 기존의 게시글 삭제하는 요청
     @Transactional
-    @DeleteMapping("/post/id")
+    @DeleteMapping("/{post-id}")
     public ResponseEntity delete (@PathVariable Long postId){
 
-        Post deletedPost = postService.deletePost(postId);
+        postService.deletePost(postId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 

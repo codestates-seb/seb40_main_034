@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -31,8 +30,6 @@ public class PostService {
         return postRepository.findAll(pageRequest);
 
     }
-
-
 
 //=============================================================================================================
 
@@ -79,7 +76,7 @@ public class PostService {
 
         Post showPost = showVerifiedPost(post.getPostId());
 
-        Optional.ofNullable(post.getPost())
+        Optional.ofNullable(post.getTitle())
                 .ifPresent(title -> showPost.setTitle(title));
         Optional.ofNullable(post.getBody())
                 .ifPresent(body -> showPost.setBody(body));
@@ -101,19 +98,6 @@ public class PostService {
     }
 
 //=============================================================================================================
-
-
-
-
-
-
-
-
-
-//=============================================================================================================
-
-
-
 
 }
 
