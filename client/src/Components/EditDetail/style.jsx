@@ -8,16 +8,23 @@ export const Header = styled.div`
 export const EditContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 18rem;
   margin-top: 2.3rem;
   div {
     margin-bottom: 1rem;
   }
   input {
+    background-color: #eeeeee;
+
+    font-size: 0.9rem;
+    padding: 0 0.5rem 0 0.5rem;
+    height: 2rem;
     border: 2px solid rgb(219, 219, 219);
     border-radius: 22px;
     color: rgb(31, 31, 31);
-    &:hover {
-      border: 2px solid rgb(133, 133, 133);
+    :focus {
+      outline: none;
+      border-color: #91f841;
     }
   }
 
@@ -55,30 +62,14 @@ export const Photo = styled.div`
 export const PhotoEditBtn = styled.div`
   display: flex;
 `;
-export const EditBtn = styled.button`
-  padding: 0.3rem 1rem 0.3rem 1rem;
-  border-radius: 22px;
-  font-weight: 500;
-  height: 2rem;
-  font-size: 0.85rem;
-  text-align: center;
-  cursor: pointer;
-  background-color: rgb(235, 235, 235);
-  color: rgb(31, 31, 31);
-
-  &:hover {
-    filter: brightness(90%);
-  }
-  &:active {
-    filter: brightness(80%);
-  }
-`;
 
 export const BtnContainer = styled.div`
   display: flex;
-  width: 18rem;
   margin-top: 3.5rem;
   flex-direction: column;
+  .submitBtn {
+    width: 6rem;
+  }
 `;
 export const EditText = styled.div`
   display: flex;
@@ -119,7 +110,4 @@ export const QuitBtn = styled.button`
   &:hover {
     color: rgb(253, 58, 33);
   }
-`;
-export const SubmitBtn = styled(EditBtn)`
-  width: 6rem;
 `;
