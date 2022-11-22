@@ -7,6 +7,7 @@ import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 
 const Signup = () => {
+
 	const [nickname, setNickname] = useState('');
 	const [email, setEmail] = useState('');
 	const [pw, setPw] = useState('');
@@ -114,81 +115,81 @@ const Signup = () => {
 	);
 };
 const PageContainer = styled.div`
-	width: 100%;
-	height: 58rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  width: 100%;
+  height: 58rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const SignupContainer = styled.div`
-	width: 35rem;
-	height: 50rem;
-	display: flex;
-	flex-direction: column;
-	border: 0.1rem solid #dddddd;
-	border-radius: 1rem 0 0 1rem;
-	align-items: center;
-	justify-content: center;
+  width: 35rem;
+  height: 50rem;
+  display: flex;
+  flex-direction: column;
+  border: 0.1rem solid #dddddd;
+  border-radius: 1rem 0 0 1rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SignupInput = styled.input`
-	width: 25rem;
-	height: 2.5rem;
-	margin-top: 2rem;
-	border-radius: 0.5rem;
-	text-indent: 10px;
-	outline: solid 0.125rem #dddddd;
-	&:focus {
-		outline: solid 0.2rem #91f841;
-	}
+  width: 25rem;
+  height: 2.5rem;
+  margin-top: 2rem;
+  border-radius: 0.5rem;
+  text-indent: 10px;
+  outline: solid 0.125rem #dddddd;
+  &:focus {
+    outline: solid 0.2rem #91f841;
+  }
 `;
 
 const SignupButton = styled(GreenBtn)`
-	margin: 1rem;
+  margin: 1rem;
 `;
 
 const LogoDiv = styled.img.attrs({
-	src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
+  src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
 })`
-	width: 15 rem;
-	height: 15rem;
+  width: 15 rem;
+  height: 15rem;
 `;
 
 const Wrap = styled.div`
-	width: 35rem;
-	position: relative;
+  width: 35rem;
+  position: relative;
 `;
 
 const WelcomeImg = styled.img.attrs({
-	src: 'https://picsum.photos/600/800',
+  src: 'https://picsum.photos/600/800',
 })`
-	width: 35rem;
-	height: 50rem;
-	border-radius: 0 1rem 1rem 0;
-	display: flex;
-	vertical-align: middle;
+  width: 35rem;
+  height: 50rem;
+  border-radius: 0 1rem 1rem 0;
+  display: flex;
+  vertical-align: middle;
 `;
 //오른쪽 이미지 위에 문자열
 const WelcomeStr = styled.div`
-	position: absolute;
-	top: 40%;
-	width: 35rem;
-	color: white;
-	font-size: 3.22rem;
-	text-align: center;
-	font-weight: 700;
+  position: absolute;
+  top: 40%;
+  width: 35rem;
+  color: white;
+  font-size: 3.22rem;
+  text-align: center;
+  font-weight: 700;
 `;
 const ErrorEmail = styled.div`
-	color: red;
-	font-size: 0.8rem;
-	margin-top: 0.5rem;
-	margin-right: 14rem;
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-right: 14rem;
 `;
 const ErrorPw = styled.div`
-	color: red;
-	font-size: 0.8rem;
-	margin-top: 0.5rem;
-	margin-right: 4rem;
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-right: 4rem;
 `;
 
 export default Signup;
