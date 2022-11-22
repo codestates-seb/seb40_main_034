@@ -16,9 +16,15 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleName = (e) => {
-    e.preventDefault();
+  const handleNickname = (e) => {
     setNickname(e.target.value);
+    if (nickname.search(/\s/) != -1) {
+      alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
+
+      //닉네임 한글 1~10자, 영문 및 숫자 2~20자
+    } else if (nickname.length < 2 || nickname.length > 20) {
+      alert('닉네임은 한글 1~10자, 영문 및 숫자 2~20자 입니다.');
+    }
   };
 
   // email 유효성 검사 결과
@@ -81,7 +87,7 @@ const Signup = () => {
               type="text"
               name="nickname"
               value={nickname}
-              onChange={handleName}
+              onChange={handleNickname}
               placeholder="Enter your Nickname"></SignupInput>
             <SignupInput
               type="email"
