@@ -7,112 +7,111 @@ import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 
 const Signup = () => {
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [pw, setPw] = useState('');
 
-	const [nickname, setNickname] = useState('');
-	const [email, setEmail] = useState('');
-	const [pw, setPw] = useState('');
+  const [emailValid, setEmailValid] = useState(false);
+  const [pwValid, setPwValid] = useState(false);
 
-	const [emailValid, setEmailValid] = useState(false);
-	const [pwValid, setPwValid] = useState(false);
+  const navigate = useNavigate();
 
-	const navigate = useNavigate();
+  const handleName = (e) => {
+    e.preventDefault();
+    setNickname(e.target.value);
+  };
 
-	const handleName = (e) => {
-		e.preventDefault();
-		setNickname(e.target.value);
-	};
+  // email 유효성 검사 결과
+  const handleEmail = (e) => {
+    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
 
-	// email 유효성 검사 결과
-	const handleEmail = (e) => {
-		const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+    setEmail(e.target.value);
+    if (regex.test(email)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
+  };
+  // password 유효성 검사 결과
+  const handlePw = (e) => {
+    const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
 
-		setEmail(e.target.value);
-		if (regex.test(email)) {
-			setEmailValid(true);
-		} else {
-			setEmailValid(false);
-		}
-	};
-	// password 유효성 검사 결과
-	const handlePw = (e) => {
-		const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
+    setPw(e.target.value);
+    if (regex.test(pw)) {
+      setPwValid(true);
+    } else {
+      setPwValid(false);
+    }
+  };
 
-		setPw(e.target.value);
-		if (regex.test(pw)) {
-			setPwValid(true);
-		} else {
-			setPwValid(false);
-		}
-	};
+  const handleSignup = (e) => {
+    e.preventDefault();
 
-	const handleSignup = (e) => {
-		e.preventDefault();
+    //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
+    if (!nickname) {
+      return alert('Nickname을 입력하세요');
+    } else if (!email) {
+      return alert('Email을 입력하세요.');
+    } else if (!pw) {
+      return alert('Password를 입력하세요.');
+    }
 
-		//로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
-		if (!nickname) {
-			return alert('Nickname을 입력하세요');
-		} else if (!email) {
-			return alert('Email을 입력하세요.');
-		} else if (!pw) {
-			return alert('Password를 입력하세요.');
-		}
+    if (nickname && emailValid && pwValid) {
+      axios
+        .post('http://localhost:8080/signup', { email, pw, nickname })
+        .then((res) => {
+          alert('회원가입에 성공했습니다.');
+          navigate('/login');
+          console.log(res.data);
+        })
+        .catch((Error) => {
+          alert('작성하신 아이디, 비밀번호, 이메일, 닉네임을 하단 설명에 맞추어 작성해 주시기 바랍니다.');
+        });
+      console.log(Error);
+    }
+  };
 
-		if (nickname && emailValid && pwValid) {
-			axios
-				.post('http://localhost:8080/signup', { email, pw, nickname })
-				.then((res) => {
-					alert('회원가입에 성공했습니다.');
-					navigate('/login');
-					console.log(res.data);
-				})
-				.catch((Error) => {
-					alert('작성하신 아이디, 비밀번호, 이메일, 닉네임을 하단 설명에 맞추어 작성해 주시기 바랍니다.');
-				});
-			console.log(Error);
-		}
-	};
-
-	return (
-		<div>
-			<PageContainer>
-				<form onSubmit={handleSignup}>
-					<SignupContainer>
-						<LogoDiv />
-						<SignupInput
-							type="text"
-							name="nickname"
-							value={nickname}
-							onChange={handleName}
-							placeholder="Enter your Nickname"></SignupInput>
-						<SignupInput
-							type="email"
-							name="email"
-							value={email}
-							onChange={handleEmail}
-							placeholder="Enter your email"></SignupInput>
-						<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-						<SignupInput
-							type="password"
-							name="password"
-							value={pw}
-							onChange={handlePw}
-							placeholder="Enter your password"></SignupInput>
-						<div>
-							{!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
-						</div>
-						<SignupButton type="submit" text="Sign up" />
-						<div>
-							Already have an account? <Link to="/login">Login</Link>
-						</div>
-					</SignupContainer>
-				</form>
-				<Wrap>
-					<WelcomeImg></WelcomeImg>
-					<WelcomeStr>Hello, we are PostON!</WelcomeStr>
-				</Wrap>
-			</PageContainer>
-		</div>
-	);
+  return (
+    <div>
+      <PageContainer>
+        <form onSubmit={handleSignup}>
+          <SignupContainer>
+            <LogoDiv />
+            <SignupInput
+              type="text"
+              name="nickname"
+              value={nickname}
+              onChange={handleName}
+              placeholder="Enter your Nickname"></SignupInput>
+            <SignupInput
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleEmail}
+              placeholder="Enter your email"></SignupInput>
+            <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
+            <SignupInput
+              type="password"
+              name="password"
+              value={pw}
+              onChange={handlePw}
+              placeholder="Enter your password"></SignupInput>
+            <div>
+              {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
+            </div>
+            <SignupButton type="submit" text="Sign up" />
+            <div>
+              Already have an account? <Link to="/login">Login</Link>
+            </div>
+          </SignupContainer>
+        </form>
+        <Wrap>
+          <WelcomeImg></WelcomeImg>
+          <WelcomeStr>Hello, we are PostON!</WelcomeStr>
+        </Wrap>
+      </PageContainer>
+    </div>
+  );
 };
 const PageContainer = styled.div`
   width: 100%;
