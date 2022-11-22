@@ -19,18 +19,18 @@ export const AppRouter = () => {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route element={<LayoutHS />}>
-            <Route path="/" element={<Main />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/edit" element={<Edit />} />
-            <Route path="/detail" element={<Detail />} />
-            <Route path="/map" element={<Map />} />
+            <Route path="" element={<Main />} />
+            <Route path="mypage" element={<Mypage />} />
+            <Route path="edit" element={<Edit />} />
+            <Route path="detail" element={<Detail />} />
+            <Route path="map" element={<Map />} />
           </Route>
           <Route element={<LayoutH />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/logout" element={<Logout />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="logout" element={<Logout />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="" replace />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
