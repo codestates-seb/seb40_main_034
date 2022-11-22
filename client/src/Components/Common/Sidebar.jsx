@@ -6,6 +6,7 @@ const Sidebar = ({ followlist }) => {
   return (
     <Container>
       <TagConatiner>
+        <h1>Tags</h1>
         <Tag tagName="김재훈" />
         <Tag tagName="aroowsVd" />
         <Tag tagName="dev32user" />
@@ -16,6 +17,7 @@ const Sidebar = ({ followlist }) => {
       </TagConatiner>
       <RankContainer></RankContainer>
       <FollowContainer>
+        <h1>Follow</h1>
         <FollowList nickname="aroowsVd" />
         <FollowList nickname="dev32user" />
         <FollowList nickname="김재훈" />
@@ -32,10 +34,16 @@ const Container = styled.div`
   padding: 0 1rem 0 1rem;
   width: 12rem;
   height: 100vh;
+  h1 {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 const TagConatiner = styled.div`
   width: 100%;
   height: auto;
+  margin-bottom: 1rem;
 `;
 const RankContainer = styled.div`
   width: 100%;

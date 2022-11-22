@@ -2,18 +2,19 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const FollowList = ({ profileImg, nickname, userId }) => {
+  const link = userId ? `/mypage/${userId}` : '/';
   return (
-    <Link to="">
+    <Link to={link}>
       <Conatiner>
         <Profile />
-        <Id>{nickname}</Id>
+        <Id>{nickname ? nickname : 'nickname'}</Id>
       </Conatiner>
     </Link>
   );
 };
 
 const Conatiner = styled.div`
-  padding: 0.5rem 0 0.5rem 0;
+  padding: 0 0 0.75rem 0;
   width: 12rem;
   display: flex;
   align-items: center;
@@ -31,7 +32,10 @@ const Profile = styled.div`
   border: ${(props) => (props.profileImg === undefined ? '1px solid #eeeeee' : 'none')};
 `;
 const Id = styled.div`
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 export default FollowList;
