@@ -3,6 +3,7 @@ package com.example.seb_main_project.member.service;
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
+import com.example.seb_main_project.member.repository.MemberRepository;
 import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

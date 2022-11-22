@@ -4,7 +4,9 @@ import lombok.Getter;
 
 public enum ExceptionCode {
     MEMBER_EXISTS(506, "User already exists."),
-    MEMBER_NOT_FOUND(504,"Member not found");
+    MEMBER_NOT_FOUND(504, "Member not found"),
+    COOKIE_NOT_FOUND(504, "Cookie not found"),
+    TOKEN_NOT_FOUND(504, "Token not found");
 
     @Getter
     private final int status;

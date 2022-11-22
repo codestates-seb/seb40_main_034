@@ -4,6 +4,10 @@ import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.security.entity.RefreshToken;
+import com.example.seb_main_project.security.repository.RefreshTokenRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
@@ -13,12 +17,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+
+import static com.example.seb_main_project.security.utils.JwtConstants.REFRESH_TOKEN;
 
 /**
  * JWT 생성을 위한 클래스
@@ -30,7 +37,7 @@ import java.util.Map;
 public class JwtTokenizer {
 
     @Getter
-    @Value("{jwt.secret-key}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     @Getter
@@ -42,6 +49,7 @@ public class JwtTokenizer {
     private int refreshTokenExpirationMinutes;
 
     private final MemberRepository memberRepository;
+    private RefreshTokenRepository refreshTokenRepository;
 
 
     /**
@@ -161,5 +169,42 @@ public class JwtTokenizer {
         findMember.setLatestLogin(LocalDateTime.now());
         memberRepository.save(findMember);
         return findMember;
+    }
+
+
+    /**
+     * 전달받은 쿠키 값 중 리프레시 토큰이 있는지 확인하는 메서드
+     *
+     * @param cookies 전달받은 쿠키 값
+     * @return RefreshToken 존재 시 해당 토큰 값 반환
+     * @author dev32user
+     */
+    public String isExistRefresh(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(REFRESH_TOKEN)) return cookie.getValue();
+        }
+        throw new BusinessLogicException(ExceptionCode.COOKIE_NOT_FOUND);
+    }
+
+
+    /**
+     * 리프레시 토큰이 데이터베이스에 존재하는지 확인하고 그 값이 같은지 비교하는 메서드
+     */
+    public void verifiedExistRefresh(String refreshToken) {
+        RefreshToken findRefreshToken = refreshTokenRepository
+                .findRefreshTokenByTokenValue(refreshToken)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND));
+
+        if (!refreshToken.equals(findRefreshToken.getTokenValue()))
+            throw new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND);
+    }
+
+
+    public Jws<Claims> getClaims(String jws, String base64EncodedSecretKey) {
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build().parseClaimsJws(jws);
     }
 }

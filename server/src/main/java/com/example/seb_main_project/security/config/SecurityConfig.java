@@ -1,10 +1,21 @@
 package com.example.seb_main_project.security.config;
 
+import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
+import com.example.seb_main_project.security.filter.JwtAuthenticationFilter;
+import com.example.seb_main_project.security.filter.JwtVerificationFilter;
+import com.example.seb_main_project.security.handler.MemberAccessDeniedHandler;
+import com.example.seb_main_project.security.handler.MemberAuthenticationEntryPoint;
+import com.example.seb_main_project.security.handler.MemberAuthenticationFailureHandler;
+import com.example.seb_main_project.security.handler.MemberAuthenticationSuccessHandler;
+import com.example.seb_main_project.security.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,9 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
@@ -26,9 +35,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
  * @author dev32user
  */
 @Configuration
-@EnableWebSecurity  // 스프링 시큐리티 필터가 필터 체인에 등록된다. 스프링 시큐리티 필터 : 하단의 클래스
+@EnableWebSecurity(debug = true)  // 스프링 시큐리티 필터가 필터 체인에 등록된다. 스프링 시큐리티 필터 : 하단의 클래스
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtTokenizer jwtTokenizer;
+    private final CustomAuthorityUtils authorityUtils;
 
     /**
      * Use authorizeHttpRequests <br>
@@ -45,18 +57,26 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()
                 .cors(withDefaults())   // TODO : cors setting
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
+                .and()
+                .apply(new CustomFilterConfigurer())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
-                        .mvcMatchers("/admin").hasRole("ADMIN")
-                        .mvcMatchers("/h2/**")
-                        .access((authentication, request) ->
-                                Optional.of(hasRole("ADMIN").check(authentication, request))
-                                        .filter(decision -> !decision.isGranted())
-                                        .orElseGet(() -> hasRole("DBA")
-                                                .check(authentication, request)))
-                        .anyRequest().authenticated()
+                                .mvcMatchers("/h2/**").permitAll()
+                                .anyRequest().permitAll()
+                        // .mvcMatchers("/admin").hasRole("ADMIN")
+                        // .access((authentication, request) ->
+                        //         Optional.of(hasRole("ADMIN").check(authentication, request))
+                        //                 .filter(decision -> !decision.isGranted())
+                        //                 .orElseGet(() -> hasRole("DBA")
+                        //                         .check(authentication, request)))
+                        // .anyRequest().authenticated()
                 );
 
         return http.build();
@@ -87,9 +107,34 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+
+    /**
+     * 구현한 {@link JwtAuthenticationFilter}를 등록하는 역할을 한다.
+     */
+    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager =
+                    builder.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter =
+                    new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/member/login");
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+
+            builder.addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+        }
     }
 }

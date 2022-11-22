@@ -1,6 +1,6 @@
 package com.example.seb_main_project.member.controller;
 
-import com.example.seb_main_project.member.dto.MemberDto;
+import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.mapper.MemberMapper;
 import com.example.seb_main_project.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class MemberController {
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/signup")
-    public void joinMember(@RequestBody MemberDto.Join joinDto) {
+    public void joinMember(@RequestBody AuthDto.Join joinDto) {
         memberService.createMember(memberMapper.joinToMemberEntity(joinDto));
     }
 }

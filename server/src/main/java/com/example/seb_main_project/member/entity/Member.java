@@ -29,6 +29,9 @@ public class Member extends Auditable implements Principal {
     @Column
     private LocalDateTime latestLogin;
 
+    @Column
+    private String nickname;
+
     // Security 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
