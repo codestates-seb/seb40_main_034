@@ -13,10 +13,11 @@ export const Container = styled.div`
     margin: 2rem;
   }
   .item:nth-child(2) {
-    grid-column: 2 / 11;
+    grid-column: 1 / 12;
     grid-row: 5 / 9;
     margin: 2rem;
   }
+
   .edititem {
     grid-column: 4 / 6;
     grid-row: 1 / 9;
@@ -51,6 +52,7 @@ export const ProfilePic = styled.div`
 
 export const FollowContainer = styled.div`
   display: flex;
+
   justify-content: center;
   align-items: center;
   margin-top: 1.5rem;

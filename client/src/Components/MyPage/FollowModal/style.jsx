@@ -18,19 +18,18 @@ cursor: pointer;
 border: 0;
 }
 section {
-width: 90%;
-max-width: 450px;
+width: 100%;
+max-width: 330px;
 margin: 0 auto;
 border-radius: 0.3rem;
-background-color: #fff;
-
+background-color: white;
 animation: modal-show 0.3s;
-overflow: hidden;
+overflow: auto;
 }
+
 section > header {
 position: relative;
-padding: 16px 64px 16px 16px;
-background-color: white;
+padding: 16px;
 font-weight: 700;
 }
 section > header button {
@@ -42,7 +41,7 @@ font-size: 21px;
 font-weight: 700;
 text-align: center;
 color: #999;
-background-color: transparent;
+background-color: white;
 }
 section > main {
 padding: 16px;
@@ -63,11 +62,11 @@ font-size: 13px;
 @keyframes modal-show {
 from {
   opacity: 0;
-  margin-top: -50px;
+  transform: translateY(-30px);
 }
 to {
   opacity: 1;
-  margin-top: 0;
+  transform: translateY(0);
 }
 }
 @keyframes modal-bg-show {
@@ -77,6 +76,21 @@ from {
 to {
   opacity: 1;
 }
+`;
+
+export const GridContainer = styled.div`
+  padding-top: 4.5rem;
+  display: grid;
+
+  width: calc(100vw - 4rem);
+  height: calc(100vh);
+  grid-template-columns: repeat(11, 1fr);
+  gap: 0.5rem;
+  grid-template-rows: repeat(9, 1fr);
+  .item:nth-child(1) {
+    grid-column: 6 / 9;
+    grid-row: 2 / 7;
+  }
 `;
 
 export const ToggleBtn = styled.button`
