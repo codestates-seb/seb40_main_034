@@ -1,23 +1,15 @@
 import styled from 'styled-components';
-import { List } from '../Components/List/List';
+import GoUpBtn from '../Components/Common/GoUpBtn';
+import Post from '../Components/Main/Post';
 const Main = () => {
   return (
     <>
       <Container>
-        <Lists>
-          <List />
-          <List />
-          <List />
-          <List />
-          <List />
-        </Lists>
+        <Post />
       </Container>
+      <GoUpBtn />
     </>
   );
 };
 const Container = styled.div``;
-const Lists = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
 export default Main;
