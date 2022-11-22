@@ -45,6 +45,7 @@ public class PostController {
     //[ GET ]: '모든 게시글 조회'를 요청
     //https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
     //https://github.com/codestates-seb/seb39_main_059/blob/main/server/catvillage/src/main/java/com/twentyfour_seven/catvillage/board/controller/BoardController.java
+    @PreAuthorize("hasAuthority('CERTIFIED')")
     @GetMapping() //이거 요청 URL을 API명세에서 이렇게 수정하기.
     public ResponseEntity show(@Positive @RequestParam int page,
                                @Positive @RequestParam int size){
