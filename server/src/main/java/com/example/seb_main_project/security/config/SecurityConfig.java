@@ -1,6 +1,5 @@
 package com.example.seb_main_project.security.config;
 
-import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
 import com.example.seb_main_project.security.filter.JwtAuthenticationFilter;
 import com.example.seb_main_project.security.filter.JwtVerificationFilter;
 import com.example.seb_main_project.security.handler.MemberAccessDeniedHandler;
@@ -8,6 +7,7 @@ import com.example.seb_main_project.security.handler.MemberAuthenticationEntryPo
 import com.example.seb_main_project.security.handler.MemberAuthenticationFailureHandler;
 import com.example.seb_main_project.security.handler.MemberAuthenticationSuccessHandler;
 import com.example.seb_main_project.security.jwt.JwtTokenizer;
+import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(withDefaults())   // TODO : cors setting
+                .cors(withDefaults())   // withDefaults() : use corsConfigurationSource Bean
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()

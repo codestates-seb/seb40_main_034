@@ -1,7 +1,7 @@
 package com.example.seb_main_project.security.filter;
 
-import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
 import com.example.seb_main_project.security.jwt.JwtTokenizer;
+import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
