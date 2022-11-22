@@ -1,4 +1,4 @@
-package com.example.seb_main_project.article.entity;
+package com.example.seb_main_project.post.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +23,7 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate //'entity'가 최초로 생성되어 저장될 때 시간이 자동으로 저장됨
     private LocalDateTime createdTime;
+
 
     @LastModifiedDate
     private LocalDateTime lastModifiedTime;
