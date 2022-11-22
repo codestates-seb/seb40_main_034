@@ -9,7 +9,7 @@ const MyList = () => {
 
   return (
     <Container>
-      <TogglebtnContainer>
+      <TogglebtnContainer className="subitem">
         <ToggleBtn onClick={handleChoice} value="article" choice={choice}>
           Created
         </ToggleBtn>

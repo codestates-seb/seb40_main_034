@@ -1,4 +1,13 @@
-import { Modal, ToggleBtn, Follow, FollowContainer, TogglebtnContainer, Container, FollowBtn } from './style';
+import {
+  GridContainer,
+  Modal,
+  ToggleBtn,
+  Follow,
+  FollowContainer,
+  TogglebtnContainer,
+  Container,
+  FollowBtn,
+} from './style';
 import { getFollowing, getFollower, addFollow } from '../../../Api/MyinfoApi';
 import { useState, useEffect } from 'react';
 const FollowModal = (props) => {
@@ -66,71 +75,73 @@ const FollowModal = (props) => {
     // 모달이 열릴때 openModal 클래스가 생성된다.
     <Modal popup={open ? 'popup' : ''} onClick={close}>
       {open ? (
-        <section>
-          <header>
-            {header}
-            <button className="close" onClick={close}>
-              &times;
-            </button>
-          </header>
-          <main>
-            <Container onClick={(e) => e.stopPropagation()}>
-              <TogglebtnContainer>
-                <ToggleBtn onClick={handleChoice} value="following" choice={choice}>
-                  Following
-                </ToggleBtn>
-                <ToggleBtn onClick={handleChoice} value="follower" choice={choice}>
-                  Follower
-                </ToggleBtn>
-              </TogglebtnContainer>
+        <GridContainer>
+          <section className="item">
+            <header>
+              {header}
+              <button className="close" onClick={close}>
+                &times;
+              </button>
+            </header>
+            <main>
+              <Container onClick={(e) => e.stopPropagation()}>
+                <TogglebtnContainer>
+                  <ToggleBtn onClick={handleChoice} value="following" choice={choice}>
+                    Following
+                  </ToggleBtn>
+                  <ToggleBtn onClick={handleChoice} value="follower" choice={choice}>
+                    Follower
+                  </ToggleBtn>
+                </TogglebtnContainer>
 
-              <FollowContainer>
-                <Follow>
-                  {choice === 'following'
-                    ? followingList.map((follow, idx) => {
-                        return (
-                          <div className="follow-item" key={idx}>
-                            <div className="follow-img">
-                              <img src={follow.profileImg} alt="UserPic" />
-                            </div>
-                            <div className="follow-name">{follow.nickname}</div>
-                            <FollowBtn
-                              key={follow.id}
-                              onClick={() => {
-                                removeFollowing(follow.id);
-                              }}>
-                              Unfollow
-                            </FollowBtn>
-                          </div>
-                        );
-                      })
-                    : followerList.map((follow, idx) => {
-                        return (
-                          <div className="follow-item" key={idx}>
-                            <div className="follow-img">
-                              <img src={follow.profileImg} alt="UserPic" />
-                            </div>
-                            <div className="follow-name">{follow.nickname}</div>
-
-                            {follow?.isFollowing ? (
-                              <FollowBtn status={'following'} onClick={() => onUnfollowFollower(follow.id)}>
+                <FollowContainer>
+                  <Follow>
+                    {choice === 'following'
+                      ? followingList.map((follow, idx) => {
+                          return (
+                            <div className="follow-item" key={idx}>
+                              <div className="follow-img">
+                                <img src={follow.profileImg} alt="UserPic" />
+                              </div>
+                              <div className="follow-name">{follow.nickname}</div>
+                              <FollowBtn
+                                key={follow.id}
+                                onClick={() => {
+                                  removeFollowing(follow.id);
+                                }}>
                                 Unfollow
                               </FollowBtn>
-                            ) : null}
-                            {!follow?.isFollowing ? (
-                              <FollowBtn status={'notfollowing'} onClick={() => onFollowFollower(follow.id)}>
-                                Follow
-                              </FollowBtn>
-                            ) : null}
-                          </div>
-                        );
-                      })}
-                </Follow>
-              </FollowContainer>
-            </Container>
-          </main>
-          <footer></footer>
-        </section>
+                            </div>
+                          );
+                        })
+                      : followerList.map((follow, idx) => {
+                          return (
+                            <div className="follow-item" key={idx}>
+                              <div className="follow-img">
+                                <img src={follow.profileImg} alt="UserPic" />
+                              </div>
+                              <div className="follow-name">{follow.nickname}</div>
+
+                              {follow?.isFollowing ? (
+                                <FollowBtn status={'following'} onClick={() => onUnfollowFollower(follow.id)}>
+                                  Unfollow
+                                </FollowBtn>
+                              ) : null}
+                              {!follow?.isFollowing ? (
+                                <FollowBtn status={'notfollowing'} onClick={() => onFollowFollower(follow.id)}>
+                                  Follow
+                                </FollowBtn>
+                              ) : null}
+                            </div>
+                          );
+                        })}
+                  </Follow>
+                </FollowContainer>
+              </Container>
+            </main>
+            <footer></footer>
+          </section>
+        </GridContainer>
       ) : null}
     </Modal>
   );
