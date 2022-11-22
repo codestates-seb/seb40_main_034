@@ -45,6 +45,9 @@ const CategoryLeft = styled.div`
     :hover {
       background-color: #eee;
     }
+    :active {
+      background-color: #ddd;
+    }
   }
 `;
 
@@ -61,6 +64,9 @@ const CategoryMid = styled.div`
     background-position: center;
     :hover {
       background-color: #eee;
+    }
+    :active {
+      background-color: #ddd;
     }
   }
 `;
@@ -79,6 +85,9 @@ const CategoryMid2 = styled.div`
     :hover {
       background-color: #eee;
     }
+    :active {
+      background-color: #ddd;
+    }
   }
 `;
 
@@ -95,6 +104,9 @@ const CategoryRight = styled.div`
     background-position: center;
     :hover {
       background-color: #eee;
+    }
+    :active {
+      background-color: #ddd;
     }
   }
 `;

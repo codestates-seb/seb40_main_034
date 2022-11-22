@@ -1,24 +1,20 @@
 import styled from 'styled-components';
-import { GreyBtn } from '../Common/Btn';
+import { GreenBtn } from '../Common/Btn';
+import FollowList from '../Common/FollowList';
 
 export const List = ({ img, creator, location, profileImg, nickname }) => {
   return (
     <Container>
       <Thumbnail img={img} creator={creator}>
         <div className="placeholder" />
-        {/* <div className="overlay" /> */}
         <div className="thumbnailHover">
-          <div className="overlay" />
-          <GreyBtn text="Bookmark" className="GrBtn" />
+          <GreenBtn text="Bookmark" />
         </div>
         <img src={img} alt={location} />
       </Thumbnail>
       <InfoContainer>
         <Location location={location}>location</Location>
-        <Nickname nickname={nickname}>
-          <img src={profileImg} alt={nickname} />
-          nickname
-        </Nickname>
+        <FollowList nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>
   );
@@ -26,6 +22,7 @@ export const List = ({ img, creator, location, profileImg, nickname }) => {
 
 const Container = styled.div`
   width: 225px;
+  margin-right: 0.5rem;
 `;
 const Thumbnail = styled.div`
   position: relative;
@@ -42,9 +39,6 @@ const Thumbnail = styled.div`
     right: 0.5rem;
     top: 0.5rem;
   }
-  :hover .GrBtn {
-    color: white;
-  }
   .placeholder {
     border: 1px solid #dddddd;
     color: #bbbbbb;
@@ -60,12 +54,14 @@ const Thumbnail = styled.div`
 `;
 const InfoContainer = styled.div`
   margin-top: 0.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 `;
 const Location = styled.div`
+  padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 20px;
+  color: #333333;
+  background-color: #eeeeee;
   font-size: 0.85rem;
   line-height: 1;
-`;
-const Nickname = styled.div`
-  font-size: 0.85rem;
 `;
