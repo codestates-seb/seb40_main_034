@@ -13,94 +13,94 @@ const Login = () => {
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
 
-	const navigate = useNavigate();
-	// email 유효성 검사 결과
-	const handleEmail = (e) => {
-		setEmail(e.target.value);
-		const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-		if (regex.test(email)) {
-			setEmailValid(true);
-		} else {
-			setEmailValid(false);
-		}
-	};
-	// password 유효성 검사 결과
-	const handlePw = (e) => {
-		setPw(e.target.value);
-		const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
-		if (regex.test(pw)) {
-			return setPwValid(true);
-		} else {
-			return setPwValid(false);
-		}
-	};
+  const navigate = useNavigate();
+  // email 유효성 검사 결과
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+    if (regex.test(email)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
+  };
+  // password 유효성 검사 결과
+  const handlePw = (e) => {
+    setPw(e.target.value);
+    const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
+    if (regex.test(pw)) {
+      return setPwValid(true);
+    } else {
+      return setPwValid(false);
+    }
+  };
 
-	const handleSubmit = () => {
-		console.log(localStorage.length);
+  const handleSubmit = () => {
+    console.log(localStorage.length);
 
-		//로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
-		if (!email) {
-			return alert('email을 입력하세요.');
-		} else if (!pw) {
-			return alert('Password를 입력하세요.');
-		}
-		//로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
-		if (emailValid && pwValid) {
-			axios.post('http://localhost:8080/login', { email, pw }).then((res) => {
-				if (res.status === 201) {
-					navigate('/');
-					console.log(res.data);
-				}
-			});
-		}
-	};
-	return (
-		<div>
-			<PageContainer>
-				<form onSubmit={handleSubmit}>
-					<LoginContainer>
-						<LogoDiv />
-						<LoginInput
-							type="email"
-							name="loginEmail"
-							value={email}
-							onChange={handleEmail}
-							placeholder="Enter your email"></LoginInput>
-						<div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-						<LoginInput
-							type="password"
-							name="loginPassword"
-							value={pw}
-							onChange={handlePw}
-							placeholder="Enter your password"></LoginInput>
-						<div>
-							{!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
-						</div>
-						<LoginButton text="Log in" type="submit" />
-						<Newinput></Newinput>
-						<div>
-							Don’t have an account? <Link to="/signup">Sign up</Link>
-						</div>
-					</LoginContainer>
-				</form>
-				<Wrap>
-					<WelcomeImg></WelcomeImg>
-					<WelcomeStr>Hello, we are PostON!</WelcomeStr>
-				</Wrap>
-			</PageContainer>
-		</div>
-	);ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ
+    //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
+    if (!email) {
+      return alert('email을 입력하세요.');
+    } else if (!pw) {
+      return alert('Password를 입력하세요.');
+    }
+    //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
+    if (emailValid && pwValid) {
+      axios.post('http://localhost:8080/login', { email, pw }).then((res) => {
+        if (res.status === 201) {
+          navigate('/');
+          console.log(res.data);
+        }
+      });
+    }
+  };
+  return (
+    <div>
+      <PageContainer>
+        <form onSubmit={handleSubmit}>
+          <LoginContainer>
+            <LogoDiv />
+            <LoginInput
+              type="email"
+              name="loginEmail"
+              value={email}
+              onChange={handleEmail}
+              placeholder="Enter your email"></LoginInput>
+            <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
+            <LoginInput
+              type="password"
+              name="loginPassword"
+              value={pw}
+              onChange={handlePw}
+              placeholder="Enter your password"></LoginInput>
+            <div>
+              {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
+            </div>
+            <LoginButton text="Log in" type="submit" />
+            <Newinput></Newinput>
+            <div>
+              Don’t have an account? <Link to="/signup">Sign up</Link>
+            </div>
+          </LoginContainer>
+        </form>
+        <Wrap>
+          <WelcomeImg></WelcomeImg>
+          <WelcomeStr>Hello, we are PostON!</WelcomeStr>
+        </Wrap>
+      </PageContainer>
+    </div>
+  );
 };
 const Newinput = styled(InputForm)`
-	width: 25rem;
-	height: 2.5rem;
-	margin-top: 2rem;
-	border-radius: 0.5rem;
-	text-indent: 10px;
-	outline: solid 0.125rem #dddddd;
-	&:focus {
-		outline: solid 0.2rem #91f841;
-	}
+  width: 25rem;
+  height: 2.5rem;
+  margin-top: 2rem;
+  border-radius: 0.5rem;
+  text-indent: 10px;
+  outline: solid 0.125rem #dddddd;
+  &:focus {
+    outline: solid 0.2rem #91f841;
+  }
 `;
 
 const PageContainer = styled.div`
