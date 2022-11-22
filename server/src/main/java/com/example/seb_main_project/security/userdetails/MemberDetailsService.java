@@ -3,8 +3,8 @@ package com.example.seb_main_project.security.userdetails;
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
-import com.example.seb_main_project.member.service.MemberRepository;
-import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
+import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @Component
 @RequiredArgsConstructor
-public class CustomUserDetailsService implements UserDetailsService {
+public class MemberDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final CustomAuthorityUtils authorityUtils;
 

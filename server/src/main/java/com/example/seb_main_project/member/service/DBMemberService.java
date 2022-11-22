@@ -3,7 +3,8 @@ package com.example.seb_main_project.member.service;
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
-import com.example.seb_main_project.security.auth.CustomAuthorityUtils;
+import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,13 +23,17 @@ public class DBMemberService implements MemberService {
 
     /**
      * Member 회원가입 DB 저장 메서드
+     *
+     * @param member Member 객체를 받는다.
+     * @return 저장한 Member 객체를 반환한다.
+     * @author dev32user
      */
     @Override
     public Member createMember(Member member) {
         verifyExistEmail(member.getEmail());
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
-        member.setRoles(customAuthorityUtils.createRoles(member.getEmail()));
+        member.setRoles(customAuthorityUtils.createAuthorities(member.getEmail()));
         log.info("# Create Member in DB");
 
         return memberRepository.save(member);

@@ -1,21 +1,24 @@
 package com.example.seb_main_project.member.entity;
 
+import com.example.seb_main_project.audit.Auditable;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@RequiredArgsConstructor
-public class Member {
+@NoArgsConstructor
+public class Member extends Auditable implements Principal {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(nullable = false)
     private String email;
@@ -23,7 +26,18 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private LocalDateTime latestLogin;
+
+    @Column
+    private String nickname;
+
     // Security 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @Override
+    public String getName() {
+        return getEmail();
+    }
 }

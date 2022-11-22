@@ -1,17 +1,32 @@
 package com.example.seb_main_project.security.config;
 
+import com.example.seb_main_project.security.filter.JwtAuthenticationFilter;
+import com.example.seb_main_project.security.filter.JwtVerificationFilter;
+import com.example.seb_main_project.security.handler.MemberAccessDeniedHandler;
+import com.example.seb_main_project.security.handler.MemberAuthenticationEntryPoint;
+import com.example.seb_main_project.security.handler.MemberAuthenticationFailureHandler;
+import com.example.seb_main_project.security.handler.MemberAuthenticationSuccessHandler;
+import com.example.seb_main_project.security.jwt.JwtTokenizer;
+import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * 시큐리티 컨피그 클래스입니다. <br>
@@ -20,9 +35,12 @@ import static org.springframework.security.authorization.AuthorityAuthorizationM
  * @author dev32user
  */
 @Configuration
-@EnableWebSecurity  // 스프링 시큐리티 필터가 필터 체인에 등록된다. 스프링 시큐리티 필터 : 하단의 클래스
+@EnableWebSecurity(debug = true)  // 스프링 시큐리티 필터가 필터 체인에 등록된다. 스프링 시큐리티 필터 : 하단의 클래스
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtTokenizer jwtTokenizer;
+    private final CustomAuthorityUtils authorityUtils;
 
     /**
      * Use authorizeHttpRequests <br>
@@ -38,25 +56,27 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
+                .cors(withDefaults())   // withDefaults() : use corsConfigurationSource Bean
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .formLogin().disable()
-                // .loginPage("/member/login")
-                // .loginProcessingUrl("/process_login")
-                // .failureUrl("/member/login-form?error")
-                // .and()
-                // .logout()
-                // .logoutUrl("/member/logout")
-                // .logoutSuccessUrl("/")
-                // .and()
+                .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
+                .and()
+                .apply(new CustomFilterConfigurer())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .mvcMatchers("/**").permitAll()
-                        .mvcMatchers("/admin").hasRole("ADMIN")
-                        .mvcMatchers("/h2/**")
-                        .access((authentication, request) ->
-                                Optional.of(hasRole("ADMIN").check(authentication, request))
-                                        .filter(decision -> !decision.isGranted())
-                                        .orElseGet(() -> hasRole("DBA")
-                                                .check(authentication, request)))
-                        .anyRequest().authenticated()
+                                .mvcMatchers("/h2/**").permitAll()
+                                .anyRequest().permitAll()
+                        // .mvcMatchers("/admin").hasRole("ADMIN")
+                        // .access((authentication, request) ->
+                        //         Optional.of(hasRole("ADMIN").check(authentication, request))
+                        //                 .filter(decision -> !decision.isGranted())
+                        //                 .orElseGet(() -> hasRole("DBA")
+                        //                         .check(authentication, request)))
+                        // .anyRequest().authenticated()
                 );
 
         return http.build();
@@ -73,5 +93,48 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    /**
+     * 구체적인 CORS 정책 설정을 위한 빈
+     * <p>
+     * 모든 출처에 대해 스크립트 기반의 HTTP 통신 허용 <br>
+     * HTTP 메서드에 대한 통신을 허용 <br>
+     * 구성한 CORS 정책을 적용 대상 : 모든 URL
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
+    /**
+     * 구현한 {@link JwtAuthenticationFilter}를 등록하는 역할을 한다.
+     */
+    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager =
+                    builder.getSharedObject(AuthenticationManager.class);
+            JwtAuthenticationFilter jwtAuthenticationFilter =
+                    new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/member/login");
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
+
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+
+            builder.addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+        }
     }
 }
