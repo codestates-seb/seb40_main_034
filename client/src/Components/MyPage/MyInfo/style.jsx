@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   padding-top: 4.5rem;
   display: grid;
+  width: calc(100vw - 14rem);
   grid-template-columns: repeat(11, 1fr);
   gap: 0.6rem;
   grid-template-rows: repeat(9, 1fr);
