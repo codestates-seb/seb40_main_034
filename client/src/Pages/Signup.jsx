@@ -56,21 +56,18 @@ const Signup = () => {
 			return alert('Password를 입력하세요.');
 		}
 
-		/*if (emailValid && pwValid) {
-			axios.post('http://localhost:8080/signup', { email, pw, nickname }).then((res) => {
-				if (res.status === 201) {
-					navigate('/');
-				} else {
-					console.log(email, pw, nickname);
-				}
-			});
-		}*/
-		try {
-			const { data } = axios
-				.post('http://localhost:8000/signup', { email, pw, nickname })
-				.then((res) => console.log(res.data));
-		} catch (error) {
-			console.log(error);
+		if (nickname && emailValid && pwValid) {
+			axios
+				.post('http://localhost:8080/signup', { email, pw, nickname })
+				.then((res) => {
+					alert('회원가입에 성공했습니다.');
+					navigate('/login');
+					console.log(res.data);
+				})
+				.catch((Error) => {
+					alert('작성하신 아이디, 비밀번호, 이메일, 닉네임을 하단 설명에 맞추어 작성해 주시기 바랍니다.');
+				});
+			console.log(Error);
 		}
 	};
 
