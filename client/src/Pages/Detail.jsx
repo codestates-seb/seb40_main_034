@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
+import { useConfirm } from '../Api/DetailApi';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -66,7 +67,14 @@ function Detail() {
   const [bodyText, setBodyText] = useState(DetailText);
   // comment state
   const [comment, setComment] = useState('');
+  // 좋아요에 따른 하트색상
+  // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
+
+  // customHook 삭제하기 버튼 확인 modal
+  const deleteConfirm = () => console.log('삭제했습니다.');
+  const cancelConfirm = () => console.log('취소했습니다.');
+  const confirmDelete = useConfirm('삭제하시겠습니까?', deleteConfirm, cancelConfirm);
 
   // 글자수 제한
   const textLimit = useRef(200);
@@ -97,7 +105,13 @@ function Detail() {
 
   // 좋아요 클릭 axios
   const clickLike = () => {
-    setIsLike(!isLike);
+    axios
+      .post(`/main/1/like`)
+      .then((res) => {
+        console.log(res);
+        setIsLike(!isLike);
+      })
+      .catch((err) => console.log(err));
   };
 
   // 댓글 Post axios
@@ -206,11 +220,10 @@ function Detail() {
               </Link>
               <Link to="/">롤링핀 오산점</Link>
               <D_LikeBookmark>
-                <D_likeButton onClick={clickLike}>
+                <D_likeButton className={isLike ? 'like-block__like-icon--is-visible' : ''} onClick={clickLike}>
                   <svg
-                    className={isLike ? 'like-block__like-icon--is-visible' : ''}
-                    fill="white"
-                    stroke="black"
+                    fill={isLike ? 'red' : 'white'}
+                    stroke={isLike ? 'none' : 'black'}
                     height="22"
                     viewBox="0 0 16 16"
                     width="22"
@@ -251,7 +264,7 @@ function Detail() {
                 </form>
               </D_CommentDesc>
               <D_BottomDesc>
-                <button className="delete">
+                <button onClick={confirmDelete} className="delete">
                   <span>삭제</span>
                 </button>
                 <button>
@@ -488,51 +501,52 @@ const D_BottomDesc = styled.div`
 
 const D_LikeBookmark = styled.div`
   flex-grow: 1;
-  overflow: hidden;
 `;
 
 const D_likeButton = styled.button`
   cursor: pointer;
   float: right;
+  position: relative;
+  &.like-block__like-icon--is-visible::after {
+    z-index: auto;
+    position: absolute;
+    top: 35.5%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    content: ' ';
+    transform: translate(-50%, -50%);
+    animation-name: b;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    border-radius: 50%;
+    background: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0.7), 0 0 30px 0 rgba(255, 0, 0, 0.3);
+    animation-fill-mode: forwards;
+  }
+  @keyframes b {
+    0% {
+      width: 0;
+      height: 0;
+      background: rgba(255, 0, 0, 0);
+      box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0), 0 0 30px 0 rgba(255, 0, 0, 0);
+    }
+    25% {
+      width: 35px;
+      height: 35px;
+      background: rgba(255, 0, 0, 0.4);
+      box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0.7), 0 0 30px 0 rgba(255, 0, 0, 0.3);
+    }
+    to {
+      width: 55px;
+      height: 55px;
+      background: rgba(255, 0, 0, 0);
+      box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0), 0 0 30px 0 rgba(255, 0, 0, 0);
+    }
+  }
   svg {
     position: relative;
     transition: all 0.5s ease-in-out;
-    .like-block__like-icon--is-visible:after {
-      position: absolute;
-      top: 47.5%;
-      left: 50%;
-      width: 50px;
-      height: 50px;
-      content: ' ';
-      transform: translate(-50%, -50%);
-      animation-name: b;
-      animation-duration: 0.5s;
-      animation-timing-function: ease-in-out;
-      border-radius: 50%;
-      background: rgba(255, 0, 0, 0.3);
-      box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0.7), 0 0 30px 0 rgba(255, 0, 0, 0.3);
-      animation-fill-mode: forwards;
-    }
-    @keyframes b {
-      0% {
-        width: 0;
-        height: 0;
-        background: rgba(255, 0, 0, 0);
-        box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0), 0 0 30px 0 rgba(255, 0, 0, 0);
-      }
-      25% {
-        width: 50px;
-        height: 50px;
-        background: rgba(255, 0, 0, 0.4);
-        box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0.7), 0 0 30px 0 rgba(255, 0, 0, 0.3);
-      }
-      to {
-        width: 75px;
-        height: 75px;
-        background: rgba(255, 0, 0, 0);
-        box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0), 0 0 30px 0 rgba(255, 0, 0, 0);
-      }
-    }
   }
   &:hover svg {
     fill: red;
