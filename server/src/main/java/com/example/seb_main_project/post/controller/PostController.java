@@ -20,15 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
-//< 북마크 >
-//https://github.com/codestates-seb/seb39_main_004/blob/main/server/src/main/java/run/ward/mmz/domain/post/Bookmark.java
-
-//< 목적마다 Dto? >
-//기타북마크바에 해당 내용 보기
-
-//커밋 꼭 하기!
-//게시글 CRUD 다 잘 된 39기 19조 링크
-//https://github.com/codestates-seb/seb39_main_019/blob/main/server/dangProject/src/main/java/com/dangProject/post/controller/PostController.java
 
 @Slf4j
 @Validated
