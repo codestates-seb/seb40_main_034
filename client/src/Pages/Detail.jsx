@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
-import { useConfirm } from '../Hooks/CustomHook';
+import { useConfirm } from '../Api/DetailApi';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -70,6 +70,7 @@ function Detail() {
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
+
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
   const cancelConfirm = () => console.log('취소했습니다.');
