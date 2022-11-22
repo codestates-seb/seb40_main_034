@@ -5,7 +5,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder //이거 사용하는 이유 정확히 확인하기!
+@Builder
 @ToString
 public class PostPatchDto {
 

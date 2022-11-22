@@ -9,9 +9,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-//https://europani.github.io/spring/2021/10/05/027-baseTimeEntity.html
-//https://somida.tistory.com/209
-//https://dkswnkk.tistory.com/542
 
 @Getter
 @MappedSuperclass

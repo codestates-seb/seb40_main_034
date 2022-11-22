@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Builder //이거 사용하는 이유 정확히 확인하기!
+@Builder
 @ToString
 public class PostResponseDto {
 
