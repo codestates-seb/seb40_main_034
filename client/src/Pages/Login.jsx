@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <div>
       <PageContainer>
-        <form onSubmit={handleSubmit}>
+        <form action="login_process" method="post" onSubmit={handleSubmit}>
           <LoginContainer>
             <LogoDiv />
             <LoginInput
