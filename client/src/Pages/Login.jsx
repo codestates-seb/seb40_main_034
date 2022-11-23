@@ -82,7 +82,6 @@ const Login = () => {
               {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
             </div>
             <LoginButton text="Log in" type="submit" />
-            <Newinput></Newinput>
             <div>
               Don’t have an account? <Link to="/signup">Sign up</Link>
             </div>
@@ -110,7 +109,7 @@ const Newinput = styled(InputForm)`
 
 const PageContainer = styled.div`
   width: 100%;
-  height: 58rem;
+  height: 54rem;
   display: flex;
   align-items: center;
   justify-content: center;

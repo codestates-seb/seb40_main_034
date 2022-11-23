@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
@@ -121,7 +121,7 @@ const Signup = () => {
 };
 const PageContainer = styled.div`
   width: 100%;
-  height: 58rem;
+  height: 54rem;
   display: flex;
   align-items: center;
   justify-content: center;
