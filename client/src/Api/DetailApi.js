@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// 삭제 api
 export const useConfirm = (message = null, onConfirm, onCancel) => {
   if (!onConfirm || typeof onConfirm !== 'function') {
     return;

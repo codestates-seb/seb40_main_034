@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 function CommentList({ comment }) {
   return (
     <CommentContainer>
-      <strong>{comment.nickname}</strong>
+      <Link to="/">
+        <strong>{comment.nickname}</strong>
+      </Link>
       <p>{comment.contents}</p>
     </CommentContainer>
   );
