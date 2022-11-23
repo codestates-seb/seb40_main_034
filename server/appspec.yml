@@ -3,7 +3,8 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/build
+    destination: //home/ssm-user/seb40_main_034/server/build
+
 
 hooks:
   BeforeInstall:
