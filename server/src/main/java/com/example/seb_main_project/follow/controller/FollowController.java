@@ -1,56 +1,51 @@
 package com.example.seb_main_project.follow.controller;
 
+import com.example.seb_main_project.follow.entity.Follow;
 import com.example.seb_main_project.follow.repository.FollowRepository;
-import com.example.seb_main_project.follow.service.FollowService;
 import com.example.seb_main_project.member.entity.Member;
-import com.example.seb_main_project.member.service.MemberService;
+import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.member.service.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
-@Controller
+@RestController
 public class FollowController {
+
     @Autowired
-    MemberService memberService;
+    private FollowRepository followRepository;
+
     @Autowired
-    FollowService followService;
+    private MemberRepository memberRepository;
 
-    @RequestMapping("/follow/view/{member-id}") // pageid
-    @ResponseBody
-    private Map follow_view(@PathVariable int id, Model model) throws Exception {
-        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        int follower = followService.countByFollowerId(id);
+    @PostMapping("/follow/{id}")
+    public String follow(@PathVariable Integer id, @AuthenticationPrincipal CustomUserDetails userDetail) {
 
-        Map<String, Object> m = new HashMap<String, Object>();
-        m.put("booool", followService.find(id, memberId));
-        m.put("follower", follower); // 팔로워도 업뎃되야 되므로
+        Optional<Member> optionalToMember = memberRepository.findById(id);
+        Member follower = userDetail.getMember();
+        Member following = optionalToMember.get();
 
-        return m;
+        Follow follow = new Follow();
+        follow.setFollowing(following);
+        follow.setFollower(follower);
+
+        followRepository.save(follow);
+        //세션에서 현재 유저정보 가져오기
+        System.out.println("팔로우 완료");
+        return "ok";
     }
 
-    @RequestMapping("/follow/insert/{id}")
-    @ResponseBody
-    private int follow_insert(@PathVariable int id) throws Exception {
-        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Member u = memberService.findByMemberId(memberId);
+    @PostMapping("/unFollow/{id}")
+    public String unFollow(@PathVariable Integer id, @AuthenticationPrincipal CustomUserDetails userDetail) {
+        Optional<Member> optionalToMember = memberRepository.findById(id);
+        Member follower = userDetail.getMember();
+        Member following = optionalToMember.get();
 
-        followService.save(u.getId(), id);
-        return 1;
-    }
-
-    @RequestMapping("/follow/delete/{id}")
-    @ResponseBody
-    private int follow_delete(@PathVariable int id) throws Exception {
-        String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Member u = memberService.findByMemberId(memberId);
-
-        followService.deleteByFollowingIdAndFollowerId(id, u.getId());
-        return 1;
+        followRepository.deleteByFollowerIdAndFollowingId(follower.getId(), following.getId());
+        //세션에서 현재 유저정보 가져오기
+        return "ok";
     }
 }

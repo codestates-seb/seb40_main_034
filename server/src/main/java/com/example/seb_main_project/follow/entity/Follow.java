@@ -10,18 +10,18 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@org.hibernate.annotations.DynamicUpdate
+@NoArgsConstructor
 @Table(name = "Follow")
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int follow_id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "following")
-    Member following;
+    private Member following;
 
     @ManyToOne
     @JoinColumn(name = "follower")
-    Member follower;
+    private Member follower;
 }

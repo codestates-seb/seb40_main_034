@@ -3,12 +3,23 @@ package com.example.seb_main_project.follow.repository;
 import com.example.seb_main_project.follow.entity.Follow;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
-    int countByFollowerIdAndFollowingUserId(int id, String userId); // 팔로우 되어있는지 count하는 메서드
+import java.util.List;
 
-    @Modifying
+public interface FollowRepository extends JpaRepository<Follow, Integer> {
+    // 팔로우 리스트
+    public List<Follow> findByFollowingId(int following);
+
+    // 팔로워 리스트
+    public List<Follow> findByFollowerId(int follower);
+
+    // 팔로우, 언팔로우 유무
+    @Query(value = "select count(*) from follow where following = ?1 and follower = ?2", nativeQuery = true)
+    public int findByFollowerIdAndFollowingId(int following, int follower);
+
+    // unFollow
     @Transactional
-    void deleteByFollowingIdAndFollowerId(int id1, int id2); // 언팔로우 메서드
+    public void deleteByFollowerIdAndFollowingId(int following, int follower);
 }

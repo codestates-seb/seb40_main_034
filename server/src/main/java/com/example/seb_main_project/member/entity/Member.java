@@ -15,7 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Member {
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(nullable = false)
     private String email;
