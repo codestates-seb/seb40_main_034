@@ -1,6 +1,6 @@
 import instance from './root';
 
-export const getPosts = async () => {
+export const getAllLists = async () => {
   const url = '/';
   try {
     const result = await instance.get(url);

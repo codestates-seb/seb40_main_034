@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import GoUpBtn from '../Components/Common/GoUpBtn';
-import Post from '../Components/Main/Post';
+import ListContainer from '../Components/Main/ListContainer';
 const Main = () => {
   return (
     <>
       <Container>
-        <Post />
+        <ListContainer />
       </Container>
       <GoUpBtn />
     </>
