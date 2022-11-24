@@ -14,7 +14,7 @@ export const setRefreshToken = (refreshToken) => {
 export const getCookieToken = () => {
   return cookies.get('Refresh');
 };
-//emoveCookieToken : Cookie 삭제를 위한 함수. 로그아웃 시 사용
+//removeCookieToken : Cookie 삭제를 위한 함수. 로그아웃 시 사용
 export const removeCookieToken = () => {
   return cookies.remove('Refresh', { sameSite: 'strict', path: '/' });
 };
