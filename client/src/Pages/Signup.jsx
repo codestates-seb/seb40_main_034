@@ -8,6 +8,7 @@ import { setRefreshToken } from '../storage/Cookie';
 
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { validEmail, validNickname, validPw } from '../Api/Valid';
 
 const Signup = () => {
   const [nickname, setNickname] = useState('');
@@ -22,38 +23,23 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const handleNickname = (e) => {
-    let regex = /^[a-z0-9]{7,15}$/g;
     setNickname(e.target.value);
-
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
     }
-    if (regex.test(nickname)) {
-      setNicknameValid(true);
-    } else {
-      setNicknameValid(false);
-    }
+    setNicknameValid(validNickname(nickname));
   };
 
   // email 유효성 검사 결과
   const handleEmail = (e) => {
-    let regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     setEmail(e.target.value);
-    if (regex.test(email)) {
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
+    setEmailValid(validEmail(email));
   };
+
   // password 유효성 검사 결과
   const handlePw = (e) => {
-    let regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
     setPw(e.target.value);
-    if (regex.test(pw)) {
-      setPwValid(true);
-    } else {
-      setPwValid(false);
-    }
+    setPwValid(validPw(pw));
   };
 
   const handleSignup = (e) => {
@@ -136,6 +122,8 @@ const Signup = () => {
     </div>
   );
 };
+
+//styledComponent
 const PageContainer = styled.div`
   width: 100%;
   height: 54rem;

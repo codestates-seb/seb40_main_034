@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { InputForm } from '../Components/Common/InputForm';
+import { validEmail, validPw } from '../Api/Valid';
 
 import { loginUser } from '../Api/LoginApi';
 import { setRefreshToken } from '../storage/Cookie';
@@ -19,25 +19,17 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   // email 유효성 검사 결과
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-    if (regex.test(email)) {
-      setEmailValid(true);
-    } else {
-      setEmailValid(false);
-    }
+    setEmailValid(validEmail(email));
   };
+
   // password 유효성 검사 결과
   const handlePw = (e) => {
     setPw(e.target.value);
-    const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
-    if (regex.test(pw)) {
-      return setPwValid(true);
-    } else {
-      return setPwValid(false);
-    }
+    setPwValid(validPw(pw));
   };
 
   const handleSubmit = () => {
@@ -95,17 +87,6 @@ const Login = () => {
     </div>
   );
 };
-const Newinput = styled(InputForm)`
-  width: 25rem;
-  height: 2.5rem;
-  margin-top: 2rem;
-  border-radius: 0.5rem;
-  text-indent: 10px;
-  outline: solid 0.125rem #dddddd;
-  &:focus {
-    outline: solid 0.2rem #91f841;
-  }
-`;
 
 const PageContainer = styled.div`
   width: 100%;
