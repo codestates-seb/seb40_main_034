@@ -16,6 +16,7 @@ const Container = styled.div`
   width: calc(100vw - 14rem);
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export default Post;
