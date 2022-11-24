@@ -33,7 +33,7 @@ const Sidebar = ({ followlist }) => {
 const Container = styled.div`
   padding: 0 1rem 0 1rem;
   width: 12rem;
-  height: 100vh;
+  height: calc(100vh - 4rem);
   h1 {
     font-weight: 500;
     font-size: 0.9rem;
