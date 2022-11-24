@@ -14,6 +14,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
+  const [nicknameValid, setNicknameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
 
@@ -21,16 +22,22 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const handleNickname = (e) => {
+    let regex = /^[a-z0-9]{7,15}$/g;
     setNickname(e.target.value);
+
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
+    }
+    if (regex.test(nickname)) {
+      setNicknameValid(true);
+    } else {
+      setNicknameValid(false);
     }
   };
 
   // email 유효성 검사 결과
   const handleEmail = (e) => {
-    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-
+    let regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     setEmail(e.target.value);
     if (regex.test(email)) {
       setEmailValid(true);
@@ -40,8 +47,7 @@ const Signup = () => {
   };
   // password 유효성 검사 결과
   const handlePw = (e) => {
-    const regex = /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$/;
-
+    let regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
     setPw(e.target.value);
     if (regex.test(pw)) {
       setPwValid(true);
@@ -52,7 +58,7 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-
+    console.log(nicknameValid);
     //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!nickname) {
       return alert('Nickname을 입력하세요');
@@ -63,7 +69,7 @@ const Signup = () => {
     }
 
     //모두 valid하다면 axios.post를 보낸다
-    if (nickname && emailValid && pwValid) {
+    if (nicknameValid && emailValid && pwValid) {
       const registerBody = {
         email,
         pw,
@@ -95,6 +101,11 @@ const Signup = () => {
               value={nickname}
               onChange={handleNickname}
               placeholder="Enter your Nickname"></SignupInput>
+            <div>
+              {!nicknameValid && nickname.length > 0 && (
+                <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
+              )}
+            </div>
             <SignupInput
               type="email"
               name="email"
@@ -196,11 +207,11 @@ const ErrorEmail = styled.div`
   margin-top: 0.5rem;
   margin-right: 14rem;
 `;
-const ErrorPw = styled.div`
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
+const ErrorPw = styled(ErrorEmail)`
   margin-right: 4rem;
+`;
+const ErrorNickname = styled(ErrorEmail)`
+  margin-right: 5rem;
 `;
 
 export default Signup;
