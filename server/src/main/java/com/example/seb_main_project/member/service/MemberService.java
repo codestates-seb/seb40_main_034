@@ -1,7 +1,7 @@
 package main.java.com.example.seb_main_project.member.service;
 
+import com.example.seb_main_project.member.entity.Member;
 
-
-
-public class MemberService {
+public interface MemberService {
+    Member createMember(Member member);
 }

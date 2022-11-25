@@ -1,5 +1,7 @@
 HELP.md
 *.yml
+!appspec.yml
+!buildspec.yml
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

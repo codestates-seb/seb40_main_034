@@ -2,13 +2,12 @@ package com.example.seb_main_project.exception;
 
 import lombok.Getter;
 
-public class BusinessLogicException extends RuntimeException{
-
+public class BusinessLogicException extends RuntimeException {
     @Getter
-    private ExceptionCode exceptionCode;
+    private final ExceptionCode exceptionCode;
 
     public BusinessLogicException(ExceptionCode exceptionCode) {
-        super(exceptionCode.getMessage();
+        super(exceptionCode.getMessage());
         this.exceptionCode = exceptionCode;
     }
 }
