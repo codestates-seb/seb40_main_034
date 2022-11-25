@@ -8,13 +8,11 @@ import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 
-import { loginUser } from '../Api/LoginApi';
-import { setRefreshToken } from '../storage/Cookie';
-import { SET_TOKEN } from '../Store/Auth';
+import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
+  const [password, setPassword] = useState('');
 
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
@@ -31,31 +29,45 @@ const Login = () => {
 
   // password 유효성 검사 결과
   const handlePw = (e) => {
-    setPw(e.target.value);
-    setPwValid(validPw(pw));
+    setPassword(e.target.value);
+    setPwValid(validPw(password));
   };
 
-  const handleSubmit = () => {
-    console.log(localStorage.length);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!email) {
       return alert('email을 입력하세요.');
-    } else if (!pw) {
+    } else if (!password) {
       return alert('Password를 입력하세요.');
     }
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
       axios
-        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/login', { email, pw })
+        .post('/member/login', {
+          email,
+          password,
+        })
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 200) {
+            const accessToken = res.data.accessToken;
+            const cookieEmail = res.data.email;
+            const cookieNickname = res.data.nickname;
+            setCookieToken(accessToken);
+            setCookieNickname(cookieNickname);
+            setCookieEmail(cookieEmail);
             navigate('/');
-            console.log(res.data);
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            alert('이메일 혹은 비밀번호를 확인해주세요.');
           }
         });
     }
   };
+  //비밀번호안보이게하는toggle
   const togglePass = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
@@ -63,7 +75,7 @@ const Login = () => {
   return (
     <div>
       <PageContainer>
-        <form action="login_process" method="post" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <LoginContainer>
             <LogoDiv />
             <LoginInput
@@ -77,13 +89,15 @@ const Login = () => {
               <LoginInput
                 type={showPassword ? 'password' : 'text'}
                 name="loginPassword"
-                value={pw}
+                value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></LoginInput>
               {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
             </Pw>
             <div>
-              {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
+              {!pwValid && password.length > 0 && (
+                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+              )}
             </div>
             <LoginButton text="Log in" type="submit" />
             <div>
@@ -174,6 +188,7 @@ const ErrorPw = styled.div`
   margin-top: 0.5rem;
   margin-right: 4rem;
 `;
+//비밀번호안보이게하는버튼
 const Pw = styled.div`
   position: relative;
 `;
