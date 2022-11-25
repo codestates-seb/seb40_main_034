@@ -1,6 +1,6 @@
 import { Container } from '../Components/MyPage/MyInfo/style';
 import EditDetail from '../Components/EditDetail/EditDetail';
-const Edit = () => {
+const MypageEdit = () => {
   return (
     <Container>
       <div className="edititem">
@@ -10,4 +10,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default MypageEdit;
