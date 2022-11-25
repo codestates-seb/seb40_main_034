@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { GreenBtn } from '../Components/Common/Btn';
-import { setRefreshToken } from '../storage/Cookie';
 
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -13,7 +12,7 @@ import { validEmail, validNickname, validPw } from '../Api/Valid';
 const Signup = () => {
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
+  const [password, setPassword] = useState('');
 
   const [nicknameValid, setNicknameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
@@ -38,8 +37,8 @@ const Signup = () => {
 
   // password 유효성 검사 결과
   const handlePw = (e) => {
-    setPw(e.target.value);
-    setPwValid(validPw(pw));
+    setPassword(e.target.value);
+    setPwValid(validPw(password));
   };
 
   const handleSignup = (e) => {
@@ -49,7 +48,7 @@ const Signup = () => {
       return alert('Nickname을 입력하세요');
     } else if (!email) {
       return alert('Email을 입력하세요.');
-    } else if (!pw) {
+    } else if (!password) {
       return alert('Password를 입력하세요.');
     }
 
@@ -57,18 +56,19 @@ const Signup = () => {
     if (nicknameValid && emailValid && pwValid) {
       const registerBody = {
         email,
-        pw,
+        password,
         nickname,
       };
-      console.log(registerBody);
       axios
-        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
+        .post('/member/signup', registerBody)
         .then((res) => {
-          alert('회원가입에 성공했습니다.');
-          navigate('/login');
+          if (res.status === 201) {
+            alert('회원가입에 성공했습니다.로그인 해 주세요.');
+            navigate('/login');
+          }
         })
         .catch((Error) => {
-          alert('작성하신 아이디, 비밀번호, 이메일, 닉네임을 하단 설명에 맞추어 작성해 주시기 바랍니다.');
+          alert('회원가입에 실패했습니다.');
         });
       console.log(Error);
     }
@@ -106,13 +106,15 @@ const Signup = () => {
               <SignupInput
                 type={showPassword ? 'password' : 'text'}
                 name="password"
-                value={pw}
+                value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></SignupInput>
               {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
             </Pw>
             <div>
-              {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
+              {!pwValid && password.length > 0 && (
+                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+              )}
             </div>
             <SignupButton type="submit" text="Sign up" />
             <div>
