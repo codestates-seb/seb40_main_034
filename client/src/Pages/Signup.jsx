@@ -62,7 +62,7 @@ const Signup = () => {
       axios
         .post('/member/signup', registerBody)
         .then((res) => {
-          if (res.status === 201) {
+          if (res.status === 200 || res.status === 201) {
             alert('회원가입에 성공했습니다.로그인 해 주세요.');
             navigate('/login');
           }
