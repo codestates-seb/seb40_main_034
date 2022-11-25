@@ -1,4 +1,4 @@
-package main.java.com.example.seb_main_project.member.entity;
+package com.example.seb_main_project.member.entity;
 
 import com.example.seb_main_project.audit.Auditable;
 import lombok.Getter;
