@@ -2,7 +2,6 @@ import styled from 'styled-components';
 export const Box = styled.div`
   display: flex;
   width: 350px;
-  height: 100vh;
   align-items: center;
   justify-content: center;
   background-color: white;
@@ -12,13 +11,12 @@ export const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+
   overflow-y: auto;
 `;
 export const MapContainer = styled.div`
   display: flex;
   width: calc(100vw - 14rem);
-  height: 100vh;
   z-index: 1;
 `;
 
@@ -26,7 +24,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   width: calc(100vw - 14rem);
-  height: 100vh;
+  height: calc(100vh - 4rem);
   overflow: hidden;
 `;
 
