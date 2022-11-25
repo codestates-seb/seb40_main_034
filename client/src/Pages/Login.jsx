@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
@@ -11,6 +11,9 @@ import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
 
 const Login = () => {
+  const { authenticated } = useSelector((state) => state.user);
+  console.log(authenticated);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

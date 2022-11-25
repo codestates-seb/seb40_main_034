@@ -1,6 +1,12 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { CookiesProvider } from 'react-cookie';
+import { Provider } from 'react-redux';
+import { store } from '../Store/index';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+export const persistor = persistStore(store);
 
 const Loading = lazy(() => import('../Pages/Loading'));
 const LayoutHS = lazy(() => import('../Pages/LayoutHS'));
@@ -20,22 +26,26 @@ export const AppRouter = () => {
     <CookiesProvider>
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route element={<LayoutHS />}>
-              <Route path="" element={<Main />} />
-              <Route path="mypage" element={<Mypage />} />
-              <Route path="edit" element={<MypageEdit />} />
-              <Route path="detail" element={<Detail />} />
-              <Route path="map" element={<Map />} />
-            </Route>
-            <Route element={<LayoutH />}>
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="logout" element={<Logout />} />
-              <Route path="post" element={<Post />} />
-            </Route>
-            <Route path="*" element={<Navigate to="" replace />} />
-          </Routes>
+          <Provider store={store}>
+            <PersistGate loading={<Loading />} persistor={persistor}>
+              <Routes>
+                <Route element={<LayoutHS />}>
+                  <Route path="" element={<Main />} />
+                  <Route path="mypage" element={<Mypage />} />
+                  <Route path="edit" element={<MypageEdit />} />
+                  <Route path="detail" element={<Detail />} />
+                  <Route path="map" element={<Map />} />
+                </Route>
+                <Route element={<LayoutH />}>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  <Route path="logout" element={<Logout />} />
+                  <Route path="post" element={<Post />} />
+                </Route>
+                <Route path="*" element={<Navigate to="" replace />} />
+              </Routes>
+            </PersistGate>
+          </Provider>
         </Suspense>
       </BrowserRouter>
     </CookiesProvider>
