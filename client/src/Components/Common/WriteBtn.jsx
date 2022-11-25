@@ -1,8 +1,13 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import post_button from '../../Assets/img/post_button.svg';
 
 const WriteBtn = () => {
-  return <Container />;
+  return (
+    <Link to="post">
+      <Container />
+    </Link>
+  );
 };
 const Container = styled.button`
   position: fixed;
