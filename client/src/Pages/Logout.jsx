@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getCookieToken, removeCookieToken } from '../storage/Cookie';
-import { DELETE_TOKEN } from '../Store/Auth';
+import { DELETE_LoginUserInfo } from '../Store/Auth';
 import { requestToken } from '../Api/LoginApi';
 
 function Logout() {
@@ -23,7 +23,7 @@ function Logout() {
 
     if (data.status) {
       // store에 저장된 Access Token 정보를 삭제
-      dispatch(DELETE_TOKEN());
+      dispatch(DELETE_LoginUserInfo());
       // Cookie에 저장된 Refresh Token 정보를 삭제
       removeCookieToken();
       return navigate('/');

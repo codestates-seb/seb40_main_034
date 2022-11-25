@@ -30,6 +30,6 @@ export const tokenSlice = createSlice({
 });
 //SET_TOKEN : Access Token 정보를 저장한다.
 //DELETE_TOKEN : 값을 모두 초기화함으로써 Access Token에 대한 정보도 삭제한다.
-export const { SET_TOKEN, DELETE_TOKEN, SET_TagsInfo } = tokenSlice.actions;
+export const { SET_LoginUserInfo, DELETE_LoginUserInfo, SET_TagsInfo } = tokenSlice.actions;
 
 export default tokenSlice.reducer;
