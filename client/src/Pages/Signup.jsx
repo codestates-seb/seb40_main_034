@@ -18,7 +18,7 @@ const Signup = () => {
   const [nicknameValid, setNicknameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,7 +44,6 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    console.log(nicknameValid);
     //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!nickname) {
       return alert('Nickname을 입력하세요');
@@ -74,6 +73,10 @@ const Signup = () => {
       console.log(Error);
     }
   };
+  const togglePass = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div>
@@ -99,12 +102,15 @@ const Signup = () => {
               onChange={handleEmail}
               placeholder="Enter your email"></SignupInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-            <SignupInput
-              type="password"
-              name="password"
-              value={pw}
-              onChange={handlePw}
-              placeholder="Enter your password"></SignupInput>
+            <Pw>
+              <SignupInput
+                type={showPassword ? 'password' : 'text'}
+                name="password"
+                value={pw}
+                onChange={handlePw}
+                placeholder="Enter your password"></SignupInput>
+              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+            </Pw>
             <div>
               {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
             </div>
@@ -201,5 +207,23 @@ const ErrorPw = styled(ErrorEmail)`
 const ErrorNickname = styled(ErrorEmail)`
   margin-right: 5rem;
 `;
-
+const Pw = styled.div`
+  position: relative;
+`;
+const PwShow = styled(Openeye)`
+  position: absolute;
+  top: 36px;
+  left: 361px;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+`;
+const PwNoshow = styled(Closedeye)`
+  position: absolute;
+  top: 36px;
+  left: 361px;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+`;
 export default Signup;

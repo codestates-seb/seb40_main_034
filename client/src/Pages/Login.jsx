@@ -5,6 +5,8 @@ import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
+import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
+import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 
 import { loginUser } from '../Api/LoginApi';
 import { setRefreshToken } from '../storage/Cookie';
@@ -16,6 +18,7 @@ const Login = () => {
 
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,13 +46,19 @@ const Login = () => {
     }
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
-      axios.post('http://localhost:8080/login', { email, pw }).then((res) => {
-        if (res.status === 201) {
-          navigate('/');
-          console.log(res.data);
-        }
-      });
+      axios
+        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/login', { email, pw })
+        .then((res) => {
+          if (res.status === 201) {
+            navigate('/');
+            console.log(res.data);
+          }
+        });
     }
+  };
+  const togglePass = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
   };
   return (
     <div>
@@ -64,12 +73,15 @@ const Login = () => {
               onChange={handleEmail}
               placeholder="Enter your email"></LoginInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
-            <LoginInput
-              type="password"
-              name="loginPassword"
-              value={pw}
-              onChange={handlePw}
-              placeholder="Enter your password"></LoginInput>
+            <Pw>
+              <LoginInput
+                type={showPassword ? 'password' : 'text'}
+                name="loginPassword"
+                value={pw}
+                onChange={handlePw}
+                placeholder="Enter your password"></LoginInput>
+              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+            </Pw>
             <div>
               {!pwValid && pw.length > 0 && <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>}
             </div>
@@ -162,5 +174,25 @@ const ErrorPw = styled.div`
   margin-top: 0.5rem;
   margin-right: 4rem;
 `;
-
+const Pw = styled.div`
+  position: relative;
+`;
+const PwShow = styled(Openeye)`
+  position: absolute;
+  top: 36px;
+  left: 361px;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  color: #dddddd;
+`;
+const PwNoshow = styled(Closedeye)`
+  position: absolute;
+  top: 36px;
+  left: 361px;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  color: #dddddd;
+`;
 export default Login;
