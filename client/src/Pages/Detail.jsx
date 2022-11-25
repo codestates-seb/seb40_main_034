@@ -70,6 +70,8 @@ function Detail() {
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
+  // 수정 페이지
+  const [isModify, setIsModify] = useState(false);
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
@@ -79,7 +81,7 @@ function Detail() {
   // 글자수 제한
   const textLimit = useRef(200);
 
-  // 뒤로가기 앞으로 가기 버튼
+  // 이미지 뒤로가기 앞으로 가기 버튼
   const prevImg = () => {
     setImgIdx(imgIdx === 0 ? imgS.length - 1 : imgIdx - 1);
   };
@@ -264,12 +266,25 @@ function Detail() {
                 </form>
               </D_CommentDesc>
               <D_BottomDesc>
-                <button onClick={confirmDelete} className="delete">
-                  <span>삭제</span>
-                </button>
-                <button>
-                  <span>수정</span>
-                </button>
+                {!isModify ? (
+                  <>
+                    <button onClick={confirmDelete} className="delete">
+                      <span>삭제</span>
+                    </button>
+                    <button onClick={() => setIsModify(true)}>
+                      <span>수정</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={confirmDelete} className="modify">
+                      <span>완료</span>
+                    </button>
+                    <button onClick={() => setIsModify(false)}>
+                      <span>취소</span>
+                    </button>
+                  </>
+                )}
               </D_BottomDesc>
             </D_CommentBottomDesc>
           </D_BodySection>
@@ -492,6 +507,9 @@ const D_BottomDesc = styled.div`
     cursor: pointer;
     &.delete {
       color: red;
+    }
+    &.modify {
+      color: blue;
     }
     span {
       margin-left: 1.2rem;
