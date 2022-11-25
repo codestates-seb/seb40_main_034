@@ -1,4 +1,4 @@
-package com.example.seb_main_project.member.mapper;
+package main.java.com.example.seb_main_project.member.mapper;
 
 import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.entity.Member;
