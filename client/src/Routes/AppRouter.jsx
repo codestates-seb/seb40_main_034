@@ -11,11 +11,12 @@ const Signup = lazy(() => import('../Pages/Signup'));
 const Detail = lazy(() => import('../Pages/Detail'));
 const Mypage = lazy(() => import('../Pages/Mypage'));
 const Map = lazy(() => import('../Pages/Map'));
-const Edit = lazy(() => import('../Pages/Edit'));
+const MypageEdit = lazy(() => import('../Pages/MypageEdit'));
 const Logout = lazy(() => import('../Pages/Logout'));
 
 export const AppRouter = () => {
   return (
+
     <CookiesProvider>
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
@@ -37,5 +38,6 @@ export const AppRouter = () => {
         </Suspense>
       </BrowserRouter>
     </CookiesProvider>
+
   );
 };
