@@ -21,7 +21,7 @@ public class FollowController {
     @Autowired
     private MemberRepository memberRepository;
 
-    @PostMapping("/follow/{id}")
+    @PostMapping("/follow/{member-id}/")
     public String follow(@PathVariable Integer id, @AuthenticationPrincipal CustomUserDetails userDetail) {
 
         Optional<Member> optionalToMember = memberRepository.findById(id);
@@ -38,7 +38,7 @@ public class FollowController {
         return "ok";
     }
 
-    @PostMapping("/unFollow/{id}")
+    @PostMapping("/unFollow/{member-id}")
     public String unFollow(@PathVariable Integer id, @AuthenticationPrincipal CustomUserDetails userDetail) {
         Optional<Member> optionalToMember = memberRepository.findById(id);
         Member follower = userDetail.getMember();

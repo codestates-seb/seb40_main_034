@@ -23,7 +23,7 @@ public class MemberController {
     @Autowired
     private MemberRepository memberRepository;
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/member/{id}")
     public String userDetail(@PathVariable int id, Model model, @AuthenticationPrincipal CustomUserDetails userDetail) {
         Optional<Member> member0 = memberRepository.findById(userDetail.getMember().getId());
         System.out.println("email:" + userDetail.getUsername());
@@ -60,6 +60,6 @@ public class MemberController {
         model.addAttribute("followerCount", followerCount);
         model.addAttribute("followingList", followingList);
         model.addAttribute("followerList", followerList);
-        return "/user/user";
+        return "/member/member";
     }
 }
