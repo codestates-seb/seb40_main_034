@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const FollowList = ({ profileImg, nickname, userId }) => {
+const FollowList = ({ profileImg, nickname, userId, className }) => {
   const link = userId ? `/mypage/${userId}` : '/';
   return (
     <Link to={link}>
-      <Conatiner>
+      <Conatiner className={className}>
         <Profile />
         <Id>{nickname ? nickname : 'nickname'}</Id>
       </Conatiner>

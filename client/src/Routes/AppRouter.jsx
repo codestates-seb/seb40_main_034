@@ -6,6 +6,7 @@ const Loading = lazy(() => import('../Pages/Loading'));
 const LayoutHS = lazy(() => import('../Pages/LayoutHS'));
 const LayoutH = lazy(() => import('../Pages/LayoutH'));
 const Main = lazy(() => import('../Pages/Main'));
+const Post = lazy(() => import('../Pages/Post'));
 const Login = lazy(() => import('../Pages/Login'));
 const Signup = lazy(() => import('../Pages/Signup'));
 const Detail = lazy(() => import('../Pages/Detail'));
@@ -16,7 +17,6 @@ const Logout = lazy(() => import('../Pages/Logout'));
 
 export const AppRouter = () => {
   return (
-
     <CookiesProvider>
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
@@ -24,7 +24,7 @@ export const AppRouter = () => {
             <Route element={<LayoutHS />}>
               <Route path="" element={<Main />} />
               <Route path="mypage" element={<Mypage />} />
-              <Route path="edit" element={<Edit />} />
+              <Route path="edit" element={<MypageEdit />} />
               <Route path="detail" element={<Detail />} />
               <Route path="map" element={<Map />} />
             </Route>
@@ -32,12 +32,12 @@ export const AppRouter = () => {
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="logout" element={<Logout />} />
+              <Route path="post" element={<Post />} />
             </Route>
             <Route path="*" element={<Navigate to="" replace />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
     </CookiesProvider>
-
   );
 };
