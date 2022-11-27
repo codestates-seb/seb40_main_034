@@ -198,7 +198,7 @@ const WelcomeStr = styled.div`
   font-weight: 700;
 `;
 const ErrorEmail = styled.div`
-  color: red;
+  color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
   margin-right: 14rem;

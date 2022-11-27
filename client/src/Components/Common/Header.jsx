@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { InputForm } from './InputForm';
+import { Link } from 'react-router-dom';
 import Tab from './Tab';
 export const Header = () => {
   return (
     <Container>
       <LeftContainer>
-        <Logo>LOGO</Logo>
+        <Logo>
+          <Link to="/">LOGO</Link>
+        </Logo>
         <InputForm />
       </LeftContainer>
       <RightContainer>

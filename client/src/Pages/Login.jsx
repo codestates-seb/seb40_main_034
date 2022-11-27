@@ -12,7 +12,6 @@ import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Co
 
 const Login = () => {
   const { authenticated } = useSelector((state) => state.user);
-  console.log(authenticated);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -180,15 +179,12 @@ const WelcomeStr = styled.div`
   font-weight: 700;
 `;
 const ErrorEmail = styled.div`
-  color: red;
+  color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
   margin-right: 14rem;
 `;
-const ErrorPw = styled.div`
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
+const ErrorPw = styled(ErrorEmail)`
   margin-right: 4rem;
 `;
 //비밀번호안보이게하는버튼
