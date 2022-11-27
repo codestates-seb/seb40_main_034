@@ -15,13 +15,12 @@ import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
 import { getFollowing } from '../../../Api/MyinfoApi';
 
-const MyInfo = () => {
+const MyInfo = ({ setUserProfile, userProfile, memberId, authenticated, nickname, id }) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [shareModal, setShareModal] = useState(false);
   const [select, setSelect] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userProfile, setUserProfile] = useState('');
+  const [isMyPage, setIsMyPage] = useState(false);
   const url = window.location.href;
 
   // follow 모달
@@ -51,22 +50,16 @@ const MyInfo = () => {
     // edit 화면 이동
     navigate('/edit');
   };
-
-  useEffect(() => {
-    getFollowing().then((res) => {
-      console.log(res);
-      setUserName(res[0].nickname);
-      setUserProfile(res[0].profileImg);
-    });
-  }, []);
-
+  if (memberId === id) {
+    setIsMyPage(true);
+  }
   return (
     <MyContainer>
       <ProfileContainer>
         <ProfilePic>
           <img src={userProfile} alt="UserPic" />
         </ProfilePic>
-        <div className="nickname-text">{userName}</div>
+        <div className="nickname-text">{nickname}</div>
       </ProfileContainer>
       <FollowContainer>
         <FollowingBtn onClick={openModalFollowing}>
@@ -80,11 +73,13 @@ const MyInfo = () => {
 
         {modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
       </FollowContainer>
-      <InfoContainer>
-        <ShareBtn onClick={copyUrl}>Share</ShareBtn>
-        {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
-        <EditBtn onClick={navigateEdit}>Edit</EditBtn>
-      </InfoContainer>
+      {isMyPage ? (
+        <InfoContainer>
+          <ShareBtn onClick={copyUrl}>Share</ShareBtn>
+          {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
+          <EditBtn onClick={navigateEdit}>Edit</EditBtn>
+        </InfoContainer>
+      ) : null}
     </MyContainer>
   );
 };

@@ -70,3 +70,20 @@ export const deleteUser = async (id) => {
     return err;
   }
 };
+
+export const getUserBookmark = async (id) => {
+  try {
+    const res = await instance.get(`member/${id}/bookmark`);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
+export const getUserArticle = async (id) => {
+  try {
+    const res = await instance.get(`member/${id}/article`);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
