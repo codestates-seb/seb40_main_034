@@ -7,14 +7,12 @@ import { useEffect, useState } from 'react';
 import { getUserInfo } from '../Api/MyinfoApi';
 const Mypage = () => {
   const { authenticated, memberId, nickname } = useSelector(
-    (state) => (
-      {
-        authenticated: state.user.authenticated,
-        memberId: state.user.memberId,
-        nickname: state.user.nickname,
-      },
-      shallowEqual
-    ),
+    (state) => ({
+      authenticated: state.user.authenticated,
+      memberId: state.user.memberId,
+      nickname: state.user.nickname,
+    }),
+    shallowEqual,
   );
   const [userProfile, setUserProfile] = useState('');
   let { id } = useParams;

@@ -20,7 +20,7 @@ const Mypage = lazy(() => import('../Pages/Mypage'));
 const Map = lazy(() => import('../Pages/Map'));
 const MypageEdit = lazy(() => import('../Pages/MypageEdit'));
 const Logout = lazy(() => import('../Pages/Logout'));
-
+const PrivateRoute = lazy(() => import('../Utils/PrivateRoute'));
 export const AppRouter = () => {
   return (
     <CookiesProvider>
@@ -32,7 +32,7 @@ export const AppRouter = () => {
                 <Route element={<LayoutHS />}>
                   <Route path="" element={<Main />} />
                   <Route path="mypage" element={<Mypage />} />
-                  <Route path="edit" element={<MypageEdit />} />
+                  <Route path="edit" element={<PrivateRoute component={<MypageEdit />} />} />
                   <Route path="detail" element={<Detail />} />
                   <Route path="map" element={<Map />} />
                 </Route>

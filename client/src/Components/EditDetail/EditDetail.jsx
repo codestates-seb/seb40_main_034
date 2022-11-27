@@ -16,17 +16,17 @@ import { useState, useEffect, useRef } from 'react';
 import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
 
-const EditDetail = () => {
+const EditDetail = ({ memberId, profileImg }) => {
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
   const [file, setFile] = useState('');
   const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
-  const [defaultImg, setDefaultImg] = useState(null);
+  const [defaultImg, setDefaultImg] = useState(profileImg);
   const initialInfo = {
     nickname: '',
     password: '',
-    profileImg: '',
+    profileImg: defaultImg,
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
 
@@ -69,9 +69,10 @@ const EditDetail = () => {
   useEffect(() => {
     if (file !== '') setPreview(<img src={previewURL} alt="preview" />);
     return () => {
-      getFollowInfo().then((res) => {
-        setDefaultImg(<img src={res[0].profileImg} alt="UserPic" />);
-      });
+      // getFollowInfo().then((res) => {
+      //   setDefaultImg(<img src={res[0].profileImg} alt="UserPic" />);
+      // });
+      setDefaultImg(<img src={defaultImg} alt="UserPic" />);
     };
   }, [previewURL]);
 
