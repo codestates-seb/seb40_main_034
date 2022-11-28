@@ -68,6 +68,8 @@ const Login = () => {
                 nickname: cookieNickname,
               }),
             );
+            const counter = useSelector((s) => s);
+            console.log(counter);
             navigate('/');
           }
         })
