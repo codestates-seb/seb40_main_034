@@ -68,7 +68,6 @@ const Login = () => {
                 nickname: cookieNickname,
               }),
             );
-            console.log();
             navigate('/');
           }
         })
