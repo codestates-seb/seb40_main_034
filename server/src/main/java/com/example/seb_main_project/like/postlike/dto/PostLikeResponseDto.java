@@ -1,7 +1,6 @@
 package com.example.seb_main_project.like.postlike.dto;
 
 
-import com.example.seb_main_project.post.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PostLikeDto {
+public class PostLikeResponseDto {
 
     private long likeCount;
     private Boolean isVoted;

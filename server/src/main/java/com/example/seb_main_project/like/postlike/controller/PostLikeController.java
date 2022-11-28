@@ -1,6 +1,7 @@
 package com.example.seb_main_project.like.postlike.controller;
 
 
+import com.example.seb_main_project.like.postlike.dto.PostLikeResponseDto;
 import com.example.seb_main_project.like.postlike.service.PostLikeService;
 import com.example.seb_main_project.post.service.PostService;
 import lombok.RequiredArgsConstructor;
