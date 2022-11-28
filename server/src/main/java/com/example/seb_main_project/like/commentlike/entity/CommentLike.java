@@ -1,6 +1,7 @@
 package com.example.seb_main_project.like.commentlike.entity;
 
 
+import com.example.seb_main_project.comment.entity.Comment;
 import lombok.*;
 
 import javax.persistence.*;

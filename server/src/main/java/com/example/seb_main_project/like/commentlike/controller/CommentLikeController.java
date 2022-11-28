@@ -1,5 +1,6 @@
 package com.example.seb_main_project.like.commentlike.controller;
 
+import com.example.seb_main_project.comment.service.CommentService;
 import com.example.seb_main_project.like.commentlike.dto.CommentLikeResponseDto;
 import com.example.seb_main_project.like.commentlike.service.CommentLikeService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class CommentLikeController {
     public ResponseEntity commentLikeComment(@PathVariable("comment-id") Long commentId){
         boolean isVoted;
         isVoted = commentLikeService.commentLike(commentId);
-        long likeCount = commentService.findComment(commentId).getLikeCount();
+        long likeCount = commentService.showComment(commentId).getLikeCount();
         CommentLikeResponseDto commentLikeResponseDto = new CommentLikeResponseDto(likeCount, isVoted);
 
         return new ResponseEntity(commentLikeResponseDto, HttpStatus.OK);

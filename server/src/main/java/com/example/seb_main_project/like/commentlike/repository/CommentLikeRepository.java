@@ -1,6 +1,7 @@
 package com.example.seb_main_project.like.commentlike.repository;
 
 
+import com.example.seb_main_project.comment.entity.Comment;
 import com.example.seb_main_project.like.commentlike.entity.CommentLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 

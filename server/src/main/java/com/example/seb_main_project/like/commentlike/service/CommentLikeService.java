@@ -1,6 +1,8 @@
 package com.example.seb_main_project.like.commentlike.service;
 
 
+import com.example.seb_main_project.comment.entity.Comment;
+import com.example.seb_main_project.comment.service.CommentService;
 import com.example.seb_main_project.like.commentlike.entity.CommentLike;
 import com.example.seb_main_project.like.commentlike.repository.CommentLikeRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +46,8 @@ public class CommentLikeService {
                 () -> {
                     CommentLike commentLike = CommentLike.builder().build();
 
-                    commentLike.setComment(findComment);
-                    commentLike.setMember(findMember);
+                    commentLike.setComment(showComment);
+                    commentLike.setMember(showMember);
                     findComment.updateLikeCount();
 
                     commentLikeRepository.save(commentLike);
