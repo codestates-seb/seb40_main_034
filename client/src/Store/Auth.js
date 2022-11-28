@@ -11,8 +11,8 @@ export const tokenSlice = createSlice({
   },
   reducers: {
     SET_LoginUserInfo: (state, action) => {
-      state.authenticated = true;
       state.memberId = action.payload.memberId;
+      state.authenticated = true;
       state.email = action.payload.email;
       state.nickname = action.payload.nickname;
     },

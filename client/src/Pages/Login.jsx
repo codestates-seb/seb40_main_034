@@ -12,7 +12,6 @@ import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Co
 
 const Login = () => {
   const { authenticated } = useSelector((state) => state.user);
-  console.log(authenticated);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -99,7 +98,7 @@ const Login = () => {
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
-                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자(!@#$%^&*)를 포함합니다</ErrorPw>
               )}
             </div>
             <LoginButton text="Log in" type="submit" />
@@ -180,16 +179,13 @@ const WelcomeStr = styled.div`
   font-weight: 700;
 `;
 const ErrorEmail = styled.div`
-  color: red;
+  color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
   margin-right: 14rem;
 `;
-const ErrorPw = styled.div`
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  margin-right: 4rem;
+const ErrorPw = styled(ErrorEmail)`
+  margin-right: -1rem;
 `;
 //비밀번호안보이게하는버튼
 const Pw = styled.div`
