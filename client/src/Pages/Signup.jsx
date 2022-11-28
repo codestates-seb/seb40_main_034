@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { GreenBtn } from '../Components/Common/Btn';
-
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { validEmail, validNickname, validPw } from '../Api/Valid';
@@ -55,16 +54,17 @@ const Signup = () => {
     //모두 valid하다면 axios.post를 보낸다
     if (nicknameValid && emailValid && pwValid) {
       const registerBody = {
-        email,
-        password,
-        nickname,
+        email: email,
+        password: password,
+        nickname: nickname,
       };
       axios
-        .post('/member/signup', registerBody)
+        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
             alert('회원가입에 성공했습니다.로그인 해 주세요.');
             navigate('/login');
+            console.log(res.data);
           }
         })
         .catch((Error) => {
