@@ -6,6 +6,7 @@ import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
 import { useConfirm } from '../Api/DetailApi';
+import DetailModal from '../Components/Detail/DetailModal';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -70,8 +71,9 @@ function Detail() {
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
-  // 수정 페이지
-  const [isModify, setIsModify] = useState(false);
+  // edit modal
+  const [isEdit, setIsEdit] = useState(false);
+  console.log(isEdit);
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
@@ -266,25 +268,13 @@ function Detail() {
                 </form>
               </D_CommentDesc>
               <D_BottomDesc>
-                {!isModify ? (
-                  <>
-                    <button onClick={confirmDelete} className="delete">
-                      <span>삭제</span>
-                    </button>
-                    <button onClick={() => setIsModify(true)}>
-                      <span>수정</span>
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={confirmDelete} className="modify">
-                      <span>완료</span>
-                    </button>
-                    <button onClick={() => setIsModify(false)}>
-                      <span>취소</span>
-                    </button>
-                  </>
-                )}
+                <button onClick={confirmDelete} className="delete">
+                  <span>삭제</span>
+                </button>
+                <button onClick={() => setIsEdit(true)}>
+                  <span>수정</span>
+                </button>
+                {isEdit && <DetailModal setIsEdit={setIsEdit} />}
               </D_BottomDesc>
             </D_CommentBottomDesc>
           </D_BodySection>
@@ -502,7 +492,7 @@ const D_CommentListContainer = styled.div`
 
 const D_BottomDesc = styled.div`
   margin-top: 8px;
-  button {
+  > button {
     float: right;
     cursor: pointer;
     &.delete {
