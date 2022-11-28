@@ -9,15 +9,15 @@ import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
-
+import { SET_LoginUserInfo } from '../Store/Auth';
 const Login = () => {
   const { authenticated } = useSelector((state) => state.user);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [emailValid, setEmailValid] = useState(false);
-  const [pwValid, setPwValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(true);
+  const [pwValid, setPwValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
@@ -26,18 +26,18 @@ const Login = () => {
   // email 유효성 검사 결과
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setEmailValid(validEmail(email));
   };
 
   // password 유효성 검사 결과
   const handlePw = (e) => {
     setPassword(e.target.value);
-    setPwValid(validPw(password));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setEmailValid(validEmail(email));
+    setPwValid(validPw(password));
     //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!email) {
       return alert('email을 입력하세요.');
@@ -59,6 +59,16 @@ const Login = () => {
             setCookieToken(accessToken);
             setCookieNickname(cookieNickname);
             setCookieEmail(cookieEmail);
+
+            dispatch(
+              SET_LoginUserInfo({
+                memberId: res.data.memberId,
+                authenticated: true,
+                email: cookieEmail,
+                nickname: cookieNickname,
+              }),
+            );
+            console.log();
             navigate('/');
           }
         })
