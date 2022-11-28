@@ -21,6 +21,7 @@ public class AuthDto {
     @Getter
     @Builder
     public static class Response {
+        private String memberId;
         private String accessToken;
         private String nickname;
         private String email;
