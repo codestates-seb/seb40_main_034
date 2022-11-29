@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
-
+import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
 import { SET_LoginUserInfo } from '../Store/Auth';
 const Login = () => {
@@ -43,9 +43,9 @@ const Login = () => {
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
       axios
-        .post('/member/login', {
-          email,
-          password,
+        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/login', {
+          email: email,
+          password: password,
         })
         .then((res) => {
           if (res.status === 200) {
@@ -56,16 +56,9 @@ const Login = () => {
             setCookieNickname(cookieNickname);
             setCookieEmail(cookieEmail);
 
-            dispatch(
-              SET_LoginUserInfo({
-                memberId: res.data.memberId,
-                authenticated: true,
-                email: cookieEmail,
-                nickname: cookieNickname,
-              }),
-            );
-            const counter = useSelector((s) => s);
-            console.log(counter);
+            dispatch(setLoginUserInfo(res.data));
+            console.log(res.data);
+
             navigate('/');
           }
         })

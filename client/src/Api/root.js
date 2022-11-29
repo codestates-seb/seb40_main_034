@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// const root = process.env.SERVER_URL;
-
-const root = 'http://localhost:8080';
+// const root = process.env.REACT_APP_SERVER_ROOT_TEST;
+const root = process.env.REACT_APP_SERVER_ROOT;
 
 const axiosConfig = {
   headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -10,6 +9,6 @@ const axiosConfig = {
 };
 
 const instance = axios.create(axiosConfig);
-instance.defaults.withCredentials = true; // withCredentials 전역 설정
+instance.defaults.withCredentials = true;
 
 export default instance;
