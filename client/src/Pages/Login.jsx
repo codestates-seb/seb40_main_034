@@ -9,36 +9,31 @@ import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
-
+import { SET_LoginUserInfo } from '../Store/Auth';
 const Login = () => {
-  const { authenticated } = useSelector((state) => state.user);
-  console.log(authenticated);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [emailValid, setEmailValid] = useState(false);
-  const [pwValid, setPwValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(true);
+  const [pwValid, setPwValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // email 유효성 검사 결과
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setEmailValid(validEmail(email));
   };
 
-  // password 유효성 검사 결과
   const handlePw = (e) => {
     setPassword(e.target.value);
-    setPwValid(validPw(password));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //email,password 유효성 검사 결과
+    setEmailValid(validEmail(email));
+    setPwValid(validPw(password));
     //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!email) {
       return alert('email을 입력하세요.');
@@ -60,8 +55,10 @@ const Login = () => {
             setCookieToken(accessToken);
             setCookieNickname(cookieNickname);
             setCookieEmail(cookieEmail);
+
             dispatch(setLoginUserInfo(res.data));
             console.log(res.data);
+
             navigate('/');
           }
         })
@@ -101,7 +98,7 @@ const Login = () => {
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
-                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자를 포함합니다</ErrorPw>
+                <ErrorPw>8~24자, 하나 이상의 문자, 숫자 및 특수 문자(!@#$%^&*)를 포함합니다</ErrorPw>
               )}
             </div>
             <LoginButton text="Log in" type="submit" />
@@ -182,16 +179,13 @@ const WelcomeStr = styled.div`
   font-weight: 700;
 `;
 const ErrorEmail = styled.div`
-  color: red;
+  color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
   margin-right: 14rem;
 `;
-const ErrorPw = styled.div`
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  margin-right: 4rem;
+const ErrorPw = styled(ErrorEmail)`
+  margin-right: -1rem;
 `;
 //비밀번호안보이게하는버튼
 const Pw = styled.div`

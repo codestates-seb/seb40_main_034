@@ -10,6 +10,7 @@ export const tokenSlice = createSlice({
     tags: [],
   },
   reducers: {
+
     setLoginUserInfo: (state, action) => ({
       ...state,
       authenticated: true,
@@ -25,6 +26,7 @@ export const tokenSlice = createSlice({
       nickname: null,
     }),
     setTagsInfo: (state, action) => ({
+
       // 추후에 수정
       ...state,
       tags: action.payload.tags,
