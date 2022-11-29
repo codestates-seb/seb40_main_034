@@ -59,9 +59,9 @@ public class PostService {
 
     //[ POST ]: '새로운 게시글을 작성'하는 요청.
     @Transactional
-    public Post createPost(Post post, Long memberId){
+    public Post createPost(Post post, Long nickname){
 
-        Member member = memberRepository.findById(memberId).orElseThrow(()->
+        Member member = memberRepository.findById(nickname).orElseThrow(()->
                 new IllegalArgumentException("글 작성 실패! 없는 사용자입니다."));
 
         post.changeMember(member);
@@ -78,8 +78,6 @@ public class PostService {
 
         Post showPost = showVerifiedPost(post.getPostId());
 
-        Optional.ofNullable(post.getTitle())
-                .ifPresent(title -> showPost.updateTitle(title));
         Optional.ofNullable(post.getContent())
                 .ifPresent(content -> showPost.updateContent(content));
 
