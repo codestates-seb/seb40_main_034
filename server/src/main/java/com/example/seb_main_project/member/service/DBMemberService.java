@@ -39,6 +39,15 @@ public class DBMemberService implements MemberService {
         return memberRepository.save(member);
     }
 
+    @Override
+    public Boolean checkNickname(String nickname) {
+        return verifyExistNickname(nickname);
+    }
+
+    private Boolean verifyExistNickname(String nickname) {
+        return this.memberRepository.findByNickname(nickname).isPresent();
+    }
+
     /**
      * 이메일 정보를 인수로 받아서 리포지토리에 존재하는지 확인하는 메서드
      *

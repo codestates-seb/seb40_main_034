@@ -1,11 +1,13 @@
 package com.example.seb_main_project.member.controller;
 
 import com.example.seb_main_project.member.dto.AuthDto;
+import com.example.seb_main_project.member.dto.ExistNickNameResponseDto;
 import com.example.seb_main_project.member.mapper.MemberMapper;
 import com.example.seb_main_project.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,5 +28,12 @@ public class MemberController {
     @PostMapping("/signup")
     public void joinMember(@RequestBody AuthDto.Join joinDto) {
         memberService.createMember(memberMapper.joinToMemberEntity(joinDto));
+    }
+    @GetMapping("/nickname/check")
+    public ResponseEntity<ExistNickNameResponseDto> checkNickname(
+            @RequestBody AuthDto.NicknameCheck nicknameCheck) {
+        Boolean response = memberService.checkNickname(nicknameCheck.getNickname());
+        return new ResponseEntity<>(
+                memberMapper.booleanToExistNickNameResponseDto(response), HttpStatus.OK);
     }
 }
