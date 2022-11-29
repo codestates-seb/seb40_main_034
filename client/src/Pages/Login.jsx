@@ -9,7 +9,7 @@ import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
-import { SET_LoginUserInfo } from '../Store/Auth';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
