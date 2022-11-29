@@ -11,8 +11,6 @@ import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
 import { SET_LoginUserInfo } from '../Store/Auth';
 const Login = () => {
-  const { authenticated } = useSelector((state) => state.user);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -23,19 +21,17 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // email 유효성 검사 결과
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
 
-  // password 유효성 검사 결과
   const handlePw = (e) => {
     setPassword(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    //email,password 유효성 검사 결과
     setEmailValid(validEmail(email));
     setPwValid(validPw(password));
     //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능

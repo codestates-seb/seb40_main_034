@@ -14,9 +14,9 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [nicknameValid, setNicknameValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
-  const [pwValid, setPwValid] = useState(false);
+  const [nicknameValid, setNicknameValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [pwValid, setPwValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,23 +26,21 @@ const Signup = () => {
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
     }
-    setNicknameValid(validNickname(nickname));
   };
-
-  // email 유효성 검사 결과
   const handleEmail = (e) => {
     setEmail(e.target.value);
-    setEmailValid(validEmail(email));
   };
-
-  // password 유효성 검사 결과
   const handlePw = (e) => {
     setPassword(e.target.value);
-    setPwValid(validPw(password));
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
+
+    //nickname, email,password 유효성 검사 결과
+    setNicknameValid(validNickname(nickname));
+    setEmailValid(validEmail(email));
+    setPwValid(validPw(password));
     //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!nickname) {
       return alert('Nickname을 입력하세요');
@@ -63,7 +61,7 @@ const Signup = () => {
         .post('/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
-            alert('회원가입에 성공했습니다.로그인 해 주세요.');
+            alert('회원가입에 성공했습니다. 로그인 해 주세요.');
             navigate('/login');
           }
         })
@@ -73,6 +71,7 @@ const Signup = () => {
       console.log(Error);
     }
   };
+  //비밀번호안보이게하는toggle
   const togglePass = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
