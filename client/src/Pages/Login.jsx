@@ -50,11 +50,8 @@ const Login = () => {
         .then((res) => {
           if (res.status === 200) {
             const accessToken = res.data.accessToken;
-            const cookieEmail = res.data.email;
-            const cookieNickname = res.data.nickname;
+
             setCookieToken(accessToken);
-            setCookieNickname(cookieNickname);
-            setCookieEmail(cookieEmail);
 
             dispatch(setLoginUserInfo(res.data));
             console.log(res.data);
