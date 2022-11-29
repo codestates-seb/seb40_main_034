@@ -1,6 +1,7 @@
 package com.example.seb_main_project.comment.entity;
 
 import com.example.seb_main_project.like.commentlike.entity.CommentLike;
+import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.post.entity.Post;
 import lombok.*;
 
@@ -8,7 +9,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +20,8 @@ public class Comment extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
+    @Column
+    private String nickname;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -33,7 +35,19 @@ public class Comment extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommentLike> commentLikes = new ArrayList<>();
+
+    @Column
     private long likeCount;
+
+    public void addPost(Post post){
+        this.post = post;
+        if(!this.post.getComments().contains(this)){
+            this.post.getComments().add(this);
+        }
+    }
+    public void addMember(Member member) {
+        this.member = member;
+    }
 
     public void setCommentLikes(CommentLike commentLike) {
         this.commentLikes.add(commentLike);
@@ -52,4 +66,3 @@ public class Comment extends BaseTimeEntity {
     }
 }
 
-}

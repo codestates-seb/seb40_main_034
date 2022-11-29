@@ -16,4 +16,9 @@ public class PostLikeResponseDto {
     private long likeCount;
     private Boolean isVoted;
 
+    public PostLikeResponseDto(long likeCount, boolean isVoted) {
+        this.likeCount = likeCount;
+        this.isVoted = isVoted;
+    }
+
 }

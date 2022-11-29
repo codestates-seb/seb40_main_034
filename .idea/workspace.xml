@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ca6937f-875e-44b0-acce-2666e8913e28" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/controller/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPatchDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPatchDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPostDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/BaseTimeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/BaseTimeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/exception/ExceptionCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/entity/CommentLike.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/entity/CommentLike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/repository/CommentLikeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/repository/CommentLikeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/service/CommentLikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/service/CommentLikeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/dto/PostLikeResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/dto/PostLikeResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/entity/PostLike.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/entity/PostLike.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/repository/PostLikeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/repository/PostLikeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/service/PostLikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/service/PostLikeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/repository/MemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/controller/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPatchDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPatchDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPostDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/BaseTimeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/BaseTimeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/mapper/PostMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/repository/PostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/service/PostService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/server">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="yujong" />
+                    <option name="lastUsedInstant" value="1669303619" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1669303549" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HcOZZcDPhdeIwQDjb1CpRII0xw" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/yujong/Desktop/workspace/Inflearn_RESTful_webservice&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.import&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;2dca478dc3f4c5bfff8c629067b65619&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;GitStage.ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;,
+      &quot;module&quot;,
+      &quot;repository&quot;
+    ]
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ca6937f-875e-44b0-acce-2666e8913e28" name="Changes" comment="" />
+      <created>1668580972416</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668580972416</updated>
+      <workItem from="1668580989434" duration="15086000" />
+      <workItem from="1668646170765" duration="14088000" />
+      <workItem from="1668681792307" duration="589000" />
+      <workItem from="1668729736095" duration="11432000" />
+      <workItem from="1668826178094" duration="588000" />
+      <workItem from="1669004792971" duration="9195000" />
+      <workItem from="1669019137849" duration="1630000" />
+      <workItem from="1669022294452" duration="16561000" />
+      <workItem from="1669077154595" duration="12023000" />
+      <workItem from="1669130241517" duration="573000" />
+      <workItem from="1669161445824" duration="587000" />
+      <workItem from="1669201375948" duration="7601000" />
+      <workItem from="1669252386390" duration="2868000" />
+      <workItem from="1669281981401" duration="1672000" />
+      <workItem from="1669338615622" duration="1806000" />
+      <workItem from="1669376877215" duration="873000" />
+      <workItem from="1669431533546" duration="2226000" />
+      <workItem from="1669445159657" duration="3302000" />
+      <workItem from="1669537480514" duration="12406000" />
+      <workItem from="1669596431013" duration="3895000" />
+      <workItem from="1669615126607" duration="3732000" />
+      <workItem from="1669684751567" duration="15077000" />
+      <workItem from="1669705077620" duration="10445000" />
+      <workItem from="1669735546132" duration="3708000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -3,6 +3,7 @@ package com.example.seb_main_project.post.controller;
 
 import com.example.seb_main_project.post.dto.PostPatchDto;
 import com.example.seb_main_project.post.dto.PostPostDto;
+import com.example.seb_main_project.post.dto.PostResponseDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
@@ -29,22 +30,28 @@ public class PostController {
 
     @Autowired
     private PostService postService;
-
     @Autowired
     private PostMapper postMapper;
 
 
 //============================================================================================================
 
+
+//    @GetMapping("/posts")
+//    public ResponseEntity<List<ArticleResponse>> getArticlePages(@RequestParam Long lastArticleId, @RequestParam int size, MemberSession memberSession) {
+//        List<ArticleResponse> articleResponses = articleService.fetchArticlePagesBy(lastArticleId, size, memberSession.getId());
+//        return new ResponseEntity<>(articleResponses, HttpStatus.OK);
+
+
     //[ GET ]: '모든 게시글 조회'를 요청
 
     @PreAuthorize("hasAuthority('CERTIFIED')")
-    @GetMapping() .
-    public ResponseEntity show(@@RequestParam int page,
+    @GetMapping()
+    public ResponseEntity show(@RequestParam int page,
                                @RequestParam int size){
 
         Page<Post> pagePosts = postService.showPosts(page - 1, size);
-        List<Post> shownPosts = pagePosts.getContent; //'Page 타입의 내장 메소드 getContent'
+        List<Post> shownPosts = pagePosts.getContent(); //'Page 타입의 내장 메소드 getContent'
 
         return new ResponseEntity<>(
                     new MultiResponseDto<>(postMapper.toPostResponseDtos(shownPosts), pagePosts), HttpStatus.OK);
@@ -56,12 +63,15 @@ public class PostController {
     //[ GET ]: '특정 하나의 게시글 조회'를 요청
     @PreAuthorize("hasAuthority('CERTIFIED')")
     @GetMapping("/{post-id}")
-    public ResponseEntity<> show(@PathVariable Long postId) {
+    public ResponseEntity show(@PathVariable Long postId) {
 
         Post shownPost = postService.showPost(postId);
+        PostResponseDto postResponseDto = new PostResponseDto(shownPost); //'PostResponseDto 객체'를 만들어 사용하기 위해서는
+                                                                          //이렇게 선언해주고, 여기서 매개변수 넣어준다면
+                                                                          //'클래스 PostResponseDto'에서 '사용자 생성자'를
+                                                                          //만들어야 한다!
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(postMapper.toPostResponseDto(shownPost)), HttpStatus.OK);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
 
     }
 
@@ -70,12 +80,13 @@ public class PostController {
     //[ POST ]
     @PreAuthorize("hasAuthority('CERTIFIED')")
     @PostMapping
-    public ResponseEntity create (@Valid @RequestBody PostPostDto postPostDto) {
+    public ResponseEntity create (@PathVariable Long memberId, @Validated @RequestBody PostPostDto postPostDto) {
 
-        Post createdPost = postService.createPost(postMapper.postPostDtoToPost(postPostDto));
+        Post post = postMapper.postPostDtoToPost(postPostDto);
+        Post createdPost = postService.createPost(post, memberId);
+        PostResponseDto postResponseDto = new PostResponseDto(createdPost);
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(postMapper.toPostResponseDto(createdPost)), HttpStatus.OK);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.CREATED);
     }
 
 //============================================================================================================
@@ -83,13 +94,15 @@ public class PostController {
     //[ PATCH ] :
     @Transactional
     @PatchMapping("/post/{post-id}")
-    public ResponseEntity update(@PathVariable("post-id") Long postId, @Valid @RequestBody PostPatchDto postPatchDto){
+    public ResponseEntity update(@PathVariable("post-id") Long postId, @Validated @RequestBody PostPatchDto postPatchDto){
 
         postPatchDto.setPostId(postId);
-        Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));
+        Post post = postMapper.postPatchDtoToPost(postPatchDto);
+        Post updatedPost = postService.updatePost(post);
+        PostResponseDto postResponseDto = new PostResponseDto(updatedPost);
 
-        return new ResponseEntity<>(
-                    new SingleResponseDto<>(postMapper.toPostResponseDto(updatedPost)), HttpStatus.OK);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+
 
 //        return (updatedPost != null) ?
 //                ResponseEntity.status(HttpStatus.OK).boy(updatedPost) :

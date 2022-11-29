@@ -3,8 +3,12 @@ package com.example.seb_main_project.post.service;
 
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
+import com.example.seb_main_project.member.entity.Member;
+import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.member.service.DBMemberService;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.repository.PostRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,15 +21,19 @@ import java.util.Optional;
 @Service
 public class PostService {
 
-    @Autowired
     private PostRepository postRepository;
+    private MemberRepository memberRepository;
 
+    public PostService(PostRepository postRepository, MemberRepository memberRepository){
+        this.postRepository = postRepository;
+        this.memberRepository = memberRepository;
+    }
 //=============================================================================================================
 
     //[ GET ]: '모든 게시글 조회'를 요청. '모든 게시글들'을 조회
     public Page<Post> showPosts(int page, int size){
 
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("postId").descending());
 
         return postRepository.findAll(pageRequest);
 
@@ -39,7 +47,7 @@ public class PostService {
         return showVerifiedPost(postId);
     }
 
-    private Post showVerifiedPost(Long postId){
+    public Post showVerifiedPost(Long postId){
         Optional<Post> optionalPost = postRepository.findById(postId);
         Post showPost = optionalPost.orElseThrow(()->
                             new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
@@ -51,17 +59,12 @@ public class PostService {
 
     //[ POST ]: '새로운 게시글을 작성'하는 요청.
     @Transactional
-    public Post createPost(Post post, Long memberId, Long tagId){
+    public Post createPost(Post post, Long memberId){
 
-        Member member = memberRepository.findById(memberId).orElseThrow(()->{
-                            return new IllegalArgumentException("글 작성 실패! 없는 사용자입니다.");
-        });
-        Tag tag = tagRepository.findById(tagId).orElseThrow(()->{
-                            return new IllegalArgumentException("글 작성 실패! 없는 태그입니다.")
-        });
+        Member member = memberRepository.findById(memberId).orElseThrow(()->
+                new IllegalArgumentException("글 작성 실패! 없는 사용자입니다."));
 
-        Post.changeMember(member);
-        Post.changeTag(tag);
+        post.changeMember(member);
 
         return postRepository.save(post);
 
@@ -76,15 +79,13 @@ public class PostService {
         Post showPost = showVerifiedPost(post.getPostId());
 
         Optional.ofNullable(post.getTitle())
-                .ifPresent(title -> showPost.setTitle(title));
-        Optional.ofNullable(post.getBody())
-                .ifPresent(body -> showPost.setBody(body));
-        Optional.ofNullable(post.getTags())
-                .ifPresent(tags -> showPost.setTags(tags));
+                .ifPresent(title -> showPost.updateTitle(title));
+        Optional.ofNullable(post.getContent())
+                .ifPresent(content -> showPost.updateContent(content));
+
 
         return postRepository.save(showPost);
     }
-
 
 //=============================================================================================================
 

@@ -1,9 +1,12 @@
 package com.example.seb_main_project.member.entity;
 
 import com.example.seb_main_project.audit.Auditable;
+import com.example.seb_main_project.like.commentlike.entity.CommentLike;
+import com.example.seb_main_project.like.postlike.entity.PostLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.security.Principal;
@@ -26,6 +29,9 @@ public class Member extends Auditable implements Principal {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private Long memberId;
+
     @Column
     private LocalDateTime latestLogin;
 
@@ -40,4 +46,23 @@ public class Member extends Auditable implements Principal {
     public String getName() {
         return getEmail();
     }
+
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ToString.Exclude
+    private List<PostLike> postLikes = new ArrayList<>();
+
+    public void setPostLikes(PostLike postLike) {
+        this.postLikes.add(postLike);
+    }
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ToString.Exclude
+    private List<CommentLike> commentLikes = new ArrayList<>();
+
+    public void setCommentLikes(CommentLike commentLike) {
+        this.commentLikes.add(commentLike);
+    }
+
+
 }

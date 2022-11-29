@@ -33,8 +33,7 @@ public class CommentLikeService {
 
     public boolean commentLike(Long commentId) {
         Comment showComment = commentService.showComment(commentId);
-        Member showMember = SecurityUtils.getCurrentMember(memberService);
-        Optional<CommentLike> optionalCommentLike = commentLikeRepository.findByCommentAndMember(showComment, showMember);
+        Optional<CommentLike> optionalCommentLike = commentLikeRepository.findByComment(showComment);
 
         optionalCommentLike.ifPresentOrElse(
                 commentLike -> {
@@ -47,8 +46,7 @@ public class CommentLikeService {
                     CommentLike commentLike = CommentLike.builder().build();
 
                     commentLike.setComment(showComment);
-                    commentLike.setMember(showMember);
-                    findComment.updateLikeCount();
+                    showComment.updateLikeCount();
 
                     commentLikeRepository.save(commentLike);
                 }

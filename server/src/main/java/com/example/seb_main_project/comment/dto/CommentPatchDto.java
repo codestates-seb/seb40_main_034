@@ -6,10 +6,11 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 public class CommentPatchDto {
 
-    @Setter
     private Long commentId;
     private String content;
 }
