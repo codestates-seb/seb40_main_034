@@ -1,4 +1,4 @@
-package com.example.seb_main_project.like.commentlike.dto;
+package com.example.seb_main_project.postlike.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentLikeResponseDto {
+@Getter
+@Setter
+public class PostLikeResponseDto {
 
     private long likeCount;
-    private boolean isVoted;
+    private Boolean isVoted;
 
 }

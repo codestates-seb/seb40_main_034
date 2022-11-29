@@ -1,9 +1,9 @@
-package com.example.seb_main_project.like.postlike.controller;
+package com.example.seb_main_project.postlike.controller;
 
 
-import com.example.seb_main_project.like.postlike.dto.PostLikeResponseDto;
-import com.example.seb_main_project.like.postlike.service.PostLikeService;
 import com.example.seb_main_project.post.service.PostService;
+import com.example.seb_main_project.postlike.dto.PostLikeResponseDto;
+import com.example.seb_main_project.postlike.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class PostLikeController {
 
         boolean isVoted;
         isVoted = postLikeService.postLike(postId);
-        long likeCount = postService.showPost(postId).getLikeCount();
+        long likeCount = postService.findPost(postId).getLikeCount();
         PostLikeResponseDto postLikeResponse = new PostLikeResponseDto(likeCount, isVoted);
         return new ResponseEntity(postLikeResponse, HttpStatus.OK);
     }

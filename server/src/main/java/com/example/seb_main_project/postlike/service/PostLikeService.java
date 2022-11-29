@@ -1,9 +1,9 @@
-package com.example.seb_main_project.like.postlike.service;
+package com.example.seb_main_project.postlike.service;
 
-import com.example.seb_main_project.like.postlike.entity.PostLike;
-import com.example.seb_main_project.like.postlike.repository.PostLikeRepository;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.service.PostService;
+import com.example.seb_main_project.postlike.entity.PostLike;
+import com.example.seb_main_project.postlike.repository.PostLikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class PostLikeService {
 
     public boolean postLike(Long postId) {
 
-        Post showPost = postService.showPost(postId);
+        Post showPost = postService.findPost(postId);
         Memeber showMember = SecurityUtils.getCurrentMember(memberService);
         Optional<PostLike> optionalPostLike = postLikeRepository.findByPostAndMember(showPost, showMember);
 

@@ -8,6 +8,7 @@ import com.example.seb_main_project.comment.entity.Comment;
 import com.example.seb_main_project.comment.mapper.CommentMapper;
 import com.example.seb_main_project.comment.repository.CommentRepository;
 import com.example.seb_main_project.comment.service.CommentService;
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.service.PostService;
 import com.example.seb_main_project.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +18,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Validated
 @RequiredArgsConstructor
 @RestController
+@Transactional
 public class CommentController {
 
     private final CommentService commentService;
     private final PostService postService;
     private final CommentMapper commentMapper;
-    private final // MemberService memberService; //이거 주석 해제시키기 나중에 MemberService 하고나서
+    private final MemberService memberService;
     private final CommentRepository commentRepository;
 
 
@@ -34,10 +37,10 @@ public class CommentController {
 
     //[ GET ]: '특정 하나의 댓글 조회'를 요청
     @GetMapping("/{comment-id}")
-    public  ResponseEntity show(@PathVariable("comment-id") Long commentId ){
+    public  ResponseEntity getComment(@PathVariable("comment-id") Integer commentId ){
 
-    Comment shownComment = CommentService.showComment(commentId);
-    CommentResponseDto commentResponseDto = commentMapper.toCommentResponseDto(shownComment);
+    Comment findComment = commentService.getComment(commentId);
+    CommentResponseDto commentResponseDto = commentMapper.toCommentResponseDto(findComment);
 
     return new ResponseEntity<>(new SingleResponseDto<>(commentResponseDto), HttpStatus.OK);
     }
@@ -45,13 +48,12 @@ public class CommentController {
 //============================================================================================================
 
     //[ POST ]
-    @Transactional
     @PostMapping("/posts/{post-id}/comments")
-    public ResponseEntity post(@PathVariable("post-id") Long postId,
+    public ResponseEntity postComment(@PathVariable("post-id") Integer postId,
                                @Valid @RequestBody CommentPostDto commentPostDto){
 
     Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
-    Comment createdComment = CommentService.createComment(comment, postId);
+    Comment createdComment = commentService.createComment(comment, postId);
     CommentResponseDto commentResponseDto = new CommentResponseDto(createdComment);
 
     return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
@@ -60,9 +62,8 @@ public class CommentController {
 //============================================================================================================
 
     //[ PATCH ]
-    @Transactional
     @PatchMapping("/posts/{post-id}/comments/{comment-id}")
-    public ResponseEntity patch(@PathVariable("commment-id") Long commentId,
+    public ResponseEntity patchComment(@PathVariable("comment-id") Integer commentId,
                                 @Valid @RequestBody CommentPatchDto commentPatchDto){
 
         commentPatchDto.setCommentId(commentId);
@@ -76,9 +77,8 @@ public class CommentController {
 //============================================================================================================
 
     //[ DELETE ]
-    @Transactional
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity delete(@PathVariable("comment-id") Long commentId){
+    public ResponseEntity delete(@PathVariable("comment-id") Integer commentId){
 
         commentService.deleteComment(commentId);
 
