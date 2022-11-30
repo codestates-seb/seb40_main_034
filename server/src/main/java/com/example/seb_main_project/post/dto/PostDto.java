@@ -30,13 +30,16 @@ public class PostDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
+    @Setter
     @ToString
     public static class PostResponseDto {
         private Integer postId;
-        private String content;
+        private String nickname;
+        private String contents;
         private Integer likeCount;
         private String gpsX;
         private String gpsY;
         private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }

@@ -10,7 +10,8 @@ public enum ExceptionCode {
     MEMBER_EXISTS(506, "User already exists."),
     COOKIE_NOT_FOUND(504, "Cookie not found"),
     POSTLIKE_NOT_FOUND(504, "Post like not found"),
-    TOKEN_NOT_FOUND(504, "Token not found");
+    TOKEN_NOT_FOUND(504, "Token not found"),
+    UNAUTHORIZED_USER(401, "Unauthorized user");
 
     @Getter
     private final int status;
