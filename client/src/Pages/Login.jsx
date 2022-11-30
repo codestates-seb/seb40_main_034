@@ -8,8 +8,8 @@ import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
-import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
-
+import { setCookieToken, removeCookieToken } from '../storage/Cookie';
+import { persistor } from '../Routes/AppRouter';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,7 +50,6 @@ const Login = () => {
         .then((res) => {
           if (res.status === 200) {
             const accessToken = res.data.accessToken;
-
             setCookieToken(accessToken);
 
             dispatch(setLoginUserInfo(res.data));
@@ -70,6 +69,11 @@ const Login = () => {
   const togglePass = (e) => {
     e.preventDefault();
     setShowPassword(!showPassword);
+  };
+
+  const purge = async () => {
+    location.reload();
+    await persistor.purge(); // persistStore의 데이터 전부 날림
   };
   return (
     <div>
@@ -109,6 +113,7 @@ const Login = () => {
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
       </PageContainer>
+      <button onClick={async () => purge()}>logout</button>
     </div>
   );
 };
@@ -146,10 +151,11 @@ const LoginButton = styled(GreenBtn)`
   margin: 1rem;
 `;
 const LogoDiv = styled.img.attrs({
-  src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
+  src: 'https://user-images.githubusercontent.com/99412221/204719891-04be8c01-2c4e-421e-8bc6-d851318ca28d.png',
 })`
-  width: 15 rem;
-  height: 15rem;
+  width: 20 rem;
+  height: 20rem;
+  margin-bottom: 2rem;
 `;
 
 const Wrap = styled.div`
@@ -190,20 +196,18 @@ const Pw = styled.div`
 `;
 const PwShow = styled(Openeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-  color: #dddddd;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-  color: #dddddd;
 `;
 export default Login;

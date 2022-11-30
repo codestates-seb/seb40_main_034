@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PURGE } from 'redux-persist';
+
+const initialState = {
+  memberId: null,
+  authenticated: false, //authenticated : 현재 로그인 여부를 간단히 확인하기 위해 선언.
+  email: null, //accessToken : Access Token 저장
+  nickname: null, //expireTime : Access Token 의 만료 시간
+  tags: [],
+};
 
 export const tokenSlice = createSlice({
   name: 'useInfo',
-  initialState: {
-    memberId: null,
-    authenticated: false, //authenticated : 현재 로그인 여부를 간단히 확인하기 위해 선언.
-    email: null, //accessToken : Access Token 저장
-    nickname: null, //expireTime : Access Token 의 만료 시간
-    tags: [],
-  },
+  initialState,
   reducers: {
     setLoginUserInfo: (state, action) => ({
       ...state,
@@ -29,6 +32,9 @@ export const tokenSlice = createSlice({
       ...state,
       tags: action.payload.tags,
     }),
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 //SET_TOKEN : Access Token 정보를 저장한다.
