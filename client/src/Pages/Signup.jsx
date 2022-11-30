@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
+import { ReactComponent as Check } from '../Assets/img/profile.svg';
 import { GreenBtn } from '../Components/Common/Btn';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -116,19 +117,20 @@ const Signup = () => {
         <form onSubmit={handleSignup}>
           <SignupContainer>
             <LogoDiv />
-            <div>
+            <NicknameWrap>
               <SignupInput
                 type="text"
                 name="nickname"
                 value={nickname}
                 onChange={handleNickname}
                 placeholder="Enter your Nickname"></SignupInput>
+              <DoubleCheck onClick={nickNameDoublecheck}>닉네임중복체크</DoubleCheck>
               <div>
                 {!nicknameValid && nickname.length > 0 && (
                   <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
                 )}
               </div>
-            </div>
+            </NicknameWrap>
             <SignupInput
               type="email"
               name="email"
@@ -160,9 +162,6 @@ const Signup = () => {
           <WelcomeImg></WelcomeImg>
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
-        <DoubleCheck type="submit" onClick={nickNameDoublecheck}>
-          닉네임중복
-        </DoubleCheck>
       </PageContainer>
     </div>
   );
@@ -264,12 +263,15 @@ const PwNoshow = styled(Closedeye)`
   width: 2rem;
   height: 2rem;
 `;
-const DoubleCheck = styled.button`
+const NicknameWrap = styled.div`
+  position: relative;
+`;
+const DoubleCheck = styled(Check)`
   position: absolute;
-  top: 30.5rem;
-  left: 25rem;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
-  width: 3rem;
-  height: 1rem;
+  width: 2rem;
+  height: 2rem;
 `;
 export default Signup;
