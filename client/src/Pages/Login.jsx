@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
-import { setLoginUserInfo } from '../Store/Auth';
-import { setCookieToken, setCookieNickname, setCookieEmail } from '../storage/Cookie';
+import { setLoginUserInfo, deleteLoginUserInfo } from '../Store/Auth';
+import { setCookieToken } from '../storage/Cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -70,6 +70,10 @@ const Login = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
+
+  const logout = () => {
+    dispatch(deleteLoginUserInfo(res.data));
+  };
   return (
     <div>
       <PageContainer>
@@ -108,6 +112,7 @@ const Login = () => {
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
       </PageContainer>
+      <button onClick={logout}>logout</button>
     </div>
   );
 };

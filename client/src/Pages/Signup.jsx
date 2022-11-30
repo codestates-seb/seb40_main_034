@@ -19,21 +19,9 @@ const Signup = () => {
   const [pwValid, setPwValid] = useState(true);
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const [nickNamedouble, setNicknamedouble] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const duplicationCheck = () => {
-    console.log(nickname);
-    nicknameCheck(nickname).then((response) => {
-      if (response === false) {
-        console.log('사용 가능한 아이디입니다.');
-      } else {
-        console.log('중복된 아이디입니다. 다시 시도하세요.');
-        setNickname('');
-      }
-    });
-  };
 
   const handleNickname = (e) => {
     setNickname(e.target.value);
@@ -42,7 +30,9 @@ const Signup = () => {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
     }
   };
-
+  const nickNameDoublecheck = () => {
+    nicknameCheck(nickname);
+  };
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -84,8 +74,8 @@ const Signup = () => {
         })
         .catch((Error) => {
           alert('회원가입에 실패했습니다.');
+          console.log(Error);
         });
-      console.log(Error);
     }
   };
   //비밀번호안보이게하는toggle
@@ -100,18 +90,24 @@ const Signup = () => {
         <form onSubmit={handleSignup}>
           <SignupContainer>
             <LogoDiv />
-            <SignupInput
-              type="text"
-              name="nickname"
-              value={nickname}
-              onChange={handleNickname}
-              placeholder="Enter your Nickname"></SignupInput>
             <div>
-              {!nicknameValid && nickname.length > 0 && (
-                <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
-              )}
+              <SignupInput
+                type="text"
+                name="nickname"
+                value={nickname}
+                onChange={handleNickname}
+                placeholder="Enter your Nickname"></SignupInput>
+              <div>
+                {!nicknameValid && nickname.length > 0 && (
+                  <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
+                )}
+              </div>
+              <div>
+                {!nickNamedouble && nicknameValid && nickname.length > 0 && (
+                  <ErrorNickname>닉네임 중복입니다</ErrorNickname>
+                )}
+              </div>
             </div>
-            <DoubleCheck onClick={duplicationCheck}>닉네임중복</DoubleCheck>
             <SignupInput
               type="email"
               name="email"
@@ -137,6 +133,9 @@ const Signup = () => {
             <div>
               Already have an account? <Link to="/login">Login</Link>
             </div>
+            <DoubleCheck type="submit" onClick={nickNameDoublecheck}>
+              닉네임중복
+            </DoubleCheck>
           </SignupContainer>
         </form>
         <Wrap>
