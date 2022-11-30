@@ -9,19 +9,11 @@ import lombok.*;
 @Builder
 @ToString
 public class PostPatchDto {
+    private String gpsX;
+    private String gpsY;
+    private String contents;
 
-    private Long postId;
+    private Integer postId;
     private String title;
     private String content;
-
     }
-
-
-
-
-
-
-
-
-
-

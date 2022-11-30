@@ -14,8 +14,6 @@ public class PostPostDto {
     private String gpsY;
     private String contents;
 
-    private Long postId;
-    private Long memberId;
     private String title;
     private String content;
 }

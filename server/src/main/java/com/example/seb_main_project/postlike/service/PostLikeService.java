@@ -1,11 +1,17 @@
 package com.example.seb_main_project.postlike.service;
 
+import com.example.seb_main_project.exception.BusinessLogicException;
+import com.example.seb_main_project.exception.ExceptionCode;
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.entity.Post;
+import com.example.seb_main_project.post.repository.PostRepository;
 import com.example.seb_main_project.post.service.PostService;
 import com.example.seb_main_project.postlike.entity.PostLike;
 import com.example.seb_main_project.postlike.repository.PostLikeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 
@@ -14,37 +20,35 @@ import java.util.Optional;
 @Service
 public class PostLikeService {
 
-    @Autowired
+    private final MemberService memberService;
     private final PostLikeRepository postLikeRepository;
-    @Autowired
+    private final PostRepository postRepository;
     private final PostService postService;
 
-    public boolean postLike(Long postId) {
+    public boolean postLike(Integer postId) {
 
-        Post showPost = postService.findPost(postId);
-        Memeber showMember = SecurityUtils.getCurrentMember(memberService);
-        Optional<PostLike> optionalPostLike = postLikeRepository.findByPostAndMember(showPost, showMember);
+        Post findPost = postRepository.findById(postId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
+        Optional<PostLike> findPostLike = postLikeRepository.findByPost(findPost);
 
-        optionalPostLike.ifPresentOrElse(
-                postLike -> {   // 만약, 기존에 이미 좋아요를 눌렀던 상태라면
+
+        findPostLike.ifPresentOrElse(
+                postLike -> {
                     postLikeRepository.delete(postLike);
-                    showPost.discountLike(postLike);
-                    showPost.updateLikeCount();
+                    findPost.discountLike(postLike);
+                    findPost.updateLikeCount();
                 },
-                () -> { // 여기서 좋아요를 다시 누르면 그건 '좋아요 취소'가 되는 것이라는 말
+                () -> {
                     PostLike postLike = PostLike.builder().build();
 
-                    postLike.setPost(showPost);
-                    showPost.updateLikeCount();
+                    postLike.setPost(findPost);
+                    findPost.updateLikeCount();
 
                     postLikeRepository.save(postLike);
                 }
         );
 
-        if (optionalPostLike.isPresent())
-            return false;
-        else
-            return true;
+        return findPostLike.isEmpty();
     }
 
 }

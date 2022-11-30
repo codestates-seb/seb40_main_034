@@ -23,7 +23,7 @@ public class PostLikeController {
     private final PostService postService;
 
     @PostMapping("/posts/{post-id}/like")
-    public ResponseEntity postLikePost(@PathVariable("post-id") Long postId){
+    public ResponseEntity postLikePost(@PathVariable("post-id") Integer postId){
 
         boolean isVoted;
         isVoted = postLikeService.postLike(postId);

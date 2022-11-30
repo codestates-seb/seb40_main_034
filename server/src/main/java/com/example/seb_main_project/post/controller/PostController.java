@@ -3,7 +3,6 @@ package com.example.seb_main_project.post.controller;
 
 import com.example.seb_main_project.post.dto.PostPatchDto;
 import com.example.seb_main_project.post.dto.PostPostDto;
-import com.example.seb_main_project.post.dto.PostResponseDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
@@ -40,7 +39,7 @@ public class PostController {
             @RequestParam int size) {
 
         Page<Post> pagePosts = postService.showPosts(page - 1, size);
-        List<Post> shownPosts = pagePosts.getContent(); //'Page 타입의 내장 메소드 getContent'
+        List<Post> shownPosts = pagePosts.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(postMapper.toPostResponseDto(shownPosts), pagePosts), HttpStatus.OK);
@@ -51,14 +50,14 @@ public class PostController {
     @GetMapping("/{post-id}/detail")
     public ResponseEntity getPost(@PathVariable(name = "post-id") Integer postId) {
 
-        Post shownPost = postService.findPost(postId);
+        Post findPost = postService.findPost(postId);
 
-        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(postMapper.postToPostDto(findPost), HttpStatus.OK);
 
     }
 
 
-    @PostMapping
+    @PostMapping("/submit")
     public ResponseEntity createPost(
             @CookieValue(name = "memberId") Integer memberId,
             @Valid @RequestBody PostPostDto postPostDto) {
@@ -71,7 +70,7 @@ public class PostController {
 
 
     @PatchMapping("/post/{post-id}")
-    public ResponseEntity updatePost(@PathVariable("post-id") Long postId, @Valid @RequestBody PostPatchDto postPatchDto) {
+    public ResponseEntity updatePost(@PathVariable("post-id") Integer postId, @Valid @RequestBody PostPatchDto postPatchDto) {
 
         postPatchDto.setPostId(postId);
         Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));

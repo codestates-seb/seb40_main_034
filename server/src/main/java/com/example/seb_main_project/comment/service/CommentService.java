@@ -30,24 +30,11 @@ public class CommentService {
     private final PostService postService;
 
 
-//============================================================================================================
 
-    //[ GET ]: '특정 하나의 댓글 조회'를 요청
     public Comment getComment(Integer commentId){
 
         return showVerifiedComment(commentId);
     }
-
-    public Comment showVerifiedComment(Long commentId){
-
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        Comment showComment = optionalComment.orElseThrow(()->
-                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-
-        return showComment;
-    }
-
-//============================================================================================================
 
     //[ POST ]
     public Comment createComment(Comment comment, Integer postId, Integer memberId){
@@ -68,7 +55,6 @@ public class CommentService {
 
     }
 
-//============================================================================================================
 
     //[ PATCH ]
     public Comment updateComment(Comment comment){
@@ -91,9 +77,6 @@ public class CommentService {
     }
 
 
-//============================================================================================================
-
-    //[ DELETE ]
     public void deleteComment(Integer commentId){
 
         Comment shownComment = showVerifiedComment(commentId);

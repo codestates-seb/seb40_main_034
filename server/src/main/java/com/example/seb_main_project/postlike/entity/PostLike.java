@@ -5,8 +5,6 @@ import com.example.seb_main_project.post.entity.Post;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Optional;
-
 
 
 @NoArgsConstructor
@@ -29,29 +27,13 @@ public class PostLike {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public void setMember(Member member){
+    public void setMember(Member member) {
         this.member = member;
-        member.setPostLikes(this.post.getPostLikes());
+        member.setPostLikes((PostLike) this.post.getPostLikes());
     }
 
-    public void setPost(Post post){
+    public void setPost(Post post) {
         this.post = post;
-        post.setPostLikes(this.post.getPostLikes());
+        post.setPostLikes((PostLike) this.post.getPostLikes());
     }
-
-    public static boolean isVotedPost(Optional<PostLike> optionalPostLike){
-
-        return optionalPostLike.isPresent();
-    }
-
-
-
-
-
-
-
-
-
-
-
 }
