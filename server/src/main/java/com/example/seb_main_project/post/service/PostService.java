@@ -67,7 +67,10 @@ public class PostService {
 
     }
 
-    public Post updatePost(Post post) {
+    public Post updatePost(Integer memberId, Post post) {
+        if (!Objects.equals(memberId, findVerifiedPost(post.getPostId()).getMember().getId())) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
         Post showPost = findVerifiedPost(post.getPostId());
 
         Optional.ofNullable(post.getContents())

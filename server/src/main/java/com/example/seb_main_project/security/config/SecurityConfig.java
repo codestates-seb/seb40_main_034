@@ -107,6 +107,7 @@ public class SecurityConfig {
         configuration.addAllowedOrigin("http://localhost:8080");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost");
+        configuration.addAllowedOrigin("http://poston.s3-website.ap-northeast-2.amazonaws.com/");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
