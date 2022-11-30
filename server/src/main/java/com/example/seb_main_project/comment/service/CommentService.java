@@ -1,7 +1,9 @@
 package com.example.seb_main_project.comment.service;
 
 
+import com.example.seb_main_project.comment.dto.CommentDto;
 import com.example.seb_main_project.comment.entity.Comment;
+import com.example.seb_main_project.comment.mapper.CommentMapper;
 import com.example.seb_main_project.comment.repository.CommentRepository;
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
@@ -12,9 +14,14 @@ import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.repository.PostRepository;
 import com.example.seb_main_project.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -28,59 +35,66 @@ public class CommentService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final PostService postService;
+    private final CommentMapper commentMapper;
 
 
+    public Comment getComment(Integer commentId) {
 
-    public Comment getComment(Integer commentId){
-
-        return showVerifiedComment(commentId);
+        return verifiedExistComment(commentId);
     }
 
-    //[ POST ]
-    public Comment createComment(Comment comment, Integer postId, Integer memberId){
+    public Comment createComment(CommentDto.CommentPostDto commentPostDto, Integer postId, Integer memberId) {
 
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
-        Member shownMember = optionalMember.orElseThrow(()->
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        Post shownPost = optionalPost.orElseThrow(()->
+        Post findPost = postRepository.findById(postId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
 
-        comment.addMember(shownMember);
-        comment.addPost(shownPost);
+        Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
+        comment.setMember(findMember);
+        comment.setNickname(findMember.getNickname());
+        comment.setPost(findPost);
+        comment.setLikeCount(0);
 
         return commentRepository.save(comment);
-
     }
 
 
-    //[ PATCH ]
-    public Comment updateComment(Comment comment){
+    public Comment updateComment(Integer memberId, Integer commentId, CommentDto.CommentPatchDto patch) {
+        if (!Objects.equals(memberId, verifiedExistComment(commentId).getMember().getId())) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
+        Comment updatedComment = commentRepository.findById(commentId)
+                .orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+        updatedComment.setContents(patch.getContents());
+        updatedComment.setModifiedAt(LocalDateTime.now());
 
-        Comment shownComment = showVerifiedComment(comment.getCommentId());
-        Optional.ofNullable(comment.getContent())
-                .ifPresent(content -> shownComment.updateContent(content));
-
-        return commentRepository.save(shownComment);
+        return commentRepository.save(updatedComment);
     }
 
 
-    public Comment showVerifiedComment(Integer commentId){
-
+    public Comment verifiedExistComment(Integer commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        Comment shownComment = optionalComment.orElseThrow(()->
-                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
-        return shownComment;
+        return optionalComment.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
 
 
-    public void deleteComment(Integer commentId){
+    public void deleteComment(Integer memberId, Integer commentId) {
+        if (!Objects.equals(memberId, verifiedExistComment(commentId).getMember().getId())) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
+        Comment shownComment = verifiedExistComment(commentId);
 
-        Comment shownComment = showVerifiedComment(commentId);
         commentRepository.delete(shownComment);
     }
 
+    public Page<Comment> findPageComments(Integer postId, int page, int size) {
+
+        return commentRepository.findAllByPostPostId(postId, PageRequest.of(page, size,
+                Sort.by("commentId").descending()));
+    }
 }

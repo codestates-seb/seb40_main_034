@@ -65,10 +65,11 @@ public class PostController {
 
     @PutMapping("/main/{post-id}/edit")
     public ResponseEntity updatePost(
+            @CookieValue(name = "memberId") Integer memberId,
             @PathVariable("post-id") Integer postId,
             @RequestBody PostDto.PostPatchDto postPatchDto) {
         postPatchDto.setPostId(postId);
-        Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));
+        Post updatedPost = postService.updatePost(memberId, postMapper.postPatchDtoToPost(postPatchDto));
 
         return new ResponseEntity<>(postMapper.postToPostResponseDto(updatedPost), HttpStatus.OK);
 

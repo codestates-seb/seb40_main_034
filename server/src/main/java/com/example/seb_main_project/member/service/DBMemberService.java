@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -50,6 +52,7 @@ public class DBMemberService implements MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         member.setNickname(updateDto.getNickname());
+        member.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(member);
     }
 

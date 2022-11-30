@@ -21,8 +21,9 @@ public class Comment extends Auditable {
 
     @Column
     private String nickname;
+
     @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
+    private String contents;
 
     @ManyToOne
     @JoinColumn(name = "POST_ID")
@@ -34,19 +35,4 @@ public class Comment extends Auditable {
 
     @Column
     private Integer likeCount;
-
-    public void addPost(Post post) {
-        this.post = post;
-        if (!this.post.getComments().contains(this)) {
-            this.post.getComments().add(this);
-        }
-    }
-
-    public void addMember(Member member) {
-        this.member = member;
-    }
-
-    public void updateContent(String content) {
-        this.content = content;
-    }
 }
