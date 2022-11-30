@@ -11,20 +11,20 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Builder
+@Table
 public class Post extends Auditable {
     //< 기본 칼럼 설정 >
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer postId; // pk
-
-    @Column(nullable = false)
-    private String title;
 
     @Column(nullable = false, length = 1000)
     private String contents;
@@ -38,9 +38,8 @@ public class Post extends Auditable {
     @Column
     private String tags;
 
+    @Column
     private String nickname;
-    @Column(nullable = false, length=1000)
-    private String content;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
@@ -54,17 +53,11 @@ public class Post extends Auditable {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PostLike> postLikes = new ArrayList<>();
 
-    public void changeMember(Member member) {
-        this.member = member;
-    }
 
     public void setPostLikes(PostLike postLike) {
         this.postLikes.add(postLike);
     }
 
-    public void updateContent(String content) {
-        this.content = content;
-    }
 
     public void updateLikeCount() {
         this.likeCount = postLikes.size();

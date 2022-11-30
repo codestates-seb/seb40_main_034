@@ -5,6 +5,7 @@ import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,22 +50,25 @@ public class PostService {
     }
 
 
-    public Post createPost(Post post, Integer memberId) {
-
+    public Post createPost(PostDto.PostCreateDto post, Integer memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        post.setMember(member);
+        Post createdPost = Post.builder()
+                .gpsX(post.getGpsX())
+                .gpsY(post.getGpsY())
+                .contents(post.getContents())
+                .member(member)
+                .nickname(member.getNickname())
+                .build();
 
-        return postRepository.save(post);
+        return postRepository.save(createdPost);
 
     }
 
     public Post updatePost(Post post) {
         Post showPost = findVerifiedPost(post.getPostId());
 
-        Optional.ofNullable(post.getTitle())
-                .ifPresent(showPost::setTitle);
         Optional.ofNullable(post.getContents())
                 .ifPresent(showPost::setContents);
         Optional.ofNullable(post.getTags())

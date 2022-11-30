@@ -1,36 +1,30 @@
 package com.example.seb_main_project.post.controller;
 
 
-import com.example.seb_main_project.post.dto.PostPatchDto;
-import com.example.seb_main_project.post.dto.PostPostDto;
+import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
 import com.example.seb_main_project.response.MultiResponseDto;
-import com.example.seb_main_project.response.SingleResponseDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 
 
 @Slf4j
-@Validated
-@RequestMapping("/main")
-@Transactional
+@RequestMapping(value = "/main")
 @RestController
+@RequiredArgsConstructor
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
-    private PostMapper postMapper;
-
+    private final PostMapper postMapper;
 
 
     @GetMapping("/list")
@@ -42,7 +36,7 @@ public class PostController {
         List<Post> shownPosts = pagePosts.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(postMapper.toPostResponseDto(shownPosts), pagePosts), HttpStatus.OK);
+                new MultiResponseDto<>(postMapper.postToPostResponseDto(shownPosts), pagePosts), HttpStatus.OK);
 
     }
 
@@ -59,24 +53,25 @@ public class PostController {
 
     @PostMapping("/submit")
     public ResponseEntity createPost(
-            @CookieValue(name = "memberId") Integer memberId,
-            @Valid @RequestBody PostPostDto postPostDto) {
+            @RequestBody PostDto.PostCreateDto postCreateDto,
+            @CookieValue(name = "memberId") Integer memberId) {
+        log.error(postCreateDto.toString());
+        log.error(postCreateDto.getContents());
+        log.error(memberId.toString());
 
-        Post createdPost = postService.createPost(postMapper.postPostDtoToPost(postPostDto), memberId);
+        Post createdPost = postService.createPost(postCreateDto, memberId);
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(postMapper.toPostResponseDto(createdPost)), HttpStatus.OK);
+        return new ResponseEntity<>(postMapper.postToPostResponseDto(createdPost), HttpStatus.OK);
     }
 
 
     @PatchMapping("/post/{post-id}")
-    public ResponseEntity updatePost(@PathVariable("post-id") Integer postId, @Valid @RequestBody PostPatchDto postPatchDto) {
+    public ResponseEntity updatePost(@PathVariable("post-id") Integer postId, @RequestBody PostDto.PostPatchDto postPatchDto) {
 
         postPatchDto.setPostId(postId);
         Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(postMapper.toPostResponseDto(updatedPost)), HttpStatus.OK);
+        return new ResponseEntity<>(postMapper.postToPostResponseDto(updatedPost), HttpStatus.OK);
 
     }
 
