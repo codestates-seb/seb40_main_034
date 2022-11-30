@@ -7,6 +7,7 @@ import { GreenBtn } from '../Components/Common/Btn';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { validEmail, validNickname, validPw } from '../Api/Valid';
+import { nicknameCheck } from '../Api/nicknameCheck';
 
 const Signup = () => {
   const [nickname, setNickname] = useState('');
@@ -16,16 +17,32 @@ const Signup = () => {
   const [nicknameValid, setNicknameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [pwValid, setPwValid] = useState(true);
+
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const duplicationCheck = () => {
+    console.log(nickname);
+    nicknameCheck(nickname).then((response) => {
+      if (response === false) {
+        console.log('사용 가능한 아이디입니다.');
+      } else {
+        console.log('중복된 아이디입니다. 다시 시도하세요.');
+        setNickname('');
+      }
+    });
+  };
+
   const handleNickname = (e) => {
     setNickname(e.target.value);
+
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
     }
   };
+
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -94,6 +111,7 @@ const Signup = () => {
                 <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
               )}
             </div>
+            <DoubleCheck onClick={duplicationCheck}>닉네임중복</DoubleCheck>
             <SignupInput
               type="email"
               name="email"
@@ -164,7 +182,6 @@ const SignupInput = styled.input`
 const SignupButton = styled(GreenBtn)`
   margin: 1rem;
 `;
-
 const LogoDiv = styled.img.attrs({
   src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
 })`
@@ -213,18 +230,26 @@ const Pw = styled.div`
 `;
 const PwShow = styled(Openeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+`;
+const DoubleCheck = styled.button`
+  position: absolute;
+  top: 30.5rem;
+  left: 25rem;
+  cursor: pointer;
+  width: 3rem;
+  height: 1rem;
 `;
 export default Signup;

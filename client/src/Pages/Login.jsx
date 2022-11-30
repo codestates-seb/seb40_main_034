@@ -50,7 +50,6 @@ const Login = () => {
         .then((res) => {
           if (res.status === 200) {
             const accessToken = res.data.accessToken;
-
             setCookieToken(accessToken);
 
             dispatch(setLoginUserInfo(res.data));
@@ -190,20 +189,18 @@ const Pw = styled.div`
 `;
 const PwShow = styled(Openeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-  color: #dddddd;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
-  top: 36px;
-  left: 361px;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
   width: 2rem;
   height: 2rem;
-  color: #dddddd;
 `;
 export default Login;
