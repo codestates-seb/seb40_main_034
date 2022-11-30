@@ -6,6 +6,6 @@ export const getAllLists = async () => {
     const result = await instance.get(url);
     return result.data;
   } catch (err) {
-    return err;
+    return [err];
   }
 };
