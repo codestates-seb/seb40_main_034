@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import go_up from '../../Assets/img/go_up.svg';
 import scrollToTop from '../../Utils/scrollToTop';
