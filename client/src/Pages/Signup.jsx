@@ -18,7 +18,7 @@ const Signup = () => {
   const [emailValid, setEmailValid] = useState(true);
   const [pwValid, setPwValid] = useState(true);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [nickNamedouble, setNicknamedouble] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -133,15 +133,15 @@ const Signup = () => {
             <div>
               Already have an account? <Link to="/login">Login</Link>
             </div>
-            <DoubleCheck type="submit" onClick={nickNameDoublecheck}>
-              닉네임중복
-            </DoubleCheck>
           </SignupContainer>
         </form>
         <Wrap>
           <WelcomeImg></WelcomeImg>
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
+        <DoubleCheck type="submit" onClick={nickNameDoublecheck}>
+          닉네임중복
+        </DoubleCheck>
       </PageContainer>
     </div>
   );
@@ -150,7 +150,7 @@ const Signup = () => {
 //styledComponent
 const PageContainer = styled.div`
   width: 100%;
-  height: 54rem;
+  height: 53rem;
   display: flex;
   align-items: center;
   justify-content: center;
