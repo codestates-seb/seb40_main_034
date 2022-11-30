@@ -1,11 +1,9 @@
 package com.example.seb_main_project.member.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class AuthDto {
     @Getter
@@ -34,5 +32,24 @@ public class AuthDto {
     @Builder
     public static class NicknameCheck {
         private String nickname;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Update {
+        private String nickname;
+        private String profileImg;
+    }
+
+    @NoArgsConstructor
+    @Setter
+    @Getter
+    @ToString
+    public static class MemberResponseDto {
+        private String nickname;
+        private Integer memberId;
+        private String createdAt;
+        private String modifiedAt;
+        private LocalDateTime latestLogin;
     }
 }

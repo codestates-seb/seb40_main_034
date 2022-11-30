@@ -2,6 +2,7 @@ package com.example.seb_main_project.member.service;
 
 import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
+import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
 import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
@@ -42,6 +43,14 @@ public class DBMemberService implements MemberService {
     @Override
     public Boolean checkNickname(String nickname) {
         return verifyExistNickname(nickname);
+    }
+
+    @Override
+    public Member updateMember(AuthDto.Update updateDto, Integer memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        member.setNickname(updateDto.getNickname());
+        return memberRepository.save(member);
     }
 
     private Boolean verifyExistNickname(String nickname) {
