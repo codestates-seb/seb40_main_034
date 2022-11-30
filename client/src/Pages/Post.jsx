@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { postArticle } from '../Api/PostApi';
 import { GreenBtn } from '../Components/Common/Btn';
 import FollowList from '../Components/Common/FollowList';
+import { useNavigate } from 'react-router-dom';
 
 const Post = () => {
+  const [body, setBody] = useState('');
+  const [imgs, setImgs] = useState([]);
+  const [tags, setTags] = useState([]);
   const [maintext, setMaintext] = useState(0);
+  const navigate = useNavigate();
   const remain = maintext ? 500 - maintext.length : 500;
   const handleMaintext = (e) => {
     setMaintext(e.target.value);
@@ -13,6 +19,36 @@ const Post = () => {
       setMaintext(maintext.substring(0, 5));
     }
   };
+  const handleBody = (e) => {
+    setBody(e.target.value);
+  };
+  const handleImgs = (arr) => {
+    setImgs(arr);
+  };
+  const handleTags = (arr) => {
+    setTags(arr);
+  };
+  const handleSubmit = () => {
+    const data = {
+      // gpsX: 'string',
+      // gpsY: 'string',
+      contents: body,
+      imageURL: imgs,
+      tag: tags,
+    };
+    if (body.length <= 30) alert('리뷰는 최소 30자 이상 작성하세요.');
+    if (tags.length === 0) alert('최소 하나 이상의 태그를 선택하세요.');
+    else {
+      postArticle(data).then((res) => {
+        if (res.id) {
+          navigate(`/post/${res.id}/detail`);
+        } else {
+          alert('글 작성에 실패했습니다.');
+        }
+      });
+    }
+  };
+
   return (
     <Background>
       <Container>
@@ -23,8 +59,6 @@ const Post = () => {
         <Body>
           <ImageContainer>
             <div>
-              Click to upload image
-              <br />
               클릭하여 업로드
               <br />
               2MB 이하의 이미지
@@ -32,9 +66,9 @@ const Post = () => {
           </ImageContainer>
           <Description>
             <Place placeholder="장소" />
-            <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} />
+            <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
             <MaintxtValidator>{remain}</MaintxtValidator>
-            <TagForm placeholder="최소 한 개의 태그를 선택하세요." />
+            <TagForm placeholder="최소 한 개의 태그를 선택하세요." callback={handleTags} />
           </Description>
         </Body>
       </Container>
@@ -103,7 +137,8 @@ const Place = styled.input`
   }
 `;
 const Maintext = styled.textarea`
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
   height: 24rem;
   overflow: visible;
   margin: 1.5rem 0 0 0;

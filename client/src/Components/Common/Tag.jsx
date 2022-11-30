@@ -13,7 +13,7 @@ const TagStyle = styled.button`
   margin: 0 0.25rem 0.25rem 0;
   border-radius: 22px;
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-align: center;
   cursor: pointer;
   border: 1px solid #91f841;

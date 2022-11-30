@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import { InputForm } from './InputForm';
 import { Link } from 'react-router-dom';
 import Tab from './Tab';
+import POSTFAV from '../../Assets/img/POSTFAV.png';
+
 export const Header = () => {
   return (
     <Container>
       <LeftContainer>
         <Logo>
-          <Link to="/">LOGO</Link>
+          <Link to="/">
+            <img src={POSTFAV} alt="LOGO" />
+          </Link>
         </Logo>
         <InputForm />
       </LeftContainer>
@@ -31,7 +35,12 @@ const LeftContainer = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.div``;
+const Logo = styled.div`
+  img {
+    width: 2.75rem;
+    margin-top: 0.5rem;
+  }
+`;
 
 const RightContainer = styled.div`
   display: flex;

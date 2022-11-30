@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAllLists } from '../../Api/MainApi';
 import { List } from '../List/List';
 const ListContainer = () => {
-  const [lists, setLists] = useState({});
-  setLists(getAllLists);
+  const [postList, setPostList] = useState([]);
+  useEffect(() => {
+    getAllLists().then((res) => {
+      setPostList(res.data);
+    });
+  }, []);
   return (
     <Container>
-      {lists &&
-        lists.map((list) => (
-          <List key={list.postId} nickname={list.nickname} postId={list.postId} createdAt={list.createdAt} />
-        ))}
+      {postList &&
+        postList.map((post) => {
+          <List key={post.postId} nickname={post.nickname} postId={post.postId} createdAt={post.createdAt} />;
+        })}
     </Container>
   );
 };
