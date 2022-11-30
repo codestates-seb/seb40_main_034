@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import FollowList from './FollowList';
-import { Footer } from './Footer';
 import Tag from './Tag';
 
 const Sidebar = ({ followlist }) => {
@@ -32,19 +31,19 @@ const Sidebar = ({ followlist }) => {
 };
 
 const Container = styled.div`
-  padding: 0 1rem 0 1rem;
+  padding: 1rem 1rem 0 1rem;
   width: 12rem;
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 5rem);
   h1 {
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.5rem;
   }
 `;
 const TagConatiner = styled.div`
   width: 100%;
   height: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 const RankContainer = styled.div`
   width: 100%;

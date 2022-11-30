@@ -32,7 +32,7 @@ const Profile = styled.div`
   border: ${(props) => (props.profileImg === undefined ? '1px solid #eeeeee' : 'none')};
 `;
 const Id = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   :hover {
     text-decoration: underline;
   }
