@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ca6937f-875e-44b0-acce-2666e8913e28" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPatchDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPatchDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentPostDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/dto/CommentResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/BaseTimeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/BaseTimeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/entity/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/comment/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/exception/ExceptionCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/entity/CommentLike.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/entity/CommentLike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/repository/CommentLikeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/repository/CommentLikeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/service/CommentLikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/commentlike/service/CommentLikeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/dto/PostLikeResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/dto/PostLikeResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/entity/PostLike.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/entity/PostLike.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/repository/PostLikeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/repository/PostLikeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/service/PostLikeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/like/postlike/service/PostLikeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/entity/Member.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/repository/MemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/member/repository/MemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPatchDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPatchDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostPostDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/dto/PostResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/BaseTimeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/BaseTimeEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/entity/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/mapper/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/mapper/PostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/repository/PostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/repository/PostRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/example/seb_main_project/post/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +153,8 @@
       <workItem from="1669615126607" duration="3732000" />
       <workItem from="1669684751567" duration="15077000" />
       <workItem from="1669705077620" duration="10445000" />
-      <workItem from="1669735546132" duration="4293000" />
+      <workItem from="1669735546132" duration="4934000" />
+      <workItem from="1669766576104" duration="863000" />
     </task>
     <servers />
   </component>
