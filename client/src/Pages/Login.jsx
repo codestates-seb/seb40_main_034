@@ -8,7 +8,7 @@ import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
-import { setCookieToken } from '../storage/Cookie';
+import { setCookieToken, removeCookieToken } from '../storage/Cookie';
 import { persistor } from '../Routes/AppRouter';
 const Login = () => {
   const [email, setEmail] = useState('');
