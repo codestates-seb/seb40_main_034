@@ -14,13 +14,11 @@ import com.example.seb_main_project.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-@Validated
 @RequiredArgsConstructor
 @RestController
 @Transactional
@@ -32,10 +30,6 @@ public class CommentController {
     private final MemberService memberService;
     private final CommentRepository commentRepository;
 
-
-//============================================================================================================
-
-    //[ GET ]: '특정 하나의 댓글 조회'를 요청
     @GetMapping("/{comment-id}")
     public ResponseEntity getComment(@PathVariable("comment-id") Integer commentId) {
 
@@ -49,9 +43,10 @@ public class CommentController {
 
     //[ POST ]
     @PostMapping("/posts/{post-id}/comments")
-    public ResponseEntity postComment(@PathVariable("post-id") Integer postId,
-                                      @Valid @RequestBody CommentPostDto commentPostDto,
-                                      @CookieValue(name = "memberId") Integer memberId) {
+    public ResponseEntity postComment(
+            @PathVariable("post-id") Integer postId,
+            @Valid @RequestBody CommentPostDto commentPostDto,
+            @CookieValue(name = "memberId") Integer memberId) {
 
         Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
         Comment createdComment = commentService.createComment(comment, postId, memberId);
@@ -64,8 +59,9 @@ public class CommentController {
 
     //[ PATCH ]
     @PatchMapping("/posts/{post-id}/comments/{comment-id}")
-    public ResponseEntity patchComment(@PathVariable("comment-id") Integer commentId,
-                                       @Valid @RequestBody CommentPatchDto commentPatchDto) {
+    public ResponseEntity patchComment(
+            @PathVariable("comment-id") Integer commentId,
+            @Valid @RequestBody CommentPatchDto commentPatchDto) {
 
         commentPatchDto.setCommentId(commentId);
         Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);

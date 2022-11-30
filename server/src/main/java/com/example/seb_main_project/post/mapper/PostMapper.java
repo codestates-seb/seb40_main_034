@@ -18,6 +18,6 @@ public interface PostMapper {
     @Mapping(source = "post.member.nickname", target = "nickname")
     PostDto.PostResponseDto postToPostResponseDto(Post post);
 
-    List<PostDto.PostCreateDto> postToPostResponseDto(List<Post> posts);
+    List<PostDto.PostResponseDto> postToPostResponseDto(List<Post> posts);
 
 }
