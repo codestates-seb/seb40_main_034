@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import AboutBtn from '../Components/Common/AboutBtn';
 import { Header } from '../Components/Common/Header';
 import Sidebar from '../Components/Common/Sidebar';
 import WriteBtn from '../Components/Common/WriteBtn';
@@ -11,7 +12,7 @@ const Layout = () => {
         <Sidebar />
         <Outlet />
       </Body>
-
+      <AboutBtn />
       <WriteBtn />
     </>
   );
