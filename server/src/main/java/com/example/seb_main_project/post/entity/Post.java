@@ -1,7 +1,9 @@
 package com.example.seb_main_project.post.entity;
 
 
+import com.example.seb_main_project.comment.entity.Comment;
 import com.example.seb_main_project.like.postlike.entity.PostLike;
+import com.example.seb_main_project.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,25 +23,16 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId; //pk
 
-    @Column(nullable= false)
-    private String title;
-
+    @Column
+    private String nickname;
     @Column(nullable = false, length=1000)
-    private String body;
-
-    @Column
-    private String tags;
-
-    @Column
-    private long postLikes;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
     @Column
     private long likeCount;
-
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
@@ -47,12 +40,25 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PostLike> postLikes = new ArrayList<>();
 
-
     public void changeMember(Member member) {
         this.member = member;
     }
-    public void changeTag(Tag tag) {
-        this.tag = tag;
+
+    public void setPostLikes(PostLike postLike) {
+        this.postLikes.add(postLike);
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateLikeCount() {
+        this.likeCount = postLikes.size();
+    }
+
+    public void discountLike(PostLike postLike) {
+        this.postLikes.remove(postLike);
+    }
+
 }
 

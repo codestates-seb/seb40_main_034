@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @ToString
 public class PostPostDto {
 
-    private long postId;
+    private Long postId;
+    private Long memberId;
     private String title;
-    private String body;
-    private String tags;
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

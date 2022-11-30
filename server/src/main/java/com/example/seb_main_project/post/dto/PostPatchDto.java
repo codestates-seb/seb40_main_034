@@ -4,19 +4,16 @@ import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
 @Getter
 @Builder
 @ToString
 public class PostPatchDto {
 
-    private long postId;
+    private Long postId;
     private String title;
-    private String body;
-    private String tags;
+    private String content;
 
-    public void setPostId(long postId){
-
-        this.postId = postId;
     }
 
 
@@ -28,4 +25,3 @@ public class PostPatchDto {
 
 
 
-}

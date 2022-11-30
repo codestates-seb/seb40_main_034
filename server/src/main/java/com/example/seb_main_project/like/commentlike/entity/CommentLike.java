@@ -2,9 +2,11 @@ package com.example.seb_main_project.like.commentlike.entity;
 
 
 import com.example.seb_main_project.comment.entity.Comment;
+import com.example.seb_main_project.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Builder
 @NoArgsConstructor
@@ -23,9 +25,8 @@ public class CommentLike {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(nmae = "POST_ID")
+    @JoinColumn(name = "POST_ID")
     private Comment comment;
-
 
     public void setMember(Member member){
         this.member = member;
