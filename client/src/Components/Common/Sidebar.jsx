@@ -1,30 +1,41 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getFollowList, getInitialTags } from '../../Api/SidebarApi';
 import FollowList from './FollowList';
 import Tag from './Tag';
 
-const Sidebar = ({ followlist }) => {
+const Sidebar = () => {
+  const [initialTags, setInitialTags] = useState([]);
+  const [followList, setFollowList] = useState([]);
+
+  useEffect(() => {
+    getInitialTags((res) => {
+      setFollowList(res.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    getFollowList((res) => {
+      setFollowList(res.data);
+    });
+  }, []);
+
   return (
     <Container>
       <TagConatiner>
         <h1>Tags</h1>
-        <Tag tagName="김재훈" />
-        <Tag tagName="aroowsVd" />
-        <Tag tagName="dev32user" />
-        <Tag tagName="김다혜" />
-        <Tag tagName="seung-yoon-yu" />
-        <Tag tagName="조유종" />
-        <Tag tagName="skynotlimit" />
+        {initialTags &&
+          initialTags.map((tag) => {
+            <Tag key={tag.tagId} tagName={tag.tagName} />;
+          })}
       </TagConatiner>
       <RankContainer></RankContainer>
       <FollowContainer>
         <h1>Follow</h1>
-        <FollowList nickname="aroowsVd" />
-        <FollowList nickname="dev32user" />
-        <FollowList nickname="김재훈" />
-        <FollowList nickname="김다혜" />
-        <FollowList nickname="seung-yoon-yu" />
-        <FollowList nickname="skynotlimit" />
-        <FollowList nickname="조유종" />
+        {followList &&
+          followList.map((list) => {
+            <FollowList key={list.id} nickname={list.nickname} />;
+          })}
       </FollowContainer>
     </Container>
   );
@@ -35,6 +46,7 @@ const Container = styled.div`
   width: 12rem;
   height: calc(100vh - 5rem);
   h1 {
+    cursor: default;
     font-weight: 500;
     font-size: 1rem;
     margin-bottom: 0.5rem;

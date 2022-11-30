@@ -9,7 +9,6 @@ import { getProfile } from '../../Api/HeaderApi';
 import { GreenBtn, BlackBtn, GreyBtn } from '../Common/Btn';
 
 const Tab = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [clicked, setClicked] = useState(false);
   const modal = useRef(null);
@@ -20,7 +19,6 @@ const Tab = () => {
 
   useEffect(() => {
     getProfile().then((res) => {
-      console.log('TAB', res.data);
       setUserInfo(res.data);
     });
   }, []);
