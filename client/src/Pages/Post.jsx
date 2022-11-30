@@ -23,8 +23,6 @@ const Post = () => {
         <Body>
           <ImageContainer>
             <div>
-              Click to upload image
-              <br />
               클릭하여 업로드
               <br />
               2MB 이하의 이미지
