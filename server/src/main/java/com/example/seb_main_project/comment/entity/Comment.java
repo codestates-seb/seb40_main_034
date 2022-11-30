@@ -2,23 +2,24 @@ package com.example.seb_main_project.comment.entity;
 
 import com.example.seb_main_project.like.commentlike.entity.CommentLike;
 import com.example.seb_main_project.member.entity.Member;
+import com.example.seb_main_project.audit.Auditable;
+import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.post.entity.Post;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Comment extends BaseTimeEntity {
+public class Comment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Integer commentId;
 
     @Column
     private String nickname;
@@ -66,3 +67,5 @@ public class Comment extends BaseTimeEntity {
     }
 }
 
+    private Integer likeCount;
+}

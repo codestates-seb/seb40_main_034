@@ -3,6 +3,8 @@ package com.example.seb_main_project.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
+    POST_NOT_FOUND(504, "Post not found"),
+    TAG_NOT_FOUND(504, "Tag not found"),
     MEMBER_NOT_FOUND(404, "Member not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     POST_NOT_FOUND(404, "Post not found");

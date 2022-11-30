@@ -1,4 +1,4 @@
-package com.example.seb_main_project.like.postlike.dto;
+package com.example.seb_main_project.postlike.dto;
 
 
 import lombok.AllArgsConstructor;

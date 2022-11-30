@@ -7,12 +7,11 @@ import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
-import com.example.seb_main_project.member.service.DBMemberService;
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.repository.PostRepository;
 import com.example.seb_main_project.post.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,22 +23,17 @@ import java.util.Optional;
 @Service
 public class CommentService {
 
-    @Autowired
     private final CommentRepository commentRepository;
-    @Autowired
     private final MemberRepository memberRepository;
-    @Autowired
     private final PostRepository postRepository;
-    @Autowired
-    private final DBMemberService dbMemberService;
-    @Autowired
+    private final MemberService memberService;
     private final PostService postService;
 
 
 //============================================================================================================
 
     //[ GET ]: '특정 하나의 댓글 조회'를 요청
-    public Comment showComment(Long commentId){
+    public Comment getComment(Integer commentId){
 
         return showVerifiedComment(commentId);
     }
@@ -56,7 +50,7 @@ public class CommentService {
 //============================================================================================================
 
     //[ POST ]
-    public Comment createComment(Comment comment, Long postId, Long memberId){
+    public Comment createComment(Comment comment, Integer postId, Integer memberId){
 
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         Member shownMember = optionalMember.orElseThrow(()->
@@ -86,10 +80,21 @@ public class CommentService {
         return commentRepository.save(shownComment);
     }
 
+
+    public Comment showVerifiedComment(Integer commentId){
+
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        Comment shownComment = optionalComment.orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+
+        return shownComment;
+    }
+
+
 //============================================================================================================
 
     //[ DELETE ]
-    public void deleteComment(Long commentId){
+    public void deleteComment(Integer commentId){
 
         Comment shownComment = showVerifiedComment(commentId);
         commentRepository.delete(shownComment);

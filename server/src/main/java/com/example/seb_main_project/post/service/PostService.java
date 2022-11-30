@@ -5,11 +5,10 @@ import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
-import com.example.seb_main_project.member.service.DBMemberService;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.repository.PostRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,19 +18,16 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
+@Slf4j
 public class PostService {
 
-    private PostRepository postRepository;
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository, MemberRepository memberRepository){
-        this.postRepository = postRepository;
-        this.memberRepository = memberRepository;
-    }
-//=============================================================================================================
 
-    //[ GET ]: '모든 게시글 조회'를 요청. '모든 게시글들'을 조회
-    public Page<Post> showPosts(int page, int size){
+    public Page<Post> showPosts(int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("postId").descending());
 
@@ -39,83 +35,48 @@ public class PostService {
 
     }
 
-//=============================================================================================================
 
-    //[ GET ]: '특정 하나의 게시글 조회'를 요청. '특정 하나의 게시글'을 조회
-    public Post showPost(Long postId){
+    public Post findPost(Integer postId) {
 
-        return showVerifiedPost(postId);
+        return findVerifiedPost(postId);
     }
 
-    public Post showVerifiedPost(Long postId){
+    private Post findVerifiedPost(Integer postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-        Post showPost = optionalPost.orElseThrow(()->
-                            new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
 
-        return showPost;
+        return optionalPost.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.POST_NOT_FOUND));
     }
 
-//=============================================================================================================
 
-    //[ POST ]: '새로운 게시글을 작성'하는 요청.
-    @Transactional
-    public Post createPost(Post post, Long nickname){
+    public Post createPost(Post post, Integer memberId) {
 
-        Member member = memberRepository.findById(nickname).orElseThrow(()->
-                new IllegalArgumentException("글 작성 실패! 없는 사용자입니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        post.changeMember(member);
+        post.setMember(member);
 
         return postRepository.save(post);
 
     }
 
-//=============================================================================================================
+    public Post updatePost(Post post) {
+        Post showPost = findVerifiedPost(post.getPostId());
 
-    //[ PATCH ] : '새로운 게시글을 수정'하는 요청
-    @Transactional
-    public Post updatePost(Post post){
-
-        Post showPost = showVerifiedPost(post.getPostId());
-
-        Optional.ofNullable(post.getContent())
-                .ifPresent(content -> showPost.updateContent(content));
-
+        Optional.ofNullable(post.getTitle())
+                .ifPresent(showPost::setTitle);
+        Optional.ofNullable(post.getContents())
+                .ifPresent(showPost::setContents);
+        Optional.ofNullable(post.getTags())
+                .ifPresent(showPost::setTags);
 
         return postRepository.save(showPost);
     }
 
-//=============================================================================================================
 
-    //[ DELETE ]: 기존의 게시글 삭제하는 요청
-    @Transactional
-    public void deletePost(Long postId){
+    public void deletePost(Integer postId) {
 
-    Post post = showVerifiedPost(postId);
-    postRepository.delete(post);
+        Post post = findVerifiedPost(postId);
+        postRepository.delete(post);
     }
-
-//=============================================================================================================
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,6 +8,7 @@ import com.example.seb_main_project.comment.entity.Comment;
 import com.example.seb_main_project.comment.mapper.CommentMapper;
 import com.example.seb_main_project.comment.repository.CommentRepository;
 import com.example.seb_main_project.comment.service.CommentService;
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,17 +16,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Validated
 @RequiredArgsConstructor
 @RestController
+@Transactional
 public class CommentController {
 
     private final CommentService commentService;
     private final PostService postService;
     private final CommentMapper commentMapper;
+    private final MemberService memberService;
     private final CommentRepository commentRepository;
 
 
@@ -33,24 +36,23 @@ public class CommentController {
 
     //[ GET ]: '특정 하나의 댓글 조회'를 요청
     @GetMapping("/{comment-id}")
-    public ResponseEntity show(@PathVariable("comment-id") Long commentId ){
+    public  ResponseEntity getComment(@PathVariable("comment-id") Integer commentId ){
 
-    Comment shownComment = commentService.showComment(commentId);
-    CommentResponseDto commentResponseDto = commentMapper.toCommentResponseDto(shownComment);
+    Comment findComment = commentService.getComment(commentId);
+    CommentResponseDto commentResponseDto = commentMapper.toCommentResponseDto(findComment);
 
-    return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
+    return new ResponseEntity<>(new SingleResponseDto<>(commentResponseDto), HttpStatus.OK);
     }
 
 //============================================================================================================
 
     //[ POST ]
-    @Transactional
     @PostMapping("/posts/{post-id}/comments")
-    public ResponseEntity post(@PathVariable("post-id") Long postId, Long memberId, //memberId를 넣어줘야 할까??
-                               @Validated @RequestBody CommentPostDto commentPostDto){
+    public ResponseEntity postComment(@PathVariable("post-id") Integer postId,
+                               @Valid @RequestBody CommentPostDto commentPostDto){
 
     Comment comment = commentMapper.commentPostDtoToComment(commentPostDto);
-    Comment createdComment = commentService.createComment(comment, postId, memberId);
+    Comment createdComment = commentService.createComment(comment, postId);
     CommentResponseDto commentResponseDto = new CommentResponseDto(createdComment);
 
     return new ResponseEntity<>(commentResponseDto, HttpStatus.CREATED);
@@ -59,10 +61,9 @@ public class CommentController {
 //============================================================================================================
 
     //[ PATCH ]
-    @Transactional
     @PatchMapping("/posts/{post-id}/comments/{comment-id}")
-    public ResponseEntity update(@PathVariable("commment-id") Long commentId,
-                                @Validated @RequestBody CommentPatchDto commentPatchDto){
+    public ResponseEntity patchComment(@PathVariable("comment-id") Integer commentId,
+                                @Valid @RequestBody CommentPatchDto commentPatchDto){
 
         commentPatchDto.setCommentId(commentId);
         Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
@@ -75,14 +76,11 @@ public class CommentController {
 //============================================================================================================
 
     //[ DELETE ]
-    @Transactional
     @DeleteMapping("/comments/{comment-id}")
-    public ResponseEntity delete(@PathVariable("comment-id") Long commentId){
+    public ResponseEntity delete(@PathVariable("comment-id") Integer commentId){
 
         commentService.deleteComment(commentId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
-
 }

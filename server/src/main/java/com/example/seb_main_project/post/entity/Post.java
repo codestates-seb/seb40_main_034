@@ -1,6 +1,10 @@
 package com.example.seb_main_project.post.entity;
 
 
+import com.example.seb_main_project.audit.Auditable;
+import com.example.seb_main_project.comment.entity.Comment;
+import com.example.seb_main_project.member.entity.Member;
+import com.example.seb_main_project.postlike.entity.PostLike;
 import com.example.seb_main_project.comment.entity.Comment;
 import com.example.seb_main_project.like.postlike.entity.PostLike;
 import com.example.seb_main_project.member.entity.Member;
@@ -16,14 +20,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Post extends BaseTimeEntity {
+public class Post extends Auditable {
 
     //< 기본 칼럼 설정 >
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId; //pk
+    private Integer postId; // pk
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false, length = 1000)
+    private String contents;
 
     @Column
+    private String gpsX;
+
+    @Column
+    private String gpsY;
+
+    @Column
+    private String tags;
+
     private String nickname;
     @Column(nullable = false, length=1000)
     private String content;
@@ -59,6 +77,4 @@ public class Post extends BaseTimeEntity {
     public void discountLike(PostLike postLike) {
         this.postLikes.remove(postLike);
     }
-
 }
-
