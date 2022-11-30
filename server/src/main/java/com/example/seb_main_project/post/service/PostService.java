@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -78,9 +79,11 @@ public class PostService {
     }
 
 
-    public void deletePost(Integer postId) {
-
-        Post post = findVerifiedPost(postId);
-        postRepository.delete(post);
+    public void deletePost(Integer postId, Integer memberId) {
+        Post findPost = findVerifiedPost(postId);
+        if (!Objects.equals(findPost.getMember().getId(), memberId)) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+        }
+        postRepository.delete(findPost);
     }
 }

@@ -17,17 +17,16 @@ import java.util.List;
 
 
 @Slf4j
-@RequestMapping(value = "/main")
+@RequestMapping(value = "/")
 @RestController
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
-
     private final PostMapper postMapper;
 
 
-    @GetMapping("/list")
+    @GetMapping("/main/list")
     public ResponseEntity getPosts(
             @RequestParam int page,
             @RequestParam int size) {
@@ -41,17 +40,16 @@ public class PostController {
     }
 
 
-    @GetMapping("/{post-id}/detail")
+    @GetMapping("/post/{post-id}/detail")
     public ResponseEntity getPost(@PathVariable(name = "post-id") Integer postId) {
 
         Post findPost = postService.findPost(postId);
 
-        return new ResponseEntity<>(postMapper.postToPostDto(findPost), HttpStatus.OK);
-
+        return new ResponseEntity<>(postMapper.postToPostResponseDto(findPost), HttpStatus.OK);
     }
 
 
-    @PostMapping("/submit")
+    @PostMapping("/main/submit")
     public ResponseEntity createPost(
             @RequestBody PostDto.PostCreateDto postCreateDto,
             @CookieValue(name = "memberId") Integer memberId) {
@@ -65,9 +63,10 @@ public class PostController {
     }
 
 
-    @PatchMapping("/post/{post-id}")
-    public ResponseEntity updatePost(@PathVariable("post-id") Integer postId, @RequestBody PostDto.PostPatchDto postPatchDto) {
-
+    @PutMapping("/main/{post-id}/edit")
+    public ResponseEntity updatePost(
+            @PathVariable("post-id") Integer postId,
+            @RequestBody PostDto.PostPatchDto postPatchDto) {
         postPatchDto.setPostId(postId);
         Post updatedPost = postService.updatePost(postMapper.postPatchDtoToPost(postPatchDto));
 
@@ -76,12 +75,10 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/{post-id}")
-    public ResponseEntity deletePost(@PathVariable(name = "post-id") Integer postId) {
-
-        postService.deletePost(postId);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-
+    @DeleteMapping("/main/{post-id}/delete")
+    public void deletePost(
+            @PathVariable(name = "post-id") Integer postId,
+            @CookieValue(name = "memberId") Integer memberId) {
+        postService.deletePost(postId, memberId);
     }
 }
