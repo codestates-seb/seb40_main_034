@@ -31,7 +31,7 @@ public class MemberController {
         memberService.createMember(memberMapper.joinToMemberEntity(joinDto));
     }
 
-    @GetMapping("/nickname/check")
+    @PostMapping("/nickname/check")
     public ResponseEntity<ExistNickNameResponseDto> checkNickname(
             @RequestBody AuthDto.NicknameCheck nicknameCheck) {
         Boolean response = memberService.checkNickname(nicknameCheck.getNickname());
