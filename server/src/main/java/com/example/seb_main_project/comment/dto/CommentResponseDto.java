@@ -6,26 +6,21 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-@Data
-@Getter
 @Builder
-@ToString
 public class CommentResponseDto {
-
-    private Long commentId;
+    private Integer commentId;
+    private Integer memberId;
     private String nickname;
-    private Long memberId;
     private String content;
-    private Long likeCount;
+    private Integer likeCount;
     private LocalDateTime createdAt;
 
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
-        this.nickname = comment.getMember().getNickname();
-        this.memberId = comment.getMember().getMemberId();
+        this.memberId = comment.getMember().getId();
         this.content = comment.getContent();
         this.likeCount = comment.getLikeCount();
         this.createdAt = comment.getCreatedAt();

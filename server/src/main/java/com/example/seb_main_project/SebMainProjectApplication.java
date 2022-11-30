@@ -1,4 +1,4 @@
-package main.java.com.example.seb_main_project;
+package com.example.seb_main_project;
 
 
 import org.springframework.boot.SpringApplication;

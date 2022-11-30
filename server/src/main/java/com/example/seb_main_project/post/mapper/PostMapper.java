@@ -1,28 +1,22 @@
 package com.example.seb_main_project.post.mapper;
 
-import com.example.seb_main_project.post.dto.PostPostDto;
-import com.example.seb_main_project.post.dto.PostPatchDto;
-import com.example.seb_main_project.post.dto.PostResponseDto;
+import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface PostMapper {
 
-    Post postPostDtoToPost(PostPostDto postPostDto);
+    Post postPostDtoToPost(PostDto.PostCreateDto postPostCreateDto);
 
-    Post postPatchDtoToPost(PostPatchDto postPatchDto);
+    Post postPatchDtoToPost(PostDto.PostPatchDto postPatchDto);
 
-    PostPostDto toPostResponseDto(Post post);
+    PostDto.PostCreateDto postToPostResponseDto(Post post);
 
-    List<PostPostDto> toPostResponseDtos(List<Post> posts);
+    List<PostDto.PostCreateDto> postToPostResponseDto(List<Post> posts);
 
+    PostDto.PostResponseDto postToPostDto(Post findPost);
 }
-
-
-
-
-
-
