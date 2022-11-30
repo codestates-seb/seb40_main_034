@@ -13,4 +13,7 @@ public interface MemberMapper {
 
     @Mapping(source = "response", target = "existNickname")
     ExistNickNameResponseDto booleanToExistNickNameResponseDto(Boolean response);
+
+    @Mapping(source = "id", target = "memberId")
+    AuthDto.MemberResponseDto memberToMemberResponseDto(Member member);
 }
