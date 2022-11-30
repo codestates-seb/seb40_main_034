@@ -20,6 +20,7 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(true);
   const [nickNamedouble, setNicknamedouble] = useState(true);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,10 +29,33 @@ const Signup = () => {
 
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
+      setNickname('');
     }
   };
   const nickNameDoublecheck = () => {
-    nicknameCheck(nickname);
+    if (nickname !== undefined && nickname !== '') {
+      axios
+        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+          nickname: nickname,
+        })
+        .then((res) => {
+          if (res.data.existNickname === false) {
+            console.log(res);
+            setNicknamedouble(false);
+            alert('가능한 닉네임입니다');
+          } else {
+            console.log(res);
+            alert('사용중인 닉네임입니다');
+            setNicknamedouble(true);
+            setNickname('');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (nickname === '') {
+      alert('닉네임을 입력해주세요');
+    }
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -54,10 +78,12 @@ const Signup = () => {
       return alert('Email을 입력하세요.');
     } else if (!password) {
       return alert('Password를 입력하세요.');
+    } else if (nickNamedouble) {
+      return alert('닉네임을 확인해주세요');
     }
 
     //모두 valid하다면 axios.post를 보낸다
-    if (nicknameValid && emailValid && pwValid) {
+    if (!nickNamedouble && nicknameValid && emailValid && pwValid) {
       const registerBody = {
         email: email,
         password: password,
@@ -100,11 +126,6 @@ const Signup = () => {
               <div>
                 {!nicknameValid && nickname.length > 0 && (
                   <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
-                )}
-              </div>
-              <div>
-                {!nickNamedouble && nicknameValid && nickname.length > 0 && (
-                  <ErrorNickname>닉네임 중복입니다</ErrorNickname>
                 )}
               </div>
             </div>
