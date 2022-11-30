@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
-import { setLoginUserInfo, deleteLoginUserInfo } from '../Store/Auth';
+import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken } from '../storage/Cookie';
-
+import { persistor } from '../Routes/AppRouter';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,8 +71,9 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const logout = () => {
-    dispatch(deleteLoginUserInfo(res.data));
+  const purge = async () => {
+    location.reload();
+    await persistor.purge(); // persistStore의 데이터 전부 날림
   };
   return (
     <div>
@@ -112,7 +113,7 @@ const Login = () => {
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
       </PageContainer>
-      <button onClick={logout}>logout</button>
+      <button onClick={async () => purge()}>logout</button>
     </div>
   );
 };
@@ -150,10 +151,11 @@ const LoginButton = styled(GreenBtn)`
   margin: 1rem;
 `;
 const LogoDiv = styled.img.attrs({
-  src: 'https://user-images.githubusercontent.com/99412221/202052092-56e52c9b-0654-45e0-9591-3cf9ac047a2a.png',
+  src: 'https://user-images.githubusercontent.com/99412221/204719891-04be8c01-2c4e-421e-8bc6-d851318ca28d.png',
 })`
-  width: 15 rem;
-  height: 15rem;
+  width: 20 rem;
+  height: 20rem;
+  margin-bottom: 2rem;
 `;
 
 const Wrap = styled.div`
