@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
-import { ReactComponent as Check } from '../Assets/img/checked.svg';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 import { validEmail, validNickname, validPw } from '../Api/Valid';
@@ -75,6 +74,7 @@ const Signup = () => {
     setNicknameValid(validNickname(nickname));
     setEmailValid(validEmail(email));
     setPwValid(validPw(password));
+
     //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!nickname) {
       return alert('Nickname을 입력하세요');
@@ -132,7 +132,7 @@ const Signup = () => {
                 value={nickname}
                 onChange={handleNickname}
                 placeholder="Enter your Nickname"></SignupInput>
-              <DoubleCheck onClick={nickNameDoublecheck}>닉네임중복체크</DoubleCheck>
+              <DoubleCheck onClick={nickNameDoublecheck}>Check</DoubleCheck>
               <div>
                 {!nicknameValid && nickname.length > 0 && (
                   <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
@@ -274,12 +274,29 @@ const PwNoshow = styled(Closedeye)`
 const NicknameWrap = styled.div`
   position: relative;
 `;
-const DoubleCheck = styled(Check)`
+const DoubleCheck = styled.div`
   position: absolute;
-  top: 2.3rem;
-  left: 22.5rem;
+  top: 1.88rem;
+  left: 20.625rem;
+  border-radius: 0 0.5rem 0.5rem 0;
   cursor: pointer;
-  width: 2rem;
-  height: 2rem;
+  height: 2.75rem;
+  width: 4.5rem;
+
+  line-height: 2.55rem;
+  text-align: center;
+
+  font-weight: 500;
+  font-size: 0.85rem;
+  background-color: #91f841;
+  color: #333333;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+  &:active {
+    filter: brightness(80%);
+  }
 `;
+
 export default Signup;
