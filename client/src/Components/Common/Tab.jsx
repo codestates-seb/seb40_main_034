@@ -9,7 +9,7 @@ import { getProfile } from '../../Api/HeaderApi';
 import { GreenBtn, BlackBtn, GreyBtn } from '../Common/Btn';
 
 const Tab = () => {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
   const [clicked, setClicked] = useState(false);
   const modal = useRef(null);
   const profile = useRef(null);
@@ -25,8 +25,11 @@ const Tab = () => {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (profile.current.contains(e.target)) return;
-      if (modal.current && !modal.current.contains(e.target)) setClicked(false);
+      if (userInfo) {
+        //유저 인포 없을 때, 작동하면 안 됨
+        if (profile.current.contains(e.target)) return;
+        if (modal.current && !modal.current.contains(e.target)) setClicked(false);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
