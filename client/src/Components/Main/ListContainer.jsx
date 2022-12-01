@@ -4,14 +4,15 @@ import { getAllLists } from '../../Api/MainApi';
 import { List } from '../List/List';
 
 const ListContainer = () => {
+  const pagesize = Math.floor((window.innerWidth - 14 * 16) / 235);
   const [postList, setPostList] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
-
   const fetchList = useCallback(async () => {
-    const fetchData = await getAllLists({ page, size: 1 });
+    const fetchData = await getAllLists({ page, size: pagesize });
     setPostList(postList.concat(fetchData.data));
+    console.log('fetched', fetchData);
     setPage(fetchData.pageInfo.page + 1);
     setNextPage(!(fetchData.pageInfo.page === fetchData.pageInfo.totalPages));
     setFetching(false);
@@ -22,10 +23,11 @@ const ListContainer = () => {
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, offsetHeight } = document.documentElement;
-      if (window.innerHeight + scrollTop >= offsetHeight) {
+      if (window.innerHeight + scrollTop === offsetHeight) {
         setFetching(true);
+        console.log('scroll-fetched');
       }
-      console.log('scrolled');
+      console.log(scrollTop, '+', window.innerHeight, '===', offsetHeight, '일 때 fetch됩니다');
     };
     setFetching(true);
     window.addEventListener('scroll', handleScroll);
@@ -47,6 +49,7 @@ const ListContainer = () => {
     </Container>
   );
 };
+
 const Container = styled.div`
   width: calc(100vw - 14rem);
   display: flex;
