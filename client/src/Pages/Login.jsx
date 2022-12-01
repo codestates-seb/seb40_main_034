@@ -10,13 +10,14 @@ import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken, removeCookieToken } from '../storage/Cookie';
 import { persistor } from '../Routes/AppRouter';
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [emailValid, setEmailValid] = useState(true);
   const [pwValid, setPwValid] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const Login = () => {
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
       axios
-        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/login', {
+        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/login', {
           email: email,
           password: password,
         })
@@ -70,10 +71,11 @@ const Login = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
-
+  //Store내에state초기화, cookie초기화
   const purge = async () => {
     location.reload();
     await persistor.purge(); // persistStore의 데이터 전부 날림
+    removeCookieToken();
   };
   return (
     <div>
@@ -120,7 +122,7 @@ const Login = () => {
 
 const PageContainer = styled.div`
   width: 100%;
-  height: 54rem;
+  height: 53rem;
   display: flex;
   align-items: center;
   justify-content: center;

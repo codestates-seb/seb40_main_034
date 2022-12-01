@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
+import { ReactComponent as Check } from '../Assets/img/profile.svg';
 import { GreenBtn } from '../Components/Common/Btn';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -18,8 +19,9 @@ const Signup = () => {
   const [emailValid, setEmailValid] = useState(true);
   const [pwValid, setPwValid] = useState(true);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [nickNamedouble, setNicknamedouble] = useState(true);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -28,10 +30,33 @@ const Signup = () => {
 
     if (nickname.search(/\s/) != -1) {
       alert('닉네임은 빈 칸을 포함 할 수 없습니다.');
+      setNickname('');
     }
   };
   const nickNameDoublecheck = () => {
-    nicknameCheck(nickname);
+    if (nickname !== undefined && nickname !== '') {
+      axios
+        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+          nickname: nickname,
+        })
+        .then((res) => {
+          if (res.data.existNickname === false) {
+            console.log(res);
+            setNicknamedouble(false);
+            alert('가능한 닉네임입니다');
+          } else {
+            console.log(res);
+            alert('사용중인 닉네임입니다');
+            setNicknamedouble(true);
+            setNickname('');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (nickname === '') {
+      alert('닉네임을 입력해주세요');
+    }
   };
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -54,17 +79,19 @@ const Signup = () => {
       return alert('Email을 입력하세요.');
     } else if (!password) {
       return alert('Password를 입력하세요.');
+    } else if (nickNamedouble) {
+      return alert('닉네임을 확인해주세요');
     }
 
     //모두 valid하다면 axios.post를 보낸다
-    if (nicknameValid && emailValid && pwValid) {
+    if (!nickNamedouble && nicknameValid && emailValid && pwValid) {
       const registerBody = {
         email: email,
         password: password,
         nickname: nickname,
       };
       axios
-        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
+        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
             alert('회원가입에 성공했습니다. 로그인 해 주세요.');
@@ -90,24 +117,20 @@ const Signup = () => {
         <form onSubmit={handleSignup}>
           <SignupContainer>
             <LogoDiv />
-            <div>
+            <NicknameWrap>
               <SignupInput
                 type="text"
                 name="nickname"
                 value={nickname}
                 onChange={handleNickname}
                 placeholder="Enter your Nickname"></SignupInput>
+              <DoubleCheck onClick={nickNameDoublecheck}>닉네임중복체크</DoubleCheck>
               <div>
                 {!nicknameValid && nickname.length > 0 && (
                   <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
                 )}
               </div>
-              <div>
-                {!nickNamedouble && nicknameValid && nickname.length > 0 && (
-                  <ErrorNickname>닉네임 중복입니다</ErrorNickname>
-                )}
-              </div>
-            </div>
+            </NicknameWrap>
             <SignupInput
               type="email"
               name="email"
@@ -133,9 +156,6 @@ const Signup = () => {
             <div>
               Already have an account? <Link to="/login">Login</Link>
             </div>
-            <DoubleCheck type="submit" onClick={nickNameDoublecheck}>
-              닉네임중복
-            </DoubleCheck>
           </SignupContainer>
         </form>
         <Wrap>
@@ -150,7 +170,7 @@ const Signup = () => {
 //styledComponent
 const PageContainer = styled.div`
   width: 100%;
-  height: 54rem;
+  height: 53rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,12 +263,15 @@ const PwNoshow = styled(Closedeye)`
   width: 2rem;
   height: 2rem;
 `;
-const DoubleCheck = styled.button`
+const NicknameWrap = styled.div`
+  position: relative;
+`;
+const DoubleCheck = styled(Check)`
   position: absolute;
-  top: 30.5rem;
-  left: 25rem;
+  top: 2.3rem;
+  left: 22.5rem;
   cursor: pointer;
-  width: 3rem;
-  height: 1rem;
+  width: 2rem;
+  height: 2rem;
 `;
 export default Signup;
