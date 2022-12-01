@@ -1,16 +1,20 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GreenBtn } from '../Common/Btn';
 import FollowList from '../Common/FollowList';
 
-export const List = ({ img, creator, location, profileImg, nickname }) => {
+export const List = ({ img, location, profileImg, nickname, createdAt, postId }) => {
+  const detailurl = `/post/${postId}/detail`;
   return (
     <Container>
-      <Thumbnail img={img} creator={creator}>
-        <div className="placeholder" />
+      <Thumbnail img={img} nickname={nickname}>
         <div className="thumbnailHover">
           <GreenBtn text="Bookmark" />
         </div>
-        <img src={img} alt={location} />
+        <Link to={detailurl} state={{ postId: postId }}>
+          <div className="placeholder" />
+          <img src={img} alt={location} />
+        </Link>
       </Thumbnail>
       <InfoContainer>
         <Location location={location}>location</Location>
@@ -29,6 +33,7 @@ const Thumbnail = styled.div`
   border-radius: 16px;
   img {
     display: ${(props) => (props.img === undefined ? 'none' : 'block')};
+    cursor: zoom-in;
   }
   :hover img {
     filter: brightness(85%);

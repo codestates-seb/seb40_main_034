@@ -4,6 +4,7 @@ import { postArticle } from '../Api/PostApi';
 import { GreenBtn } from '../Components/Common/Btn';
 import FollowList from '../Components/Common/FollowList';
 import { useNavigate } from 'react-router-dom';
+import Tagform from '../Components/Post/Tagform';
 
 const Post = () => {
   const [body, setBody] = useState('');
@@ -30,20 +31,25 @@ const Post = () => {
   };
   const handleSubmit = () => {
     const data = {
-      // gpsX: 'string',
-      // gpsY: 'string',
+      gpsX: 'string',
+      gpsY: 'string',
       contents: body,
       imageURL: imgs,
       tag: tags,
     };
-    if (body.length <= 30) alert('리뷰는 최소 30자 이상 작성하세요.');
-    if (tags.length === 0) alert('최소 하나 이상의 태그를 선택하세요.');
-    else {
+    if (body.length <= 10) {
+      alert('리뷰는 최소 10자 이상 작성하세요.');
+      return;
+    }
+    if (tags.length === 0) {
+      alert('최소 하나 이상의 태그를 선택하세요.');
+      return;
+    } else {
       postArticle(data).then((res) => {
         if (res.id) {
           navigate(`/post/${res.id}/detail`);
         } else {
-          alert('글 작성에 실패했습니다.');
+          alert(`글 작성에 실패했습니다. ${res}`);
         }
       });
     }
@@ -54,7 +60,7 @@ const Post = () => {
       <Container>
         <Header>
           <FollowList nickname="nickname" className="user" />
-          <GreenBtn text="저장" className="post" />
+          <GreenBtn text="저장" className="post" callback={handleSubmit} />
         </Header>
         <Body>
           <ImageContainer>
@@ -68,7 +74,7 @@ const Post = () => {
             <Place placeholder="장소" />
             <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
             <MaintxtValidator>{remain}</MaintxtValidator>
-            <TagForm placeholder="최소 한 개의 태그를 선택하세요." callback={handleTags} />
+            <Tagform callback={handleTags} />
           </Description>
         </Body>
       </Container>
@@ -155,13 +161,5 @@ const MaintxtValidator = styled.div`
   text-align: right;
   margin-bottom: 1.5rem;
 `;
-const TagForm = styled.input`
-  padding: 0.5rem;
-  height: 2rem;
-  border-bottom: 2px solid #ddd;
-  &:focus {
-    border-bottom: 2px solid #91f841;
-    outline: none;
-  }
-`;
+
 export default Post;

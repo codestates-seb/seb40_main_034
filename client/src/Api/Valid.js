@@ -1,5 +1,5 @@
 export const validNickname = (nickname) => {
-  const regex = /^[a-z0-9]{7,15}$/g;
+  const regex = /^[a-z0-9]{8,15}$/g;
   if (nickname.length > 0 && regex.test(nickname)) {
     return true;
   } else {
