@@ -1,12 +1,13 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
-import { useConfirm } from '../Api/DetailApi';
+import { useConfirm, useGetComment, useGetDetail, usePostComment } from '../Api/DetailApi';
 import DetailModal from '../Components/Detail/DetailModal';
+import { getCookieToken } from '../storage/Cookie';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -17,44 +18,6 @@ function Detail() {
     'https://images.unsplash.com/photo-1526306063970-d5498ad00f1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     'https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
   ];
-  // text 더미 데이터
-  let DetailText =
-    'abcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijkl';
-  // 댓글 더미 데이터
-  let commentData = [
-    {
-      nickname: 'arrowsVd',
-      contents: '잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd2',
-      contents: '잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-    {
-      nickname: 'arrowsVd3',
-      contents: '잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~,잘 보고갑니다~',
-    },
-  ];
 
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
@@ -62,25 +25,28 @@ function Detail() {
   const [imgS, setImgS] = useState(images);
   // 구독 버튼 state (나중에 삭제할거)
   const [subColor, setSubColor] = useState(false);
-  // 더보기 열기/닫기 스위치
+  // 더보기 열기/닫기 스위치(완)
   const [isShowMore, setIsShowMore] = useState(false);
-  // fetching text 데이터
-  const [bodyText, setBodyText] = useState(DetailText);
+  // contents(완)
+  const [bodyText, setBodyText] = useState('');
+  // comment data
+  const [commentData, setCommentData] = useState([]);
   // comment state
   const [comment, setComment] = useState('');
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
-  // edit modal
+  // edit modal(완)
   const [isEdit, setIsEdit] = useState(false);
-  console.log(isEdit);
+  // 닉네임(완)
+  const [nickname, setNickname] = useState('');
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
   const cancelConfirm = () => console.log('취소했습니다.');
   const confirmDelete = useConfirm('삭제하시겠습니까?', deleteConfirm, cancelConfirm);
 
-  // 글자수 제한
+  // 글자수 제한(완)
   const textLimit = useRef(200);
 
   // 이미지 뒤로가기 앞으로 가기 버튼
@@ -120,19 +86,26 @@ function Detail() {
 
   // 댓글 Post axios
   const postComment = (e) => {
-    e.preventdefault();
-    axios
-      .post(`/main/1/comment`, {
-        contents: comment,
-      })
-      .then((res) => {
-        console.log(res);
-        setComment('');
-      })
-      .catch((err) => console.log(err));
+    e.preventDefault();
+    usePostComment(1, comment).then((res) => console.log(res));
   };
 
-  // 조건부 게시글
+  // detail 조회(완)
+  useEffect(() => {
+    useGetDetail(1).then((res) => {
+      console.log(res);
+      setNickname(res.nickname);
+      setBodyText(res.contents);
+    });
+    useGetComment(1).then((res) => {
+      console.log(res);
+      setCommentData(res.data);
+    });
+    const token = getCookieToken();
+    console.log(token);
+  }, []);
+
+  // 조건부 게시글(완)
   const textViewer = useMemo(() => {
     const shortReview = bodyText.slice(0, textLimit.current);
     if (bodyText.length > textLimit.current) {
@@ -142,7 +115,7 @@ function Detail() {
       return shortReview;
     }
     return bodyText;
-  }, [isShowMore]);
+  }, [isShowMore, bodyText]);
 
   return (
     <>
@@ -201,7 +174,7 @@ function Detail() {
                   </Link>
                 </D_TopProfile>
                 <D_TopName>
-                  <Link to="/">arrowsVd</Link>
+                  <Link to="/">{nickname}</Link>
                 </D_TopName>
               </D_ProSum>
               {subColor ? (
