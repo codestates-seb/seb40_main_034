@@ -31,7 +31,7 @@ public class PostController {
             @RequestParam int page,
             @RequestParam int size) {
 
-        Page<Post> pagePosts = postService.showPosts(page - 1, size);
+        Page<Post> pagePosts = postService.findPosts(page - 1, size);
         List<Post> shownPosts = pagePosts.getContent();
 
         return new ResponseEntity<>(
