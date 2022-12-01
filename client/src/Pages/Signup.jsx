@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
-import { ReactComponent as Check } from '../Assets/img/profile.svg';
+import { ReactComponent as Check } from '../Assets/img/checked.svg';
 import { GreenBtn } from '../Components/Common/Btn';
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { validEmail, validNickname, validPw } from '../Api/Valid';
-import { nicknameCheck } from '../Api/nicknameCheck';
 
 const Signup = () => {
   const [nickname, setNickname] = useState('');
@@ -20,10 +18,9 @@ const Signup = () => {
   const [pwValid, setPwValid] = useState(true);
 
   const [showPassword, setShowPassword] = useState(true);
-  const [nickNamedouble, setNicknamedouble] = useState(true);
+  const [nicknameDouble, setNicknameDouble] = useState(true);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleNickname = (e) => {
     setNickname(e.target.value);
@@ -33,21 +30,27 @@ const Signup = () => {
       setNickname('');
     }
   };
+  //닉네임중복확인기능
   const nickNameDoublecheck = () => {
+    if (!validNickname(nickname)) {
+      alert('닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요');
+      setNickname('');
+      return;
+    }
     if (nickname !== undefined && nickname !== '') {
       axios
-        .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
           nickname: nickname,
         })
         .then((res) => {
           if (res.data.existNickname === false) {
             console.log(res);
-            setNicknamedouble(false);
             alert('가능한 닉네임입니다');
+            setNicknameDouble(false);
           } else {
             console.log(res);
             alert('사용중인 닉네임입니다');
-            setNicknamedouble(true);
+
             setNickname('');
           }
         })
@@ -79,12 +82,12 @@ const Signup = () => {
       return alert('Email을 입력하세요.');
     } else if (!password) {
       return alert('Password를 입력하세요.');
-    } else if (nickNamedouble) {
+    } else if (nicknameDouble) {
       return alert('닉네임을 확인해주세요');
     }
 
     //모두 valid하다면 axios.post를 보낸다
-    if (!nickNamedouble && nicknameValid && emailValid && pwValid) {
+    if (!nicknameDouble && nicknameValid && emailValid && pwValid) {
       const registerBody = {
         email: email,
         password: password,
@@ -100,8 +103,13 @@ const Signup = () => {
           }
         })
         .catch((Error) => {
-          alert('회원가입에 실패했습니다.');
-          console.log(Error);
+          if (Error.response.status === 500) {
+            alert('이미 가입된 이메일입니다. 로그인 해 주세요.');
+            navigate('/login');
+          } else {
+            alert('회원가입에 실패했습니다.');
+            console.log(Error);
+          }
         });
     }
   };
