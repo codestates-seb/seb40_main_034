@@ -4,6 +4,7 @@ import { postArticle } from '../Api/PostApi';
 import { GreenBtn } from '../Components/Common/Btn';
 import FollowList from '../Components/Common/FollowList';
 import { useNavigate } from 'react-router-dom';
+import Tagform from '../Components/Post/Tagform';
 
 const Post = () => {
   const [body, setBody] = useState('');
@@ -68,7 +69,7 @@ const Post = () => {
             <Place placeholder="장소" />
             <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
             <MaintxtValidator>{remain}</MaintxtValidator>
-            <TagForm placeholder="최소 한 개의 태그를 선택하세요." callback={handleTags} />
+            <Tagform callback={handleTags} />
           </Description>
         </Body>
       </Container>
@@ -155,13 +156,5 @@ const MaintxtValidator = styled.div`
   text-align: right;
   margin-bottom: 1.5rem;
 `;
-const TagForm = styled.input`
-  padding: 0.5rem;
-  height: 2rem;
-  border-bottom: 2px solid #ddd;
-  &:focus {
-    border-bottom: 2px solid #91f841;
-    outline: none;
-  }
-`;
+
 export default Post;
