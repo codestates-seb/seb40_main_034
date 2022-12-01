@@ -2,13 +2,18 @@ import styled from 'styled-components';
 import { GreenBtn, GreyBtn } from '../Components/Common/Btn';
 import { persistor } from '../Routes/AppRouter';
 import { removeCookieToken } from '../storage/Cookie';
-
+import { useNavigate } from 'react-router-dom';
 function Logout() {
+  const navigate = useNavigate();
   //Store내에state초기화, cookie초기화
   const purge = async () => {
+    navigate('/');
     location.reload();
     await persistor.purge(); // persistStore의 데이터 전부 날림
     removeCookieToken(); // cookie초기화
+  };
+  const toHome = () => {
+    navigate('/');
   };
 
   return (
@@ -17,8 +22,8 @@ function Logout() {
         <LogoDiv></LogoDiv>
         <LogoutStr>Want to logout?</LogoutStr>
         <BtnContainer>
-          <LogoutButton onClick={async () => purge()} text="Logout"></LogoutButton>
-          <CancelButton text="Cancel"></CancelButton>
+          <LogoutButton callback={purge} text="Logout"></LogoutButton>
+          <CancelButton callback={toHome} text="Cancel" />
         </BtnContainer>
       </LogoutContainer>
     </PageContainer>
