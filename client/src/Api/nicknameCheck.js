@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const nicknameCheck = async (nickname) => {
+export const nicknameCheck = (nickname) => {
   if (nickname !== undefined && nickname !== '') {
     axios
-      .post('http://ec2-13-125-134-99.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+      .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
         nickname: nickname,
       })
       .then((res) => {
