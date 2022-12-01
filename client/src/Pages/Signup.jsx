@@ -280,7 +280,7 @@ const DoubleCheck = styled.div`
   left: 20.625rem;
   border-radius: 0 0.5rem 0.5rem 0;
   cursor: pointer;
-  height: 2.75rem;
+  height: 2.73rem;
   width: 4.5rem;
 
   line-height: 2.55rem;

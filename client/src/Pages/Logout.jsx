@@ -1,48 +1,61 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
-import { getCookieToken, removeCookieToken } from '../storage/Cookie';
-
-import { requestToken } from '../Api/LoginApi';
+import styled from 'styled-components';
+import { GreenBtn, GreyBtn } from '../Components/Common/Btn';
+import { persistor } from '../Routes/AppRouter';
+import { removeCookieToken } from '../storage/Cookie';
 
 function Logout() {
-  // store에 저장된 Access Token 정보를 받아 온다
-  const { accessToken } = useSelector((state) => state.token);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // Cookie에 저장된 Refresh Token 정보를 받아 온다
-  const refreshToken = getCookieToken();
-
-  async function logout() {
-    // 백으로부터 받은 응답
-    const data = await refreshToken({ refresh_token: refreshToken }, accessToken);
-
-    if (data.status) {
-      // store에 저장된 Access Token 정보를 삭제
-
-      // Cookie에 저장된 Refresh Token 정보를 삭제
-      removeCookieToken();
-
-      return navigate('/');
-    } else {
-      window.location.reload();
-    }
-  }
-
-  // 해당 컴포넌트가 요청된 후 한 번만 실행되면 되기 때문에 useEffect 훅을 사용
-  useEffect(() => {
-    logout();
-  }, []);
+  //Store내에state초기화, cookie초기화
+  const purge = async () => {
+    location.reload();
+    await persistor.purge(); // persistStore의 데이터 전부 날림
+    removeCookieToken(); // cookie초기화
+  };
 
   return (
-    <>
-      <Link to="/" />
-    </>
+    <PageContainer>
+      <LogoutContainer>
+        <LogoDiv></LogoDiv>
+        <LogoutStr>Want to logout?</LogoutStr>
+        <BtnContainer>
+          <LogoutButton onClick={async () => purge()} text="Logout"></LogoutButton>
+          <CancelButton text="Cancel"></CancelButton>
+        </BtnContainer>
+      </LogoutContainer>
+    </PageContainer>
   );
 }
-
+const PageContainer = styled.div`
+  width: 100%;
+  height: 53rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const LogoutContainer = styled.div`
+  width: 35rem;
+  height: 50rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const BtnContainer = styled.div``;
+const LogoDiv = styled.img.attrs({
+  src: 'https://user-images.githubusercontent.com/99412221/205011351-46647908-b990-4166-b7ee-1ab482372a0a.png',
+})`
+  width: 16 rem;
+  height: 16rem;
+  margin-bottom: 2rem;
+`;
+const LogoutStr = styled.div`
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 2rem;
+`;
+const LogoutButton = styled(GreenBtn)`
+  margin: 1rem;
+`;
+const CancelButton = styled(GreyBtn)`
+  margin: 1rem;
+`;
 export default Logout;

@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
-import { setCookieToken, removeCookieToken } from '../storage/Cookie';
-import { persistor } from '../Routes/AppRouter';
+import { setCookieToken } from '../storage/Cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -71,12 +70,7 @@ const Login = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
-  //Store내에state초기화, cookie초기화
-  const purge = async () => {
-    location.reload();
-    await persistor.purge(); // persistStore의 데이터 전부 날림
-    removeCookieToken();
-  };
+
   return (
     <div>
       <PageContainer>
@@ -115,7 +109,6 @@ const Login = () => {
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
       </PageContainer>
-      <button onClick={async () => purge()}>logout</button>
     </div>
   );
 };
