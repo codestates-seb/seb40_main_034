@@ -5,18 +5,19 @@ import { List } from '../List/List';
 
 const ListContainer = () => {
   const [postList, setPostList] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
 
   const fetchList = useCallback(async () => {
-    const { data } = await getAllLists({ page, size: 10 });
-    setPostList(postList.concat(data.data));
-    setPage(data.pageInfo.page + 1);
-    setNextPage(!(data.pageInfo.page === data.pageInfo.totalPages));
+    const fetchData = await getAllLists({ page, size: 1 });
+    setPostList(postList.concat(fetchData.data));
+    setPage(fetchData.pageInfo.page + 1);
+    setNextPage(!(fetchData.pageInfo.page === fetchData.pageInfo.totalPages));
     setFetching(false);
-    console.log('fetched');
   });
+  // 데이터에 파라미터로 page, size 넣어서 요청한 후
+  // 받아온 데이터로 postlist, page, 다음 페이지 유무, 로딩 중인지의 여부를 세팅함
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,11 +36,12 @@ const ListContainer = () => {
     if (isFetching && hasNextPage) fetchList();
     else if (!hasNextPage) setFetching(false);
   }, [isFetching]);
+
   return (
     <Container>
-      {postList &&
+      {postList.length !== 0 &&
         postList.map((post) => {
-          <List key={post.postId} nickname={post.nickname} postId={post.postId} createdAt={post.createdAt} />;
+          return <List key={post.postId} nickname={post.nickname} postId={post.postId} createdAt={post.createdAt} />;
         })}
       {isFetching && <Loading>Loading...</Loading>}
     </Container>

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { GreenBtn } from '../Common/Btn';
 import FollowList from '../Common/FollowList';
 
-export const List = ({ img, creator, location, profileImg, nickname }) => {
+export const List = ({ img, location, profileImg, nickname, createdAt, postId }) => {
   return (
     <Container>
-      <Thumbnail img={img} creator={creator}>
+      <Thumbnail img={img} nickname={nickname}>
         <div className="placeholder" />
         <div className="thumbnailHover">
           <GreenBtn text="Bookmark" />
