@@ -29,7 +29,7 @@ public class PostService {
     private final PostRepository postRepository;
 
 
-    public Page<Post> showPosts(int page, int size) {
+    public Page<Post> findPosts(int page, int size) {
 
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("postId").descending());
 
