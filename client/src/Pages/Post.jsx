@@ -31,20 +31,25 @@ const Post = () => {
   };
   const handleSubmit = () => {
     const data = {
-      // gpsX: 'string',
-      // gpsY: 'string',
+      gpsX: 'string',
+      gpsY: 'string',
       contents: body,
       imageURL: imgs,
       tag: tags,
     };
-    if (body.length <= 30) alert('리뷰는 최소 30자 이상 작성하세요.');
-    if (tags.length === 0) alert('최소 하나 이상의 태그를 선택하세요.');
-    else {
+    if (body.length <= 10) {
+      alert('리뷰는 최소 10자 이상 작성하세요.');
+      return;
+    }
+    if (tags.length === 0) {
+      alert('최소 하나 이상의 태그를 선택하세요.');
+      return;
+    } else {
       postArticle(data).then((res) => {
         if (res.id) {
           navigate(`/post/${res.id}/detail`);
         } else {
-          alert('글 작성에 실패했습니다.');
+          alert(`글 작성에 실패했습니다. ${res}`);
         }
       });
     }
@@ -55,7 +60,7 @@ const Post = () => {
       <Container>
         <Header>
           <FollowList nickname="nickname" className="user" />
-          <GreenBtn text="저장" className="post" />
+          <GreenBtn text="저장" className="post" callback={handleSubmit} />
         </Header>
         <Body>
           <ImageContainer>
