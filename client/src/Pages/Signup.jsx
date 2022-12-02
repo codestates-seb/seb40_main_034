@@ -244,10 +244,10 @@ const ErrorEmail = styled.div`
   color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  margin-right: 14rem;
+  margin-right: 15rem;
 `;
 const ErrorPw = styled(ErrorEmail)`
-  margin-right: -1rem;
+  margin-right: 0.5rem;
 `;
 const ErrorNickname = styled(ErrorEmail)`
   margin-right: 5rem;
