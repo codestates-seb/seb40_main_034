@@ -10,7 +10,6 @@ import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken } from '../storage/Cookie';
 
-import Swal from 'sweetalert2';
 import customAlert from '../Utils/customAlert';
 
 const Login = () => {
@@ -74,6 +73,21 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+  const onBlurEmail = () => {
+    if (!validEmail(email)) {
+      setEmailValid(validEmail(email));
+    } else if (validEmail(email)) {
+      setEmailValid(validEmail(email));
+    }
+  };
+
+  const onBlurPassword = () => {
+    if (!validPw(password)) {
+      setPwValid(validPw(password));
+    } else if (validPw(password)) {
+      setPwValid(validPw(password));
+    }
+  };
   return (
     <div>
       <PageContainer>
@@ -85,7 +99,8 @@ const Login = () => {
               name="loginEmail"
               value={email}
               onChange={handleEmail}
-              placeholder="Enter your email"></LoginInput>
+              placeholder="Enter your email"
+              onBlur={onBlurEmail}></LoginInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
             <Pw>
               <LoginInput
@@ -93,7 +108,8 @@ const Login = () => {
                 name="loginPassword"
                 value={password}
                 onChange={handlePw}
-                placeholder="Enter your password"></LoginInput>
+                placeholder="Enter your password"
+                onBlur={onBlurPassword}></LoginInput>
               {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>

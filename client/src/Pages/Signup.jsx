@@ -120,6 +120,29 @@ const Signup = () => {
     setShowPassword(!showPassword);
   };
 
+  const onBlurNickname = () => {
+    if (!validNickname(nickname)) {
+      setNicknameValid(validNickname(nickname));
+    } else if (validNickname(nickname)) {
+      setNicknameValid(validNickname(nickname));
+    }
+  };
+  const onBlurEmail = () => {
+    if (!validEmail(email)) {
+      setEmailValid(validEmail(email));
+    } else if (validEmail(email)) {
+      setEmailValid(validEmail(email));
+    }
+  };
+
+  const onBlurPassword = () => {
+    if (!validPw(password)) {
+      setPwValid(validPw(password));
+    } else if (validPw(password)) {
+      setPwValid(validPw(password));
+    }
+  };
+
   return (
     <div>
       <PageContainer>
@@ -132,7 +155,8 @@ const Signup = () => {
                 name="nickname"
                 value={nickname}
                 onChange={handleNickname}
-                placeholder="Enter your Nickname"></SignupInput>
+                placeholder="Enter your Nickname"
+                onBlur={onBlurNickname}></SignupInput>
               <DoubleCheck onClick={nickNameDoublecheck}>Check</DoubleCheck>
               <div>
                 {!nicknameValid && nickname.length > 0 && (
@@ -145,7 +169,8 @@ const Signup = () => {
               name="email"
               value={email}
               onChange={handleEmail}
-              placeholder="Enter your email"></SignupInput>
+              placeholder="Enter your email"
+              onBlur={onBlurEmail}></SignupInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
             <Pw>
               <SignupInput
@@ -153,7 +178,8 @@ const Signup = () => {
                 name="password"
                 value={password}
                 onChange={handlePw}
-                placeholder="Enter your password"></SignupInput>
+                placeholder="Enter your password"
+                onBlur={onBlurPassword}></SignupInput>
               {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
