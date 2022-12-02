@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { postArticle } from '../Api/PostApi';
 import { GreenBtn } from '../Components/Common/Btn';
-import FollowList from '../Components/Common/FollowList';
+import MiniProfile from '../Components/Common/MiniProfile';
 import { useNavigate } from 'react-router-dom';
 import Tagform from '../Components/Post/Tagform';
 
@@ -59,7 +59,7 @@ const Post = () => {
     <Background>
       <Container>
         <Header>
-          <FollowList nickname="nickname" className="user" />
+          <MiniProfile nickname="nickname" className="user" />
           <GreenBtn text="저장" className="post" callback={handleSubmit} />
         </Header>
         <Body>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import GoUpBtn from '../Components/Common/GoUpBtn';
+import GoUpBtn from '../Components/Layout/GoUpBtn';
 import ListContainer from '../Components/Main/ListContainer';
 const Main = () => {
   return (

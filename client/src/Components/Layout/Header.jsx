@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { InputForm } from './InputForm';
+import { InputForm } from '../Common/InputForm';
 import { Link } from 'react-router-dom';
 import Tab from './Tab';
 import POSTFAV from '../../Assets/img/POSTFAV.png';
 
-export const Header = () => {
+const Header = () => {
   return (
     <Container>
       <LeftContainer>
@@ -48,3 +48,5 @@ const RightContainer = styled.div`
   right: 0;
   align-items: center;
 `;
+
+export default Header;
