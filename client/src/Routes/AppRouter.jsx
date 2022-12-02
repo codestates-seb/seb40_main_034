@@ -34,7 +34,7 @@ export const AppRouter = () => {
                   <Route path="" element={<Main />} />
                   <Route path="mypage" element={<Mypage />} />
                   <Route path="edit" element={<MypageEdit />} />
-                  <Route path="post/postId/detail" element={<Detail />} />
+                  <Route path="post/:postId/detail" element={<Detail />} />
                 </Route>
                 <Route element={<LayoutH />}>
                   <Route path="login" element={<Login />} />
