@@ -5,6 +5,7 @@ import { GreenBtn, GreyBtn } from '../Components/Common/Btn';
 import MiniProfile from '../Components/Common/MiniProfile';
 import { useNavigate } from 'react-router-dom';
 import Tagform from '../Components/Post/Tagform';
+import customAlert from '../Utils/customAlert';
 
 const Post = () => {
   const [body, setBody] = useState('');
@@ -78,18 +79,18 @@ const Post = () => {
     };
     console.log(data);
     if (body.length <= 10) {
-      alert('리뷰는 최소 10자 이상 작성하세요.');
+      customAlert('리뷰는 최소 10자 이상 작성하세요.');
       return;
     }
     if (tags.length === 0) {
-      alert('최소 하나 이상의 태그를 선택하세요.');
+      customAlert('최소 하나 이상의 태그를 선택하세요.');
       return;
     } else {
       postArticle(data).then((res) => {
         if (res.id) {
           navigate(`/post/${res.id}/detail`);
         } else {
-          alert(`글 작성에 실패했습니다. ${res}`);
+          customAlert(`글 작성에 실패했습니다. ${res}`);
         }
       });
     }

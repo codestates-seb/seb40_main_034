@@ -136,3 +136,23 @@ a {
   text-decoration: none;
   color: inherit;
 }
+.customAlert-container {
+  border-radius: 16px !important;
+}
+
+.customAlert-button {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 22px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #91f841;
+  color: #333333;
+}
+.customAlert-button:hover {
+  filter: brightness(90%);
+}
+.customAlert-button:active {
+  filter: brightness(80%);
+}
