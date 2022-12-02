@@ -135,7 +135,7 @@ const LoginInput = styled.input`
   width: 25rem;
   height: 2.5rem;
   margin-top: 2rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   text-indent: 10px;
   outline: solid 0.125rem #dddddd;
   &:focus {

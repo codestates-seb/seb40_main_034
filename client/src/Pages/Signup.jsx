@@ -198,7 +198,7 @@ const SignupInput = styled.input`
   width: 25rem;
   height: 2.5rem;
   margin-top: 2rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   text-indent: 10px;
   outline: solid 0.125rem #dddddd;
   &:focus {
@@ -280,7 +280,7 @@ const DoubleCheck = styled.div`
   position: absolute;
   top: 1.88rem;
   left: 20.625rem;
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 1rem 1rem 0;
   cursor: pointer;
   height: 2.73rem;
   width: 4.5rem;
