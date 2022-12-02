@@ -4,7 +4,15 @@ import AboutBtn from '../Components/Layout/AboutBtn';
 import Header from '../Components/Layout/Header';
 import Sidebar from '../Components/Layout/Sidebar';
 import WriteBtn from '../Components/Layout/WriteBtn';
+import { getProfile } from '../Api/HeaderApi';
+import { useEffect, useState } from 'react';
 const Layout = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  useEffect(() => {
+    getProfile().then((res) => {
+      setUserInfo(res.data);
+    });
+  }, []);
   return (
     <>
       <Header />
@@ -13,7 +21,7 @@ const Layout = () => {
         <Outlet />
       </Body>
       <AboutBtn />
-      <WriteBtn />
+      {userInfo && <WriteBtn />}
     </>
   );
 };
