@@ -5,6 +5,7 @@ import com.example.seb_main_project.exception.ExceptionCode;
 import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.member.repository.MemberRepository;
+import com.example.seb_main_project.security.repository.RefreshTokenRepository;
 import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class DBMemberService implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
 
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * Member 회원가입 DB 저장 메서드
@@ -72,4 +74,16 @@ public class DBMemberService implements MemberService {
                     throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
                 });
     }
+
+    /**
+     * refreshToken 존재 여부 확인 후 해당 토큰의 memberId 반환
+     */
+    @Override
+    public Integer getTokenMember(String authorization) {
+        return refreshTokenRepository.findRefreshTokenByTokenValue(
+                        authorization.substring(7))
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND))
+                .getMemberId();
+    }
+
 }

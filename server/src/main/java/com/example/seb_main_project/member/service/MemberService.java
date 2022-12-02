@@ -9,4 +9,6 @@ public interface MemberService {
     Boolean checkNickname(String nickname);
 
     Member updateMember(AuthDto.Update updateDto, Integer memberId);
+
+    Integer getTokenMember(String authorization);
 }

@@ -2,6 +2,7 @@ package com.example.seb_main_project.follow.controller;
 
 import com.example.seb_main_project.follow.dto.FollowDto;
 import com.example.seb_main_project.follow.service.FollowService;
+import com.example.seb_main_project.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class FollowController {
 
     private FollowService followService;
+    private MemberService memberService;
 
     @PostMapping("/follow/{member-id}")
     public ResponseEntity<FollowDto> follow(
             @PathVariable("{member-id}") Integer followedMemberId,
-            @CookieValue(name = "memberId") Integer followingMemberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer followingMemberId = memberService.getTokenMember(authorization);
         FollowDto followDto = followService.follow(followingMemberId, followedMemberId);
         return new ResponseEntity<FollowDto>(followDto, HttpStatus.CREATED);
     }
@@ -28,7 +31,8 @@ public class FollowController {
     @DeleteMapping("/unfollow/{member-id}")
     public ResponseEntity unfollow(
             @PathVariable("{member-id}") Integer followedMemberId,
-            @CookieValue(name = "memberId") Integer followingMemberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer followingMemberId = memberService.getTokenMember(authorization);
         followService.unfollow(followingMemberId, followedMemberId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
