@@ -65,7 +65,7 @@ const GreyBtnStyle = styled.button`
   text-align: center;
   cursor: pointer;
   background-color: #cccccc;
-  color: #33333;
+  color: #333333;
 
   &:hover {
     filter: brightness(90%);
