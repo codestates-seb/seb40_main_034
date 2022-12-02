@@ -15,6 +15,7 @@ jobs:
       - name: 환경 변수를 생성합니다.
         run: |
           echo "REACT_APP_SERVER_ROOT=$REACT_APP_SERVER_ROOT" >> .env
+          echo "REACT_APP_KAKAO_KEY=$REACT_APP_KAKAO_KEY" >> .env
         env:
           REACT_APP_SERVER_ROOT: ${{ secrets.REACT_APP_SERVER_ROOT }}
         working-directory: ./client
