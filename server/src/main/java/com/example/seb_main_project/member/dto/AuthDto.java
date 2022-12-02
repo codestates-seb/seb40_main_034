@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 public class AuthDto {
     @Getter
+    @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Join {
         @NotBlank

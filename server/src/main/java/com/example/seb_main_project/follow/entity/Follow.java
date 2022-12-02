@@ -1,10 +1,7 @@
 package com.example.seb_main_project.follow.entity;
 
 import com.example.seb_main_project.member.entity.Member;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -19,9 +16,15 @@ public class Follow {
 
     @ManyToOne
     @JoinColumn(name = "following")
-    private Member following;
+    private Member followingMember;
 
     @ManyToOne
     @JoinColumn(name = "follower")
-    private Member follower;
+    private Member followedMember;
+
+    @Builder
+    public Follow(Member followingMember, Member followedMember) {
+        this.followingMember = followingMember;
+        this.followedMember = followedMember;
+    }
 }
