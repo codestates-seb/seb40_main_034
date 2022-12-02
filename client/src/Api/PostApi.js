@@ -1,3 +1,4 @@
+import axios from 'axios';
 import instance from './root';
 
 export const postArticle = async (data) => {
@@ -7,5 +8,21 @@ export const postArticle = async (data) => {
     return result.data;
   } catch (err) {
     return [err];
+  }
+};
+
+export const locationSearch = async (data) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_KEY}`,
+    },
+  };
+  const url = `https://dapi.kakao.com/v2/local/search/address.json?${data}`;
+  try {
+    const result = await axios.get(url, config);
+    return result.data;
+  } catch (err) {
+    return err;
   }
 };
