@@ -64,7 +64,11 @@ const MyInfo = () => {
     <MyContainer>
       <ProfileContainer>
         <ProfilePic>
-          <img src={userProfile} alt="UserPic" />
+          {userProfile ? (
+            <img src={userProfile} alt="UserPic" />
+          ) : (
+            <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="UserPic" />
+          )}
         </ProfilePic>
         <div className="nickname-text">{userName}</div>
       </ProfileContainer>

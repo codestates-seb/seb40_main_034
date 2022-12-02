@@ -70,7 +70,12 @@ const EditDetail = () => {
     if (file !== '') setPreview(<img src={previewURL} alt="preview" />);
     return () => {
       getFollowInfo().then((res) => {
-        setDefaultImg(<img src={res[0].profileImg} alt="UserPic" />);
+        if (res.profileImg) {
+          setDefaultImg(<img src={res.profileImg} alt="UserPic" />);
+        }
+        setDefaultImg(
+          <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="UserPic" />,
+        );
       });
     };
   }, [previewURL]);
