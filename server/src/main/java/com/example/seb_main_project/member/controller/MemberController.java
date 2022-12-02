@@ -42,7 +42,8 @@ public class MemberController {
     @PutMapping("/member-info/edit")
     public ResponseEntity updateMember(
             @RequestBody AuthDto.Update updateDto,
-            @CookieValue(name = "memberId") Integer memberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
         Member member = memberService.updateMember(updateDto, memberId);
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }

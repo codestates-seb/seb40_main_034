@@ -10,7 +10,6 @@ public class PostDto {
     @Getter
     public static class PostCreateDto {
         private String gpsX;
-        private String gpsY;
         private String contents;
     }
 
@@ -21,7 +20,6 @@ public class PostDto {
     @ToString
     public static class PostPatchDto {
         private String gpsX;
-        private String gpsY;
         private String contents;
 
         private Integer postId;
@@ -38,7 +36,6 @@ public class PostDto {
         private String contents;
         private Integer likeCount;
         private String gpsX;
-        private String gpsY;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

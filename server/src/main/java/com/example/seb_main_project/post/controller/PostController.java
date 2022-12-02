@@ -1,11 +1,13 @@
 package com.example.seb_main_project.post.controller;
 
 
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
 import com.example.seb_main_project.response.MultiResponseDto;
+import com.example.seb_main_project.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,7 +26,8 @@ public class PostController {
 
     private final PostService postService;
     private final PostMapper postMapper;
-
+    private final MemberService memberService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @GetMapping("/main/list")
     public ResponseEntity getPosts(
@@ -51,10 +54,13 @@ public class PostController {
 
     @PostMapping("/main/submit")
     public ResponseEntity createPost(
-            @RequestBody PostDto.PostCreateDto postCreateDto,
-            @CookieValue(name = "memberId") Integer memberId) {
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody PostDto.PostCreateDto postCreateDto) {
+        log.error(authorization);
         log.error(postCreateDto.toString());
         log.error(postCreateDto.getContents());
+
+        Integer memberId = memberService.getTokenMember(authorization);
         log.error(memberId.toString());
 
         Post createdPost = postService.createPost(postCreateDto, memberId);
@@ -65,9 +71,11 @@ public class PostController {
 
     @PutMapping("/main/{post-id}/edit")
     public ResponseEntity updatePost(
-            @CookieValue(name = "memberId") Integer memberId,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable("post-id") Integer postId,
             @RequestBody PostDto.PostPatchDto postPatchDto) {
+
+        Integer memberId = memberService.getTokenMember(authorization);
         postPatchDto.setPostId(postId);
         Post updatedPost = postService.updatePost(memberId, postMapper.postPatchDtoToPost(postPatchDto));
 
@@ -79,7 +87,8 @@ public class PostController {
     @DeleteMapping("/main/{post-id}/delete")
     public void deletePost(
             @PathVariable(name = "post-id") Integer postId,
-            @CookieValue(name = "memberId") Integer memberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
         postService.deletePost(postId, memberId);
     }
 }

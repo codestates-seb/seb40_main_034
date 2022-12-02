@@ -14,6 +14,7 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ import static com.example.seb_main_project.security.utils.JwtConstants.REFRESH_T
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenizer {
 
     @Getter
@@ -182,7 +184,9 @@ public class JwtTokenizer {
      */
     public String isExistRefresh(Cookie[] cookies) {
         for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(REFRESH_TOKEN)) return cookie.getValue();
+            if (cookie.getName().equals(REFRESH_TOKEN)) {
+                log.info(String.valueOf(cookie));
+                return cookie.getValue();};
         }
         throw new BusinessLogicException(ExceptionCode.COOKIE_NOT_FOUND);
     }
