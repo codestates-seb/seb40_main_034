@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAllLists } from '../../Api/MainApi';
+import Loading from '../../Pages/Loading';
 import { List } from './List';
 
 const ListContainer = () => {
@@ -53,7 +54,7 @@ const ListContainer = () => {
             />
           );
         })}
-      {isFetching && <Loading>Loading...</Loading>}
+      {isFetching && <Loading />}
     </Container>
   );
 };
@@ -65,5 +66,4 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Loading = styled.div``;
 export default ListContainer;

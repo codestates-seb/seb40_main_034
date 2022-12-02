@@ -17,7 +17,7 @@ export const List = ({ img, gpsY, profileImg, nickname, createdAt, postId }) => 
         </Link>
       </Thumbnail>
       <InfoContainer>
-        <Location gpsY={gpsY}>{gpsY ? gpsY : 'Loading'}</Location>
+        <Location gpsY={gpsY}>{gpsY ? gpsY : 'NOWHERE'}</Location>
         <MiniProfile nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>
