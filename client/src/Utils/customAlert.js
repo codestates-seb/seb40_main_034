@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 
 const customAlert = (text) => {
   return Swal.fire({
-    icon: 'error',
+    icon: 'warning',
     text: text,
     showConfirmButton: true,
     buttonsStyling: false,

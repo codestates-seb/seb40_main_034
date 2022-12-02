@@ -6,7 +6,7 @@ import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
 import { validEmail, validNickname, validPw } from '../Api/Valid';
-import Swal from 'sweetalert2';
+import customAlert from '../Utils/customAlert';
 
 const Signup = () => {
   const [nickname, setNickname] = useState('');
@@ -26,14 +26,14 @@ const Signup = () => {
     setNickname(e.target.value);
 
     if (nickname.search(/\s/) != -1) {
-      Swal.fire({ icon: 'warning', text: '닉네임은 빈 칸을 포함 할 수 없습니다.' });
+      customAlert('닉네임은 빈 칸을 포함 할 수 없습니다.');
       setNickname('');
     }
   };
   //닉네임중복확인기능
   const nickNameDoublecheck = () => {
     if (!validNickname(nickname)) {
-      Swal.fire({ icon: 'info', text: '닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요' });
+      customAlert('닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요');
       setNickname('');
       return;
     }
@@ -45,17 +45,11 @@ const Signup = () => {
         .then((res) => {
           if (res.data.existNickname === false) {
             console.log(res);
-            Swal.fire({
-              icon: 'success',
-              text: '가능한 닉네임입니다',
-              confirmButtonColor: '#91f841',
-              border: 0,
-              outline: 0,
-            });
+            customAlert('가능한 닉네임입니다');
             setNicknameDouble(false);
           } else {
             console.log(res);
-            Swal.fire({ icon: 'warning', text: '사용중인 닉네임입니다' });
+            customAlert('사용중인 닉네임입니다');
 
             setNickname('');
           }
@@ -64,7 +58,7 @@ const Signup = () => {
           console.log(error);
         });
     } else if (nickname === '') {
-      Swal.fire({ icon: 'warning', text: '닉네임을 입력해주세요' });
+      customAlert('닉네임을 입력해주세요');
     }
   };
   const handleEmail = (e) => {
@@ -84,13 +78,13 @@ const Signup = () => {
 
     //로그인 버튼을 눌렀을 때, nickname, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!nickname) {
-      return Swal.fire({ icon: 'warning', text: 'Nickname을 입력하세요' });
+      return customAlert('Nickname을 입력하세요');
     } else if (!email) {
-      return Swal.fire({ icon: 'warning', text: 'Email을 입력하세요.' });
+      return customAlert('Email을 입력하세요.');
     } else if (!password) {
-      return Swal.fire({ icon: 'warning', text: 'Password를 입력하세요.' });
+      return customAlert('Password를 입력하세요.');
     } else if (nicknameDouble) {
-      return Swal.fire({ icon: 'question', text: '닉네임 중복을 확인해주세요' });
+      return customAlert('닉네임 중복을 확인해주세요');
     }
 
     //모두 valid하다면 axios.post를 보낸다
@@ -104,17 +98,17 @@ const Signup = () => {
         .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
-            Swal.fire({ icon: 'success', text: '회원가입에 성공했습니다. 로그인 해 주세요.' });
+            customAlert('회원가입에 성공했습니다. 로그인 해 주세요.');
             navigate('/login');
             console.log(res.data);
           }
         })
         .catch((Error) => {
           if (Error.response.status === 500) {
-            Swal.fire({ icon: 'warning', text: '이미 가입된 이메일입니다. 로그인 해 주세요.' });
+            customAlert('이미 가입된 이메일입니다. 로그인 해 주세요.');
             navigate('/login');
           } else {
-            Swal.fire({ icon: 'error', text: '회원가입에 실패했습니다.' });
+            customAlert('회원가입에 실패했습니다.');
             console.log(Error);
           }
         });

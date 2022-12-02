@@ -63,7 +63,7 @@ const Login = () => {
         })
         .catch((error) => {
           if (error.response.status === 401) {
-          customAlert('이메일 혹은 비밀번호를 확인해주세요.');
+            return customAlert('이메일 혹은 비밀번호를 확인해주세요.');
           }
         });
     }
