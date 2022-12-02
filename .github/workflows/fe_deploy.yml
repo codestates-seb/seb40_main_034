@@ -16,9 +16,11 @@ jobs:
         run: |
           echo "REACT_APP_SERVER_ROOT=$REACT_APP_SERVER_ROOT" >> .env
           echo "REACT_APP_KAKAO_KEY=$REACT_APP_KAKAO_KEY" >> .env
+          echo "REACT_APP_KAKAO_RESTAPI_KEY=$REACT_APP_KAKAO_RESTAPI_KEY" >> .env
         env:
           REACT_APP_SERVER_ROOT: ${{ secrets.REACT_APP_SERVER_ROOT }}
           REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAO_KEY }}
+          REACT_APP_KAKAO_RESTAPI_KEY: ${{ secrets.REACT_APP_KAKAO_RESTAPI_KEY }}
         working-directory: ./client
       - name: 프로젝트를 빌드합니다.
         run: npm run build
