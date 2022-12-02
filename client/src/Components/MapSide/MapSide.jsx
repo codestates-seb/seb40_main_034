@@ -10,7 +10,14 @@ const MapSide = ({ posts }) => {
             <ListBox key={idx}>
               <ProfileBox>
                 <Profile>
-                  <img src={review.profileImg} alt="place" />
+                  {review.profileImg ? (
+                    <img src={review.profileImg} alt="place" />
+                  ) : (
+                    <img
+                      src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png"
+                      alt="place"
+                    />
+                  )}
                 </Profile>
                 <Id>{review.nickname}</Id>
               </ProfileBox>

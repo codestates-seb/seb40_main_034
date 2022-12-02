@@ -14,17 +14,15 @@ export const EditContainer = styled.div`
     margin-bottom: 1rem;
   }
   input {
-    background-color: #eeeeee;
-
+    border-radius: 20px;
+    margin-left: 1rem;
+    padding: 0 0 0 1rem;
+    width: 100%;
     font-size: 0.9rem;
-    padding: 0 0.5rem 0 0.5rem;
-    height: 2rem;
-    border: 2px solid rgb(219, 219, 219);
-    border-radius: 22px;
-    color: rgb(31, 31, 31);
+    height: 2.5rem;
+    background-color: #eeeeee;
     :focus {
-      outline: none;
-      border-color: #91f841;
+      outline-color: #91f841;
     }
   }
 
