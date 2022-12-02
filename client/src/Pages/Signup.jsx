@@ -83,7 +83,7 @@ const Signup = () => {
     } else if (!password) {
       return alert('Password를 입력하세요.');
     } else if (nicknameDouble) {
-      return alert('닉네임을 확인해주세요');
+      return alert('닉네임 중복을 확인해주세요');
     }
 
     //모두 valid하다면 axios.post를 보낸다
@@ -153,7 +153,7 @@ const Signup = () => {
                 value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></SignupInput>
-              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+              {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
@@ -244,10 +244,10 @@ const ErrorEmail = styled.div`
   color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  margin-right: 14rem;
+  margin-right: 15rem;
 `;
 const ErrorPw = styled(ErrorEmail)`
-  margin-right: -1rem;
+  margin-right: 0.5rem;
 `;
 const ErrorNickname = styled(ErrorEmail)`
   margin-right: 5rem;
@@ -262,6 +262,7 @@ const PwShow = styled(Openeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
@@ -270,6 +271,7 @@ const PwNoshow = styled(Closedeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 const NicknameWrap = styled.div`
   position: relative;

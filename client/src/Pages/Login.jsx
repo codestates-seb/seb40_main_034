@@ -91,7 +91,7 @@ const Login = () => {
                 value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></LoginInput>
-              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+              {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
@@ -180,10 +180,10 @@ const ErrorEmail = styled.div`
   color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  margin-right: 14rem;
+  margin-right: 15rem;
 `;
 const ErrorPw = styled(ErrorEmail)`
-  margin-right: -1rem;
+  margin-right: 0.5rem;
 `;
 //비밀번호안보이게하는버튼
 const Pw = styled.div`
@@ -196,6 +196,7 @@ const PwShow = styled(Openeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
@@ -204,5 +205,6 @@ const PwNoshow = styled(Closedeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 export default Login;
