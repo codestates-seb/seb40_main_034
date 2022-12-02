@@ -1,20 +1,46 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { postArticle } from '../Api/PostApi';
-import { GreenBtn, GreyBtn } from '../Components/Common/Btn';
+import { getProfile } from '../Api/HeaderApi';
+import { BlackBtn, GreenBtn, GreyBtn } from '../Components/Common/Btn';
 import MiniProfile from '../Components/Common/MiniProfile';
 import { useNavigate } from 'react-router-dom';
 import Tagform from '../Components/Post/Tagform';
 import customAlert from '../Utils/customAlert';
+import PlaceSearchModal from '../Components/Post/PlaceSearchModal';
 
 const Post = () => {
+  const [location, setLocation] = useState('');
+  const [locationDetail, setLocationDetail] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
   const [tags, setTags] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
   const [tagselected, setTagSelected] = useState(false);
   const [maintext, setMaintext] = useState(0);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    getProfile().then((res) => {
+      setUserInfo(res.data);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   locationSearch('앤트러사이트').then((res) => {
+  //     setLocation(res.data);
+  //   });
+  // });
+
+  const handlePlaceSearch = () => {
+    setIsSearching(!isSearching);
+  };
+  const handleSearchResult = (arr, str, boolean) => {
+    setLocation(arr.address_name);
+    setLocationDetail(arr.place_name);
+    setIsSearching(boolean);
+  };
   const remain = maintext ? 500 - maintext.length : 500;
   const handleMaintext = (e) => {
     setMaintext(e.target.value);
@@ -51,7 +77,7 @@ const Post = () => {
       return (
         <div className="preview">
           <img src={imgs[0]?.thumbnail} alt={'image for' + location} />
-          <GreyBtn text="삭제" className="deleteImg" callback={deleteImg} />
+          <GreyBtn text="이미지 삭제" className="deleteImg" callback={deleteImg} />
         </div>
       );
     } else return;
@@ -71,8 +97,8 @@ const Post = () => {
 
   const handleSubmit = () => {
     const data = {
-      gpsX: 'string',
-      gpsY: 'string',
+      gpsX: location,
+      gpsY: locationDetail,
       contents: body,
       imageURL: imgs,
       tag: tags,
@@ -100,7 +126,7 @@ const Post = () => {
     <Background>
       <Container>
         <Header>
-          <MiniProfile nickname="nickname" className="user" />
+          {userInfo && <MiniProfile nickname={userInfo.nickname} className="user" />}
           <GreenBtn text="저장" className="post" callback={handleSubmit} />
         </Header>
         <Body>
@@ -122,13 +148,17 @@ const Post = () => {
             </div>
           </ImageContainer>
           <Description>
-            <Place placeholder="장소" />
+            <div className="placeSearch">
+              <Place placeholder="어디에 계신가요?" value={locationDetail} readOnly />
+              <BlackBtn text="장소 검색" className="placeSearchBtn" callback={handlePlaceSearch} />
+            </div>
             <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
             <MaintxtValidator>{remain}</MaintxtValidator>
             <Tagform callback={handleTags} />
           </Description>
         </Body>
       </Container>
+      {isSearching && <PlaceSearchModal callback={handleSearchResult} />}
     </Background>
   );
 };
@@ -154,12 +184,12 @@ const Header = styled.div`
   position: relative;
   .user {
     position: absolute;
-    top: 2rem;
+    top: 1.5rem;
     left: 2rem;
   }
   .post {
     position: absolute;
-    top: 2rem;
+    top: 1.5rem;
     right: 2rem;
   }
 `;
@@ -198,14 +228,24 @@ const Description = styled.article`
   margin: 5rem 2rem 2rem 1rem;
   display: flex;
   flex-direction: column;
+  position: relative;
+  .placeSearch {
+    display: flex;
+    flex-direction: row;
+  }
+  .placeSearchBtn {
+    position: absolute;
+    right: 0;
+  }
 `;
 const Place = styled.input`
+  cursor: default;
   padding: 0.5rem;
-  height: 2rem;
-  border-bottom: 2px solid #ddd;
+  width: 15rem;
+  border: none;
   &:focus {
-    border-bottom: 2px solid #91f841;
     outline: none;
+    border: none;
   }
 `;
 const Maintext = styled.textarea`
