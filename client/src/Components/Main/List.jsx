@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import { GreenBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 
-export const List = ({ img, location, profileImg, nickname, createdAt, postId }) => {
+export const List = ({ img, gpsY, profileImg, nickname, createdAt, postId }) => {
   const detailurl = `/post/${postId}/detail`;
   return (
     <Container>
       <Thumbnail img={img} nickname={nickname}>
         <div className="thumbnailHover">
-          <GreenBtn text="Bookmark" />
+          <GreenBtn text="북마크" />
         </div>
         <Link to={detailurl} state={{ postId: postId }}>
           <div className="placeholder" />
-          <img src={img} alt={location} />
+          <img src={img} alt={gpsY} />
         </Link>
       </Thumbnail>
       <InfoContainer>
-        <Location location={location}>location</Location>
+        <Location gpsY={gpsY}>{gpsY ? gpsY : 'Loading'}</Location>
         <MiniProfile nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>
