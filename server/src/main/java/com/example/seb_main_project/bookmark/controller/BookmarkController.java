@@ -4,6 +4,7 @@ import com.example.seb_main_project.bookmark.dto.BookmarkDto;
 import com.example.seb_main_project.bookmark.entity.Bookmark;
 import com.example.seb_main_project.bookmark.mapper.BookmarkMapper;
 import com.example.seb_main_project.bookmark.service.BookmarkService;
+import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,15 @@ public class BookmarkController {
 
     private final BookmarkService bookmarkService;
     private final PostService postService;
+    private final MemberService memberService;
     private final BookmarkMapper bookmarkMapper;
     private final PostMapper postMapper;
 
     @PostMapping("/main/{post-id}/bookmark")
     public void createBookmark(
             @PathVariable("post-id") Integer postId,
-            @CookieValue(name = "memberId") Integer memberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
         bookmarkService.addBookmark(postId, memberId);
     }
 
@@ -39,7 +42,9 @@ public class BookmarkController {
     @GetMapping("/post/{post-id}/bookmark")
     public ResponseEntity<BookmarkDto.ExistBookmarkResponseDto> checkBookmark(
             @PathVariable("post-id") Integer postId,
-            @CookieValue(name = "memberId") Integer memberId) {
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
+
         return new ResponseEntity<>(
                 bookmarkMapper.booleanToBookmarkResponseDto(
                         bookmarkService.checkBookmark(postId, memberId)), HttpStatus.OK);

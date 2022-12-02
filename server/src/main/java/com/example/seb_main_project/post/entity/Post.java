@@ -34,9 +34,6 @@ public class Post extends Auditable {
     private String gpsX;
 
     @Column
-    private String gpsY;
-
-    @Column
     private String tags;
 
     @Column

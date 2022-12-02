@@ -38,7 +38,7 @@ public class CommentController {
             @RequestParam int size,
             @PathVariable("post-id") Integer postId) {
 
-        Page<Comment> pageComments = commentService.findPageComments(postId,page - 1, size);
+        Page<Comment> pageComments = commentService.findPageComments(postId, page - 1, size);
         List<Comment> findComments = pageComments.getContent();
 
         return new ResponseEntity<>(
@@ -61,8 +61,8 @@ public class CommentController {
     public ResponseEntity postComment(
             @PathVariable("post-id") Integer postId,
             @RequestBody CommentDto.CommentPostDto commentPostDto,
-            @CookieValue(name = "memberId") Integer memberId) {
-
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
         Comment comment = commentService.createComment(commentPostDto, postId, memberId);
 
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(comment), HttpStatus.CREATED);
@@ -70,11 +70,12 @@ public class CommentController {
 
     @PutMapping("/main/{post-id}/{comment-id}/edit")
     public ResponseEntity updateComment(
-            @CookieValue(name = "memberId") Integer memberId,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable("comment-id") Integer commentId,
             @RequestBody CommentDto.CommentPatchDto commentPatchDto,
             @PathVariable("post-id") String parameter) {
 
+        Integer memberId = memberService.getTokenMember(authorization);
         Comment updatedComment = commentService.updateComment(memberId, commentId, commentPatchDto);
 
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(updatedComment), HttpStatus.OK);
@@ -82,10 +83,11 @@ public class CommentController {
 
     @DeleteMapping("/main/{post-id}/{comment-id}/delete")
     public ResponseEntity deleteComment(
-            @CookieValue(name = "memberId") Integer memberId,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable("comment-id") Integer commentId,
             @PathVariable("post-id") String parameter) {
 
+        Integer memberId = memberService.getTokenMember(authorization);
         commentService.deleteComment(memberId, commentId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
