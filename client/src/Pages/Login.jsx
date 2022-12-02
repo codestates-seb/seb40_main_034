@@ -9,7 +9,9 @@ import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken } from '../storage/Cookie';
+
 import Swal from 'sweetalert2';
+import customAlert from '../Utils/customAlert';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -37,9 +39,9 @@ const Login = () => {
     setPwValid(validPw(password));
     //로그인 버튼을 눌렀을 때, email, pw의 입력이 없을때 alert창을 띄우는 기능
     if (!email) {
-      return Swal.fire({ icon: 'warning', text: 'email을 입력하세요.' });
+      return customAlert('email을 입력하세요.');
     } else if (!password) {
-      return Swal.fire({ icon: 'warning', text: 'Password를 입력하세요.' });
+      return customAlert('Password를 입력하세요.');
     }
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
@@ -61,7 +63,7 @@ const Login = () => {
         })
         .catch((error) => {
           if (error.response.status === 401) {
-            Swal.fire({ icon: 'warning', text: '이메일 혹은 비밀번호를 확인해주세요.' });
+          customAlert('이메일 혹은 비밀번호를 확인해주세요.');
           }
         });
     }
