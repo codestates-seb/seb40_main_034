@@ -27,7 +27,9 @@ const PlaceSearchModal = ({ callback }) => {
           {locationsList.length !== 0 &&
             locationsList.map((list, idx) => (
               <button key={idx} onClick={() => callback(list, value, false)}>
-                {`${list.place_name} ${list.road_address_name}(${list.address_name})`}
+                {`${list.place_name} : ${list.road_address_name}`}
+                <br />
+                {`(${list.address_name})`}
               </button>
             ))}
         </Results>
@@ -53,8 +55,8 @@ const Background = styled.div`
   }
 `;
 const Container = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 50vw;
+  height: 60vh;
   background-color: white;
   border-radius: 16px;
   overflow: auto;
@@ -62,7 +64,7 @@ const Container = styled.div`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: calc(500px - 4rem);
+  width: calc(50vw - 4rem);
   align-items: center;
   border-radius: 20px;
   margin: 1.5rem 0 0 2rem;
@@ -83,24 +85,28 @@ const SearchInput = styled.input`
   padding: 0 1rem 0 1rem;
   height: 2rem;
   background: none;
-  :focus {
+  &:focus {
     outline: none;
     border-color: #91f841;
+    background-color: none;
+  }
+  :-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #eee inset;
+    -webkit-text-fill-color: #000;
   }
 `;
 const Results = styled.div`
   position: relative;
-
-  margin-top: 1rem;
-  margin-left: 3rem;
+  padding: 1rem 3rem 0 3rem;
   button {
+    text-align: left;
     background-color: white;
     display: block;
     cursor: pointer;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
   button:hover {
-    text-decoration: underline;
+    color: #aaa;
   }
 `;
 export default PlaceSearchModal;
