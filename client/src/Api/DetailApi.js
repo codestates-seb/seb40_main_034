@@ -64,14 +64,11 @@ export const useGetComment = async (postId) => {
 // 댓글 추가
 export const usePostComment = async (postId, contents) => {
   try {
-    const headers = { Cookie: `Bearer ${getCookieToken()}` };
-    const response = await instance.post(
-      `/main/${postId}/comment`,
-      {
-        contents: contents,
-      },
-      { headers },
-    );
+    const token = getCookieToken();
+    console.log(token);
+    const response = await instance.post(`/main/${postId}/comment`, {
+      contents: contents,
+    });
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;

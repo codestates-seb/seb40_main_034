@@ -436,6 +436,7 @@ const D_CommentDesc = styled.div`
 
     .react-input-emoji--input {
       padding: 9px 34px 11px 12px;
+      word-break: break-all;
     }
 
     .react-input-emoji--button {
