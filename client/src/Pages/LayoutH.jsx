@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import AboutBtn from '../Components/Common/AboutBtn';
-import { Header } from '../Components/Common/Header';
-import Sidebar from '../Components/Common/Sidebar';
+import AboutBtn from '../Components/Layout/AboutBtn';
+import Header from '../Components/Layout/Header';
+
 const Layout = () => {
   return (
     <>

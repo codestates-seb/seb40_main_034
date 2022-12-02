@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const FollowList = ({ profileImg, nickname, userId, className }) => {
+const MiniProfile = ({ profileImg, nickname, userId, className }) => {
   const link = userId ? `/mypage/${userId}` : '/';
   return (
     <Link to={link}>
@@ -38,4 +38,4 @@ const Id = styled.div`
   }
 `;
 
-export default FollowList;
+export default MiniProfile;

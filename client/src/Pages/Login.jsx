@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
-import { setCookieToken, removeCookieToken } from '../storage/Cookie';
-import { persistor } from '../Routes/AppRouter';
+import { setCookieToken } from '../storage/Cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -71,12 +70,7 @@ const Login = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
-  //Store내에state초기화, cookie초기화
-  const purge = async () => {
-    location.reload();
-    await persistor.purge(); // persistStore의 데이터 전부 날림
-    removeCookieToken();
-  };
+
   return (
     <div>
       <PageContainer>
@@ -97,7 +91,7 @@ const Login = () => {
                 value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></LoginInput>
-              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+              {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
@@ -115,7 +109,6 @@ const Login = () => {
           <WelcomeStr>Hello, we are PostON!</WelcomeStr>
         </Wrap>
       </PageContainer>
-      <button onClick={async () => purge()}>logout</button>
     </div>
   );
 };
@@ -187,10 +180,10 @@ const ErrorEmail = styled.div`
   color: gray;
   font-size: 0.8rem;
   margin-top: 0.5rem;
-  margin-right: 14rem;
+  margin-right: 15rem;
 `;
 const ErrorPw = styled(ErrorEmail)`
-  margin-right: -1rem;
+  margin-right: 0.5rem;
 `;
 //비밀번호안보이게하는버튼
 const Pw = styled.div`
@@ -203,6 +196,7 @@ const PwShow = styled(Openeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
@@ -211,5 +205,6 @@ const PwNoshow = styled(Closedeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 export default Login;

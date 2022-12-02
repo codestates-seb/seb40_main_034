@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAllLists } from '../../Api/MainApi';
-import { List } from '../List/List';
+import { List } from './List';
 
 const ListContainer = () => {
   const pagesize = Math.floor((window.innerWidth - 14 * 16) / 235);

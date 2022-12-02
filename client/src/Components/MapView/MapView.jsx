@@ -4,7 +4,7 @@ import { MapContainer, Container } from '../MapSide/style';
 
 const { kakao } = window;
 
-export const MapView = ({ address }) => {
+export const MapView = ({ address, storename }) => {
   const container = useRef(null);
   const options = {
     center: new kakao.maps.LatLng(35.12, 129.1),
@@ -29,14 +29,13 @@ export const MapView = ({ address }) => {
 
         // 인포윈도우
         var infowindow = new kakao.maps.InfoWindow({
-          content: `<div style="padding: 10px 15px;
+          content: `<div style="padding: 10px 10px 10px 10px;text-align:center;width:150px;
            border-radius: 5px; background-color: rgb(255, 255, 255);
-          color: rgb(34, 34, 34); text-align:center;
+          color: rgb(34, 34, 34);
           font-size: 14px;
-          font-weight: 880;">테스트 주소</div>`,
+          font-weight: 880;">${storename}</div>`,
         });
         infowindow.open(map, marker);
-        //Components/MapSide 컴포넌트를 import해서 커스텀오버레이로 넣을 예정
 
         let zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);

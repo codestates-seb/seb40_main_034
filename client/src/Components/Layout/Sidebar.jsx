@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getFollowList, getInitialTags } from '../../Api/SidebarApi';
-import FollowList from './FollowList';
-import Tag from './Tag';
+import MiniProfile from '../Common/MiniProfile';
+import Tag from '../Common/Tag';
 
 const Sidebar = () => {
   const [initialTags, setInitialTags] = useState([]);
@@ -34,7 +34,7 @@ const Sidebar = () => {
         <h1>Follow</h1>
         {followList &&
           followList.map((list) => {
-            <FollowList key={list.id} nickname={list.nickname} />;
+            <MiniProfile key={list.id} nickname={list.nickname} />;
           })}
       </FollowContainer>
     </Container>

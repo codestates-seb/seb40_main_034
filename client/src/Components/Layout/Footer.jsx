@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Footer = () => {
+const Footer = () => {
   return (
     <FooterContainer>
       <FooterInner>
@@ -39,3 +39,5 @@ const FooterInner = styled.div`
     background-color: #91f841;
   }
 `;
+
+export default Footer;
