@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from '../Store/index';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
+import Layout from '../Pages/Layout';
 
 export const persistor = persistStore(store);
 
@@ -33,14 +34,16 @@ export const AppRouter = () => {
                   <Route path="" element={<Main />} />
                   <Route path="mypage" element={<Mypage />} />
                   <Route path="edit" element={<MypageEdit />} />
-                  <Route path="detail" element={<Detail />} />
-                  <Route path="map" element={<Map />} />
+                  <Route path="post/postId/detail" element={<Detail />} />
                 </Route>
                 <Route element={<LayoutH />}>
                   <Route path="login" element={<Login />} />
                   <Route path="signup" element={<Signup />} />
                   <Route path="logout" element={<Logout />} />
                   <Route path="post" element={<Post />} />
+                </Route>
+                <Route element={<Layout />}>
+                  <Route path="map" element={<Map />} />
                 </Route>
                 <Route path="*" element={<Navigate to="" replace />} />
               </Routes>
