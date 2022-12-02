@@ -19,12 +19,13 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.seb_main_project.security.utils.JwtConstants.MEMBER_ID;
-import static com.example.seb_main_project.security.utils.JwtConstants.SET_COOKIE;
+import static com.example.seb_main_project.security.utils.JwtConstants.*;
 
 /**
  * {@link UsernamePasswordAuthenticationFilter} 디폴트 시큐리티 필터, 기본으로 사용 가능한 폼 로그인 방식에서 사용된다.
@@ -74,8 +75,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(findMember);
         String refreshToken = delegateRefreshToken(findMember);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-        response.setHeader("Refresh", refreshToken);
+        jwtTokenizer.saveRefreshToken(refreshToken, email, findMember.getId());
+
+        String encodedRefresh = URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
+        ResponseCookie refCookie = ResponseCookie.from(REFRESH_TOKEN, encodedRefresh)
+                .maxAge(7 * 24 * 60 * 60)
+                .path("/")
+                .secure(true)
+                .sameSite("None")
+                .httpOnly(true)
+                .build();
+        response.setHeader(SET_COOKIE, refCookie.toString());
+
+        // response.setHeader("Authorization", "Bearer " + accessToken);
+        // response.setHeader("Refresh", refreshToken);
 
         sendResponse(accessToken, email, response);
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
