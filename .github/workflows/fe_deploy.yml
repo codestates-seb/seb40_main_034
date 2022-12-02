@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - name: Checkout source code
+      - name: 소스 코드를 체크합니다.
         uses: actions/checkout@v2
       - name: 프로젝트에서 사용하는 모든 디펜던시를 설치합니다.
         run: npm install
@@ -18,6 +18,7 @@ jobs:
           echo "REACT_APP_KAKAO_KEY=$REACT_APP_KAKAO_KEY" >> .env
         env:
           REACT_APP_SERVER_ROOT: ${{ secrets.REACT_APP_SERVER_ROOT }}
+          REACT_APP_KAKAO_KEY: ${{ secrets.REACT_APP_KAKAKO_KEY }}
         working-directory: ./client
       - name: 프로젝트를 빌드합니다.
         run: npm run build
