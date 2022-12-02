@@ -43,7 +43,15 @@ const ListContainer = () => {
     <Container>
       {postList.length !== 0 &&
         postList.map((post) => {
-          return <List key={post.postId} nickname={post.nickname} postId={post.postId} createdAt={post.createdAt} />;
+          return (
+            <List
+              key={post.postId}
+              nickname={post.nickname}
+              postId={post.postId}
+              gpsY={post.gpsY}
+              createdAt={post.createdAt}
+            />
+          );
         })}
       {isFetching && <Loading>Loading...</Loading>}
     </Container>
