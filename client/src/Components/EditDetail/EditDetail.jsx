@@ -10,7 +10,7 @@ import {
   SubmitBtn,
   BtnContainer,
 } from './style';
-import { GreyBtn } from '../Common/Btn';
+import { GreenBtn } from '../Common/Btn';
 import { InputForm } from '../Common/InputForm';
 import { useState, useEffect, useRef } from 'react';
 import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
@@ -99,7 +99,7 @@ const EditDetail = () => {
                     handleFileOnChange(e.target.files[0]);
                   }}
                 />
-                {GreyBtn({ callback: handleEditBtn, text: 'Edit' })}
+                {GreenBtn({ callback: handleEditBtn, text: 'Edit' })}
               </PhotoEditBtn>
             </PhotoBox>
           </div>
@@ -117,7 +117,7 @@ const EditDetail = () => {
         <BtnContainer>
           <QuitBtn onClick={openDeleteModal}>회원탈퇴</QuitBtn>
           {modalOpen && <DeleteModal open={modalOpen} close={closeModal} header=""></DeleteModal>}
-          {GreyBtn({ callback: handleSubmit, text: 'Submit', className: 'submitBtn' })}
+          {GreenBtn({ callback: handleSubmit, text: 'Submit', className: 'submitBtn' })}
         </BtnContainer>
       </EditContainer>
     </div>

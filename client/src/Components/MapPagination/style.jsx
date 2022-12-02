@@ -16,10 +16,7 @@ export const Button = styled.button`
   background-color: transparent;
   color: #333333;
 
-  &:hover {
-    filter: brightness(90%);
-  }
-  &:active {
-    filter: brightness(80%);
+  &:focus {
+    color: #91f841;
   }
 `;

@@ -9,8 +9,8 @@ import { handlePostInfo } from '../Api/MapApi';
 const { kakao } = window;
 
 const Map = () => {
-  const address = '서울 중구 남대문로 81 B1';
-  const storename = '해피베어데이';
+  const gpsX = '서울 중구 남대문로 81 B1';
+  const gpsY = '해피베어데이';
   const [contentInfo, setContentInfo] = useState([]);
   const [page, setPage] = useState(1); //페이지
   const limit = 5; // posts가 보일 최대한의 갯수
@@ -28,9 +28,9 @@ const Map = () => {
   }, []);
   return (
     <Container>
-      <MapView address={address} storename={storename} />
+      <MapView address={gpsX} storename={gpsY} />
       <ReviewContainer>
-        <MapSide address={address} posts={postsData(contentInfo)} />
+        <MapSide address={gpsX} posts={postsData(contentInfo)} />
         <MapPagination limit={limit} page={page} totalPosts={contentInfo.length} setPage={setPage} />
       </ReviewContainer>
     </Container>
