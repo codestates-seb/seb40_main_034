@@ -27,12 +27,6 @@ const Post = () => {
     });
   }, []);
 
-  // useEffect(() => {
-  //   locationSearch('앤트러사이트').then((res) => {
-  //     setLocation(res.data);
-  //   });
-  // });
-
   const handlePlaceSearch = () => {
     setIsSearching(!isSearching);
   };
@@ -116,7 +110,7 @@ const Post = () => {
         if (res.id) {
           navigate(`/post/${res.id}/detail`);
         } else {
-          customAlert(`글 작성에 실패했습니다. ${res}`);
+          customAlert(`글 작성에 실패했습니다. \n${res}`);
         }
       });
     }
