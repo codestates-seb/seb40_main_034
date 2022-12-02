@@ -9,6 +9,8 @@ import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { setLoginUserInfo } from '../Store/Auth';
 import { setCookieToken } from '../storage/Cookie';
+
+import Swal from 'sweetalert2';
 import customAlert from '../Utils/customAlert';
 
 const Login = () => {
@@ -61,7 +63,7 @@ const Login = () => {
         })
         .catch((error) => {
           if (error.response.status === 401) {
-            customAlert('이메일 혹은 비밀번호를 확인해주세요.');
+          customAlert('이메일 혹은 비밀번호를 확인해주세요.');
           }
         });
     }
@@ -136,7 +138,7 @@ const LoginInput = styled.input`
   width: 25rem;
   height: 2.5rem;
   margin-top: 2rem;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   text-indent: 10px;
   outline: solid 0.125rem #dddddd;
   &:focus {
