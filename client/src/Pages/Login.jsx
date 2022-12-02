@@ -91,7 +91,7 @@ const Login = () => {
                 value={password}
                 onChange={handlePw}
                 placeholder="Enter your password"></LoginInput>
-              {showPassword ? <PwShow onClick={togglePass}></PwShow> : <PwNoshow onClick={togglePass}></PwNoshow>}
+              {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
               {!pwValid && password.length > 0 && (
@@ -196,6 +196,7 @@ const PwShow = styled(Openeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 const PwNoshow = styled(Closedeye)`
   position: absolute;
@@ -204,5 +205,6 @@ const PwNoshow = styled(Closedeye)`
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  fill: #868686;
 `;
 export default Login;
