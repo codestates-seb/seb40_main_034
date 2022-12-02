@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCookieToken } from '../storage/Cookie';
+import instance from './root';
 
 // 이미지 더미 데이터
 let images = [
@@ -12,9 +13,9 @@ let images = [
 ];
 
 // 좋아요 조회
-export const useGetLike = ({ postId }) => {
+export const useGetLike = async ({ postId }) => {
   try {
-    const response = axios.get(`/post/${postId}/like`);
+    const response = await instance.get(`/post/${postId}/like`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
@@ -26,10 +27,10 @@ export const useGetLike = ({ postId }) => {
   }
 };
 
-// 게시글 내용 조회
-export const useGetDetail = ({ postId }) => {
+// 게시글 내용 조회(완)
+export const useGetDetail = async (postId) => {
   try {
-    const response = axios.get(`/post/${postId}/detail`);
+    const response = await instance.get(`/post/${postId}/detail`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
@@ -37,14 +38,16 @@ export const useGetDetail = ({ postId }) => {
   } catch (err) {
     if (err.response.status === 404) {
       console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
     }
   }
 };
 
 // 댓글 조회
-export const useGetComment = ({ postId }) => {
+export const useGetComment = async (postId) => {
   try {
-    const response = axios.get(`/post/${postId}/comment`);
+    const response = await instance.get(`/post/${postId}/comment?page=1&size=6`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
@@ -52,6 +55,29 @@ export const useGetComment = ({ postId }) => {
   } catch (err) {
     if (err.response.status === 404) {
       console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
+// 댓글 추가
+export const usePostComment = async (postId, contents) => {
+  try {
+    const token = getCookieToken();
+    console.log(token);
+    const response = await instance.post(`/main/${postId}/comment`, {
+      contents: contents,
+    });
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
     }
   }
 };
