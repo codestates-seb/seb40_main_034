@@ -62,17 +62,24 @@ const Tab = () => {
           </CategoryRight>
         </>
       ) : (
-        <NotLogin>
-          <Link to="/signup">
-            <GreenBtn className="signup" text="Sign Up" />
-          </Link>
-          <Link to="/login">
-            <BlackBtn className="login" text="Login" />
-          </Link>
-          <a target="_blank" href="https://github.com/codestates-seb/seb40_main_034" rel="noreferrer">
-            <GreyBtn className="about" text="About" />
-          </a>
-        </NotLogin>
+        <>
+          <CategoryMid2>
+            <Link to="/map">
+              <div className="tabMenu" />
+            </Link>
+          </CategoryMid2>
+          <NotLogin>
+            <Link to="/signup">
+              <GreenBtn className="signup" text="Sign Up" />
+            </Link>
+            <Link to="/login">
+              <BlackBtn className="login" text="Login" />
+            </Link>
+            <a target="_blank" href="https://github.com/codestates-seb/seb40_main_034" rel="noreferrer">
+              <GreyBtn className="about" text="About" />
+            </a>
+          </NotLogin>
+        </>
       )}
       {/*로그인되어 있으면 프로필에서 모달 메뉴 나오고, 그렇지 않으면 로그인 회원가입 버튼 보여야 함*/}
       {userInfo && (
@@ -94,7 +101,7 @@ const Tab = () => {
 
 const Container = styled.div`
   display: flex;
-  min-width: 250px;
+  min-width: 19.625rem;
 `;
 
 const CategoryLeft = styled.div`
@@ -225,6 +232,7 @@ const Modal = styled.div`
   }
 `;
 const NotLogin = styled.div`
+  width: 80%;
   display: flex;
   flex-direction: row;
   .signup,
