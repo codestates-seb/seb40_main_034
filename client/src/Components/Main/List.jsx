@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GreenBtn } from '../Common/Btn';
-import FollowList from '../Common/FollowList';
+import MiniProfile from '../Common/MiniProfile';
 
 export const List = ({ img, location, profileImg, nickname, createdAt, postId }) => {
   const detailurl = `/post/${postId}/detail`;
@@ -18,7 +18,7 @@ export const List = ({ img, location, profileImg, nickname, createdAt, postId })
       </Thumbnail>
       <InfoContainer>
         <Location location={location}>location</Location>
-        <FollowList nickname={nickname} profileImg={profileImg} />
+        <MiniProfile nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>
   );

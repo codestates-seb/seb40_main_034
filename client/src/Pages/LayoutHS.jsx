@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import AboutBtn from '../Components/Common/AboutBtn';
-import { Header } from '../Components/Common/Header';
-import Sidebar from '../Components/Common/Sidebar';
-import WriteBtn from '../Components/Common/WriteBtn';
+import AboutBtn from '../Components/Layout/AboutBtn';
+import Header from '../Components/Layout/Header';
+import Sidebar from '../Components/Layout/Sidebar';
+import WriteBtn from '../Components/Layout/WriteBtn';
 const Layout = () => {
   return (
     <>
