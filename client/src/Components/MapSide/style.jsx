@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 export const Box = styled.div`
   display: flex;
-  width: 350px;
+
   align-items: center;
   justify-content: center;
   background-color: white;
-  z-index: 2;
 `;
 export const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-
-  overflow-y: auto;
 `;
 export const MapContainer = styled.div`
   display: flex;
@@ -26,6 +22,7 @@ export const Container = styled.div`
   width: calc(100vw - 14rem);
   height: calc(100vh - 4rem);
   overflow: hidden;
+  z-index: 2;
 `;
 
 export const ListBox = styled.div`
@@ -74,4 +71,12 @@ export const Id = styled.div`
   :hover {
     text-decoration: underline;
   }
+`;
+
+export const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 370px;
+  align-items: center;
 `;
