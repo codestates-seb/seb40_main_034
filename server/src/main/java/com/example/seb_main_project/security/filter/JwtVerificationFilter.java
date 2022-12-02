@@ -3,6 +3,7 @@ package com.example.seb_main_project.security.filter;
 import com.example.seb_main_project.security.jwt.JwtTokenizer;
 import com.example.seb_main_project.security.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +50,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             jwtTokenizer.verifiedExistRefresh(refreshToken);
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
+        } catch (SignatureException se) {
+            request.setAttribute("exception", se);
         } catch (ExpiredJwtException ee) {
             request.setAttribute("exception", ee);
         } catch (Exception e) {
@@ -65,7 +68,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
-        String email = (String) claims.get("username");
+        String email = (String) claims.get("email");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>) claims.get("roles"));
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 email, null, authorities);
