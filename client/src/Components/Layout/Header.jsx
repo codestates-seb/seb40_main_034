@@ -3,7 +3,7 @@ import { InputForm } from '../Common/InputForm';
 import { Link } from 'react-router-dom';
 import Tab from './Tab';
 import POSTFAV from '../../Assets/img/POSTFAV.png';
-
+import Icon from '../../Assets/img/search.svg';
 const Header = () => {
   return (
     <Container>
@@ -13,7 +13,7 @@ const Header = () => {
             <img src={POSTFAV} alt="LOGO" />
           </Link>
         </Logo>
-        <InputForm />
+        <InputForm icon={Icon} />
       </LeftContainer>
       <RightContainer>
         <Tab />
