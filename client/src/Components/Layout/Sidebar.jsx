@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getFollowList, getInitialTags } from '../../Api/SidebarApi';
 import MiniProfile from '../Common/MiniProfile';
 import Tag from '../Common/Tag';
+import Tagform from '../Post/Tagform';
 
 const Sidebar = () => {
   const [initialTags, setInitialTags] = useState([]);
@@ -24,10 +25,11 @@ const Sidebar = () => {
     <Container>
       <TagConatiner>
         <h1>Tags</h1>
-        {initialTags &&
+        {/* {initialTags &&
           initialTags.map((tag) => {
             <Tag key={tag.tagId} tagName={tag.tagName} />;
-          })}
+          })} */}
+        <Tagform />
       </TagConatiner>
       <RankContainer></RankContainer>
       <FollowContainer>

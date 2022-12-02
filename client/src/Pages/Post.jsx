@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { postArticle } from '../Api/PostApi';
-import { GreenBtn } from '../Components/Common/Btn';
+import { GreenBtn, GreyBtn } from '../Components/Common/Btn';
 import MiniProfile from '../Components/Common/MiniProfile';
 import { useNavigate } from 'react-router-dom';
 import Tagform from '../Components/Post/Tagform';
@@ -10,8 +10,10 @@ const Post = () => {
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
   const [tags, setTags] = useState([]);
+  const [tagselected, setTagSelected] = useState(false);
   const [maintext, setMaintext] = useState(0);
   const navigate = useNavigate();
+
   const remain = maintext ? 500 - maintext.length : 500;
   const handleMaintext = (e) => {
     setMaintext(e.target.value);
@@ -20,15 +22,52 @@ const Post = () => {
       setMaintext(maintext.substring(0, 5));
     }
   };
+
   const handleBody = (e) => {
     setBody(e.target.value);
   };
-  const handleImgs = (arr) => {
-    setImgs(arr);
+
+  const fileInput = useRef(null);
+  // const handleFileInput = () => {
+  //   fileInput.current?.click();
+  // };
+  const uploadImage = (e) => {
+    const fileList = e.target.files;
+
+    const url = URL.createObjectURL(fileList[0]); //임시로 파일 1개만 가능하도록 했음
+    setImgs([
+      {
+        file: fileList[0],
+        thumbnail: url,
+      },
+    ]);
   };
-  const handleTags = (arr) => {
-    setTags(arr);
+  const deleteImg = () => {
+    setImgs(imgs.pop());
   };
+  const showPreviewImg = useMemo(() => {
+    if (imgs[0]) {
+      return (
+        <div className="preview">
+          <img src={imgs[0]?.thumbnail} alt={'image for' + location} />
+          <GreyBtn text="삭제" className="deleteImg" callback={deleteImg} />
+        </div>
+      );
+    } else return;
+  });
+
+  const handleTags = (str, selected) => {
+    if (tags.includes(str)) {
+      setTags([...tags.slice(0, tags.indexOf(str), ...tags.slice(tags.indexOf(str)))]);
+      setTagSelected(selected);
+      console.log(tagselected, selected);
+    } else {
+      setTags([...tags, str]);
+      setTagSelected(selected);
+      console.log(tagselected, selected);
+    }
+  };
+
   const handleSubmit = () => {
     const data = {
       gpsX: 'string',
@@ -37,6 +76,7 @@ const Post = () => {
       imageURL: imgs,
       tag: tags,
     };
+    console.log(data);
     if (body.length <= 10) {
       alert('리뷰는 최소 10자 이상 작성하세요.');
       return;
@@ -65,9 +105,19 @@ const Post = () => {
         <Body>
           <ImageContainer>
             <div>
-              클릭하여 업로드
-              <br />
-              2MB 이하의 이미지
+              {!imgs[0] && (
+                <>
+                  <label htmlFor="imgUpload">{imgs.length ? '클릭하여 이미지 추가' : '클릭하여 이미지 업로드'}</label>
+                  <input
+                    id="imgUpload"
+                    type="file"
+                    accept="image/jpg, image/jpeg, image/png"
+                    ref={fileInput}
+                    onChange={uploadImage}
+                  />
+                </>
+              )}
+              {imgs.length !== 0 && showPreviewImg}
             </div>
           </ImageContainer>
           <Description>
@@ -81,6 +131,7 @@ const Post = () => {
     </Background>
   );
 };
+
 const Background = styled.div`
   background-color: #eee;
   width: 100%;
@@ -125,6 +176,20 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  cursor: pointer;
+  input[type='file'] {
+    display: none;
+  }
+  .preview {
+    width: 100%;
+  }
+  .preview img {
+    max-width: 95%;
+    max-height: 90%;
+  }
+  .deleteImg {
+    margin-top: 0.5rem;
+  }
 `;
 const Description = styled.article`
   width: 50%;
