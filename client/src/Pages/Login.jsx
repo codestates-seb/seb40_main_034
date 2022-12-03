@@ -23,6 +23,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //로그인상태일때 로그인페이지 접근시 메인화면으로 보내기
   const Selector = useSelector((state) => state.user.authenticated);
   useEffect(() => {
     if (Selector === true) {
@@ -78,6 +79,21 @@ const Login = () => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
+  const onBlurEmail = () => {
+    if (!validEmail(email)) {
+      setEmailValid(validEmail(email));
+    } else if (validEmail(email)) {
+      setEmailValid(validEmail(email));
+    }
+  };
+
+  const onBlurPassword = () => {
+    if (!validPw(password)) {
+      setPwValid(validPw(password));
+    } else if (validPw(password)) {
+      setPwValid(validPw(password));
+    }
+  };
 
   return (
     <div>
@@ -90,7 +106,8 @@ const Login = () => {
               name="loginEmail"
               value={email}
               onChange={handleEmail}
-              placeholder="Enter your email"></LoginInput>
+              placeholder="Enter your email"
+              onBlur={onBlurEmail}></LoginInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
             <Pw>
               <LoginInput
@@ -98,7 +115,8 @@ const Login = () => {
                 name="loginPassword"
                 value={password}
                 onChange={handlePw}
-                placeholder="Enter your password"></LoginInput>
+                placeholder="Enter your password"
+                onBlur={onBlurPassword}></LoginInput>
               {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>

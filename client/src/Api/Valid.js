@@ -8,6 +8,7 @@ export const validNickname = (nickname) => {
 };
 export const validEmail = (email) => {
   let regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
   if (email.length > 0 && regex.test(email)) {
     return true;
   } else {
