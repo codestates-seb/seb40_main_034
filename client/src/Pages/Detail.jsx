@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
@@ -19,15 +19,11 @@ function Detail() {
     'https://images.unsplash.com/photo-1526306063970-d5498ad00f1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     'https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
   ];
-  // post-Id props 불러오기(첫 렌더링 / 완)
-  // const location = useLocation();
-  // console.log(location);
-  // const { postId } = location.state;
+  // id 불러오기(완)
   const { postId } = useParams();
-  console.log(postId);
 
-  // redux state 불러오기
-  const { refreshToken } = useSelector((state) => state.user);
+  // redux state 불러오기(완)
+  const { refreshToken, memberId } = useSelector((state) => state.user);
 
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
@@ -58,8 +54,6 @@ function Detail() {
 
   // 글자수 제한(완)
   const textLimit = useRef(200);
-
-  const navigate = useNavigate();
 
   // 이미지 뒤로가기 앞으로 가기 버튼
   const prevImg = () => {
@@ -96,11 +90,11 @@ function Detail() {
       .catch((err) => console.log(err));
   };
 
-  // 댓글 Post axios
+  // 댓글 Post axios(완)
   const postComment = () => {
     usePostComment(postId, comment, refreshToken).then(() => location.reload());
   };
-  // 댓글 Post 엔터
+  // 댓글 Post 엔터(완)
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && comment.length > 0) {
       postComment();
@@ -118,8 +112,6 @@ function Detail() {
       console.log(res);
       setCommentData(res.data);
     });
-    const token = getCookieToken();
-    console.log(token);
   }, []);
 
   // 조건부 게시글(완)
@@ -238,7 +230,13 @@ function Detail() {
                 <h2>댓글 {commentData.length}개</h2>
                 <D_CommentListContainer>
                   {commentData.map((data, idx) => (
-                    <CommentList comment={data} key={idx} />
+                    <CommentList
+                      comment={data}
+                      memberId={memberId}
+                      refreshToken={refreshToken}
+                      postId={postId}
+                      key={idx}
+                    />
                   ))}
                 </D_CommentListContainer>
                 <form>

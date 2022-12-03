@@ -82,6 +82,26 @@ export const usePostComment = async (postId, contents, refreshToken) => {
   }
 };
 
+// 댓글 수정
+export const useEditComment = async (postId, commentId, contents, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
+  try {
+    const response = await instance.put(`/main/${postId}/${commentId}/edit`, {
+      contents: contents,
+    });
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
 // 북마크 조회
 export const useGetBookmark = ({ postId }) => {
   try {
