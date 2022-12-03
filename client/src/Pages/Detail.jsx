@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
@@ -18,6 +18,9 @@ function Detail() {
     'https://images.unsplash.com/photo-1526306063970-d5498ad00f1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     'https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
   ];
+  // post-Id props 불러오기(완)
+  const location = useLocation();
+  const { postId } = location.state;
 
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
@@ -92,12 +95,12 @@ function Detail() {
 
   // detail 조회(완)
   useEffect(() => {
-    useGetDetail(1).then((res) => {
+    useGetDetail(postId).then((res) => {
       console.log(res);
       setNickname(res.nickname);
       setBodyText(res.contents);
     });
-    useGetComment(1).then((res) => {
+    useGetComment(postId).then((res) => {
       console.log(res);
       setCommentData(res.data);
     });
@@ -260,15 +263,15 @@ function Detail() {
 // container영역
 const Container = styled.div`
   width: 1000px;
-  margin: 2rem auto;
+  margin: 5rem auto;
 `;
 
 const D_Detail_box = styled.div`
   display: flex;
   flex-direction: row;
 
-  border-radius: 5px;
-  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.4);
   overflow: hidden;
 `;
 
@@ -399,6 +402,7 @@ const D_BodyDesc = styled.div`
   button {
     cursor: pointer;
     color: #8e8e8e;
+    background-color: #fff;
   }
 `;
 
@@ -443,13 +447,14 @@ const D_CommentDesc = styled.div`
       position: absolute;
       top: 10px;
       right: 0;
-      z-index: 3;
+      z-index: 10;
     }
     // 이모지 라이브러지 end
 
-    button {
+    > button {
       margin-left: 1rem;
       cursor: pointer;
+      background-color: #fff;
     }
   }
 `;
@@ -469,6 +474,7 @@ const D_BottomDesc = styled.div`
   > button {
     float: right;
     cursor: pointer;
+    background-color: #fff;
     &.delete {
       color: red;
     }
@@ -489,6 +495,7 @@ const D_likeButton = styled.button`
   cursor: pointer;
   float: right;
   position: relative;
+  background-color: #fff;
   &.like-block__like-icon--is-visible::after {
     z-index: auto;
     position: absolute;
