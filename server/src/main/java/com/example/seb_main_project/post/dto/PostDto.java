@@ -10,6 +10,7 @@ public class PostDto {
     @Getter
     public static class PostCreateDto {
         private String gpsX;
+        private String gpsY;
         private String contents;
     }
 
@@ -20,6 +21,7 @@ public class PostDto {
     @ToString
     public static class PostPatchDto {
         private String gpsX;
+        private String gpsY;
         private String contents;
 
         private Integer postId;
@@ -36,7 +38,31 @@ public class PostDto {
         private String contents;
         private Integer likeCount;
         private String gpsX;
+        private String gpsY;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        private Boolean bookmarked = false;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    @ToString
+    public static class PostListResponseDto implements Comparable<PostListResponseDto> {
+        private Integer postId;
+        private String nickname;
+        private String contents;
+        private Integer likeCount;
+        private String gpsX;
+        private String gpsY;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
+        private Boolean bookmarked;
+
+        @Override
+        public int compareTo(PostListResponseDto o) {
+            return o.postId - this.postId;
+        }
     }
 }
