@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import InputEmoji from 'react-input-emoji';
-import { useEditComment } from '../../Api/DetailApi';
+import { useDeleteComment, useEditComment } from '../../Api/DetailApi';
 
 function CommentList({ comment, memberId, postId, refreshToken }) {
   const [openMore, setOpenMore] = useState(false);
@@ -19,6 +19,10 @@ function CommentList({ comment, memberId, postId, refreshToken }) {
 
   const cancelModifyClick = () => {
     setStateModify(false);
+  };
+
+  const deleteComment = () => {
+    useDeleteComment(postId, comment.commentId, refreshToken).then(() => location.reload());
   };
 
   const newCommentSubmit = (e) => {
@@ -60,7 +64,7 @@ function CommentList({ comment, memberId, postId, refreshToken }) {
           {openMore && (
             <Tooltip>
               <Button onClick={modifyClick}>수정</Button>
-              <Button>삭제</Button>
+              <Button onClick={deleteComment}>삭제</Button>
             </Tooltip>
           )}
         </More>
