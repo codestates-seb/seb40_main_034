@@ -57,6 +57,7 @@ public class PostService {
 
         Post createdPost = Post.builder()
                 .gpsX(post.getGpsX())
+                .gpsY(post.getGpsY())
                 .contents(post.getContents())
                 .member(member)
                 .nickname(member.getNickname())

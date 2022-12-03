@@ -1,6 +1,7 @@
 package com.example.seb_main_project.post.controller;
 
 
+import com.example.seb_main_project.bookmark.service.BookmarkService;
 import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
+    private final BookmarkService bookmarkService;
     private final PostMapper postMapper;
     private final MemberService memberService;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -32,14 +36,31 @@ public class PostController {
     @GetMapping("/main/list")
     public ResponseEntity getPosts(
             @RequestParam int page,
-            @RequestParam int size) {
-
+            @RequestParam int size,
+            @RequestHeader(value = "Authorization", required = false) String authorization) {
+        Integer memberId;
         Page<Post> pagePosts = postService.findPosts(page - 1, size);
-        List<Post> shownPosts = pagePosts.getContent();
+        List<Post> findPosts = pagePosts.getContent();
+
+        try {
+            memberId = memberService.getTokenMember(authorization);
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    new MultiResponseDto<>(postMapper.postToPostResponseDto(findPosts), pagePosts),
+                    HttpStatus.OK);
+        }
+
+        HashMap<Post, Boolean> postWithBookmarked = new HashMap<>();
+        for (Post findPost : findPosts) {
+            postWithBookmarked.put(findPost, bookmarkService.checkBookmark(findPost.getPostId(), memberId));
+        }
+
+        List<PostDto.PostListResponseDto> response = postMapper.postToPostListResponseDto(postWithBookmarked);
+        Collections.sort(response);
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(postMapper.postToPostResponseDto(shownPosts), pagePosts), HttpStatus.OK);
-
+                new MultiResponseDto<>(response, pagePosts),
+                HttpStatus.OK);
     }
 
 
