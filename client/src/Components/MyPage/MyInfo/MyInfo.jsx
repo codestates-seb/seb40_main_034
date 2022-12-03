@@ -14,6 +14,7 @@ import {
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
 import { getFollowing } from '../../../Api/MyinfoApi';
+import { useSelector } from 'react-redux';
 
 const MyInfo = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const MyInfo = () => {
   const [userName, setUserName] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const url = window.location.href;
+  const memberId = useSelector((state) => state.memberId);
 
   // follow 모달
   const openModalFollowing = () => {
@@ -49,7 +51,7 @@ const MyInfo = () => {
 
   const navigateEdit = () => {
     // edit 화면 이동
-    navigate('/edit');
+    navigate('/profile/:memberId/edit');
   };
 
   useEffect(() => {
