@@ -93,6 +93,7 @@ const CloseBtn = styled.button`
   color: #838282;
   border-radius: 6px;
   cursor: pointer;
+  background-color: #fff;
 `;
 
 const Dialog_Form = styled.form`
@@ -157,6 +158,7 @@ const C_Continue = styled.button`
   color: #91f841;
   font-weight: 400;
   cursor: pointer;
+  background-color: #fff;
 `;
 
 const C_Quite = styled(C_Continue)`
