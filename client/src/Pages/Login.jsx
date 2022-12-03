@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GreenBtn } from '../Components/Common/Btn';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validEmail, validPw } from '../Api/Valid';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
@@ -22,6 +22,13 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const Selector = useSelector((state) => state.user.authenticated);
+  useEffect(() => {
+    if (Selector === true) {
+      return navigate('/');
+    }
+  }, []);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -56,7 +63,7 @@ const Login = () => {
 
             dispatch(setLoginUserInfo(res.data));
             console.log(res.data);
-
+            console.log(res.getHeader('Authorization'));
             navigate('/');
           }
         })
@@ -73,21 +80,6 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const onBlurEmail = () => {
-    if (!validEmail(email)) {
-      setEmailValid(validEmail(email));
-    } else if (validEmail(email)) {
-      setEmailValid(validEmail(email));
-    }
-  };
-
-  const onBlurPassword = () => {
-    if (!validPw(password)) {
-      setPwValid(validPw(password));
-    } else if (validPw(password)) {
-      setPwValid(validPw(password));
-    }
-  };
   return (
     <div>
       <PageContainer>
@@ -99,8 +91,7 @@ const Login = () => {
               name="loginEmail"
               value={email}
               onChange={handleEmail}
-              placeholder="Enter your email"
-              onBlur={onBlurEmail}></LoginInput>
+              placeholder="Enter your email"></LoginInput>
             <div>{!emailValid && email.length > 0 && <ErrorEmail>올바른 이메일을 입력해주세요</ErrorEmail>}</div>
             <Pw>
               <LoginInput
@@ -108,8 +99,7 @@ const Login = () => {
                 name="loginPassword"
                 value={password}
                 onChange={handlePw}
-                placeholder="Enter your password"
-                onBlur={onBlurPassword}></LoginInput>
+                placeholder="Enter your password"></LoginInput>
               {showPassword ? <PwNoshow onClick={togglePass}></PwNoshow> : <PwShow onClick={togglePass}></PwShow>}
             </Pw>
             <div>
