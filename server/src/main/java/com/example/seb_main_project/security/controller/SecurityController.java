@@ -1,10 +1,13 @@
 package com.example.seb_main_project.security.controller;
 
-import com.example.seb_main_project.member.mapper.MemberMapper;
+import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.service.MemberService;
+import com.example.seb_main_project.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SecurityController {
     private final MemberService memberService;
+    private final AuthService authService;
     // private final MemberMapper mapper;
 
     /**
@@ -22,5 +26,13 @@ public class SecurityController {
     @GetMapping("/")
     public String index() {
         return "home";
+    }
+
+    @GetMapping("")
+    public ResponseEntity<AuthDto.Response> reIssueAccessToken(
+            @RequestHeader("Autorization") String authorization) {
+        AuthDto.Response resultToken = authService.reIssueAccessToken(authorization);
+        return ResponseEntity.ok(resultToken);
+
     }
 }
