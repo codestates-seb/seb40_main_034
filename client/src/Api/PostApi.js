@@ -1,10 +1,10 @@
 import axios from 'axios';
 import instance from './root';
-
+import tokenInstance from './tokenroot';
 export const postArticle = async (data) => {
   const url = '/main/submit';
   try {
-    const result = await instance.post(url, data);
+    const result = await tokenInstance.post(url, data);
     return result.data;
   } catch (err) {
     return [err];
