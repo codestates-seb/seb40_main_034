@@ -18,9 +18,9 @@ const Container = styled.div`
   margin-left: 1rem;
   padding: 0 0 0 1rem;
   font-size: 0.9rem;
-  width: ${(props) => (props.width ? props.width : 'calc(100vw - 24.925rem)')};
+  width: ${(props) => (props.width ? props.width : 'calc(100vw - 26.175rem)')};
   min-width: ${(props) => (props.minWidth ? props.minWidth : '5rem')};
-  max-width: ${(props) => (props.maxWidth ? props.maxWidth : 'calc(100vw - 24.925rem)')};
+  max-width: ${(props) => (props.maxWidth ? props.maxWidth : 'calc(100vw - 26.175rem)')};
   height: 2.5rem;
   background-color: #eeeeee;
   div {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Tab from './Tab';
 import POSTFAV from '../../Assets/img/POSTFAV.png';
 import Icon from '../../Assets/img/search.svg';
+
 const Header = () => {
   return (
     <Container>

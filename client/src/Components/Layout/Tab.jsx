@@ -5,11 +5,13 @@ import MapIcon from '../../Assets/img/tab_map.svg';
 import BookmarkIcon from '../../Assets/img/tab_bookmark.svg';
 import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import { getProfile } from '../../Api/HeaderApi';
 import { GreenBtn, BlackBtn, GreyBtn } from '../Common/Btn';
+import { useSelector } from 'react-redux';
 
 const Tab = () => {
-  const [userInfo, setUserInfo] = useState(null);
+  const state = useSelector((state) => state.user);
+  const { memberId, authenticated, nickname } = state;
+
   const [clicked, setClicked] = useState(false);
   const modal = useRef(null);
   const profile = useRef(null);
@@ -18,14 +20,8 @@ const Tab = () => {
   };
 
   useEffect(() => {
-    getProfile().then((res) => {
-      setUserInfo(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
     function handleClickOutside(e) {
-      if (userInfo) {
+      if (authenticated) {
         //유저 인포 없을 때, 작동하면 안 됨
         if (profile.current.contains(e.target)) return;
         if (modal.current && !modal.current.contains(e.target)) setClicked(false);
@@ -39,7 +35,7 @@ const Tab = () => {
 
   return (
     <Container>
-      {userInfo ? (
+      {authenticated ? (
         <>
           <CategoryLeft>
             <Link to="/">
@@ -56,7 +52,7 @@ const Tab = () => {
             </Link>
           </CategoryMid2>
           <CategoryRight>
-            <Link to="/">
+            <Link to={`/profile/${memberId}`}>
               <div className="tabMenu" />
             </Link>
           </CategoryRight>
@@ -82,12 +78,18 @@ const Tab = () => {
         </>
       )}
       {/*로그인되어 있으면 프로필에서 모달 메뉴 나오고, 그렇지 않으면 로그인 회원가입 버튼 보여야 함*/}
-      {userInfo && (
+      {authenticated && (
         <HeaderProfile>
           <Profile onClick={handleClick} ref={profile} />
           <Modal clicked={clicked} ref={modal}>
+            <div className="hi">
+              <div className="loginconfirm">
+                Logged in as <br />
+                <span>{nickname}</span>
+              </div>
+            </div>
             <div className="link">
-              <Link to="/">Profile</Link>
+              <Link to={`/profile/${memberId}`}>Profile</Link>
             </div>
             <div className="link">
               <Link to="/logout">Sign Out</Link>
@@ -186,13 +188,17 @@ const CategoryRight = styled.div`
 
 const HeaderProfile = styled.div`
   margin-left: 1.5rem;
-  width: 20%;
+  width: 40%;
   display: flex;
   align-items: center;
   cursor: pointer;
 `;
 
 const Profile = styled.div`
+  display: flex;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
   width: 2rem;
   height: 2rem;
   border-radius: 20px;
@@ -202,16 +208,38 @@ const Profile = styled.div`
     filter: brightness(90%);
   }
 `;
+
 const Modal = styled.div`
   display: ${(props) => (props.clicked === true ? 'block' : 'none')};
+  z-index: 99;
   border: 1px solid #ccc;
+  background-color: white;
   border-radius: 1rem;
-  width: 8rem;
+  width: 12rem;
   height: auto;
   position: absolute;
   text-align: center;
   top: 3rem;
   right: 0.5rem;
+  .hi {
+    padding: 0.33rem 0 0.33rem 0;
+    background-color: #91f841;
+    width: 10rem;
+    height: 3rem;
+    margin: 0.66rem 0 0.33rem 1rem;
+    border-radius: 1rem;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .loginconfirm {
+    font-size: 0.7rem;
+  }
+  .loginconfirm > span {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
   .link {
     cursor: pointer;
     padding: 0.33rem;

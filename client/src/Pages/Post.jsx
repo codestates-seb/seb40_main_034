@@ -8,24 +8,28 @@ import { useNavigate } from 'react-router-dom';
 import Tagform from '../Components/Post/Tagform';
 import customAlert from '../Utils/customAlert';
 import PlaceSearchModal from '../Components/Post/PlaceSearchModal';
+import { useSelector } from 'react-redux';
 
 const Post = () => {
+  const state = useSelector((state) => state.user);
+  const { memberId, authenticated, nickname } = state;
+  const [userInfo, setUserInfo] = useState({});
   const [location, setLocation] = useState('');
   const [locationDetail, setLocationDetail] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
   const [tags, setTags] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
   const [tagselected, setTagSelected] = useState(false);
   const [maintext, setMaintext] = useState(0);
-  const navigate = useNavigate();
 
   useEffect(() => {
     getProfile().then((res) => {
       setUserInfo(res.data);
     });
   }, []);
+
+  const navigate = useNavigate();
 
   const handlePlaceSearch = () => {
     setIsSearching(!isSearching);
@@ -97,7 +101,10 @@ const Post = () => {
       imageURL: imgs,
       tag: tags,
     };
-    console.log(data);
+    if (!authenticated) {
+      customAlert('로그인이 정상적으로 되어있지 않습니다.');
+      throw new Error('글 작성에 실패했습니다.');
+    }
     if (body.length <= 10) {
       customAlert('리뷰는 최소 10자 이상 작성하세요.');
       return;
@@ -120,7 +127,9 @@ const Post = () => {
     <Background>
       <Container>
         <Header>
-          {userInfo && <MiniProfile nickname={userInfo.nickname} className="user" />}
+          {authenticated && (
+            <MiniProfile nickname={nickname} className="user" memberId={memberId} profileImg={userInfo?.profileImg} />
+          )}
           <GreenBtn text="저장" className="post" callback={handleSubmit} />
         </Header>
         <Body>
@@ -205,6 +214,9 @@ const ImageContainer = styled.div`
   input[type='file'] {
     display: none;
   }
+  label {
+    cursor: pointer;
+  }
   .preview {
     width: 100%;
   }
@@ -233,7 +245,7 @@ const Description = styled.article`
   }
 `;
 const Place = styled.input`
-  cursor: default;
+  cursor: pointer;
   padding: 0.5rem;
   width: 15rem;
   border: none;
