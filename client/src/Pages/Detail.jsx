@@ -47,6 +47,10 @@ function Detail() {
   const [isEdit, setIsEdit] = useState(false);
   // 닉네임(완)
   const [nickname, setNickname] = useState('');
+  // 상호명
+  const [mayLocation, setMapLocation] = useState('');
+  // 도로묭
+  const [myGpsX, setMyGpsX] = useState('');
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
@@ -109,6 +113,8 @@ function Detail() {
       console.log(res);
       setNickname(res.nickname);
       setBodyText(res.contents);
+      setMapLocation(res.gpsY);
+      setMyGpsX(res.gpsX);
     });
     useGetComment(postId).then((res) => {
       console.log(res);
@@ -177,7 +183,7 @@ function Detail() {
             <D_TopDesc>
               <D_ProSum>
                 <D_TopProfile>
-                  <Link to="/">
+                  <Link to="/profile/3">
                     <img
                       src="https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
                       alt="profile"
@@ -185,7 +191,7 @@ function Detail() {
                   </Link>
                 </D_TopProfile>
                 <D_TopName>
-                  <Link to="/">{nickname}</Link>
+                  <Link to="/profile/3">{nickname}</Link>
                 </D_TopName>
               </D_ProSum>
               {subColor ? (
@@ -206,7 +212,9 @@ function Detail() {
                   <path d="M66.9,41.8c0-11.3-9.1-20.4-20.4-20.4c-11.3,0-20.4,9.1-20.4,20.4c0,11.3,20.4,32.4,20.4,32.4S66.9,53.1,66.9,41.8z    M37,41.4c0-5.2,4.3-9.5,9.5-9.5c5.2,0,9.5,4.2,9.5,9.5c0,5.2-4.2,9.5-9.5,9.5C41.3,50.9,37,46.6,37,41.4z" />
                 </svg>
               </Link>
-              <Link to="/">롤링핀 오산점</Link>
+              <Link to="/map" state={{ gpsX: myGpsX, gpsY: mayLocation }}>
+                {mayLocation}
+              </Link>
               <D_LikeBookmark>
                 <D_likeButton className={isLike ? 'like-block__like-icon--is-visible' : ''} onClick={clickLike}>
                   <svg

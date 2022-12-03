@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import InputEmoji from 'react-input-emoji';
 import { useDeleteComment, useEditComment } from '../../Api/DetailApi';
@@ -33,7 +33,7 @@ function CommentList({ comment, memberId, postId, refreshToken }) {
 
   return (
     <CommentContainer>
-      <Link to="/">
+      <Link to="/profile/3">
         <strong>{comment.nickname}</strong>
       </Link>
       {stateModify ? (
