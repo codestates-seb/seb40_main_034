@@ -230,7 +230,13 @@ function Detail() {
                 <h2>댓글 {commentData.length}개</h2>
                 <D_CommentListContainer>
                   {commentData.map((data, idx) => (
-                    <CommentList comment={data} memberId={memberId} key={idx} />
+                    <CommentList
+                      comment={data}
+                      memberId={memberId}
+                      refreshToken={refreshToken}
+                      postId={postId}
+                      key={idx}
+                    />
                   ))}
                 </D_CommentListContainer>
                 <form>

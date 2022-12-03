@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import InputEmoji from 'react-input-emoji';
+import { useEditComment } from '../../Api/DetailApi';
 
-function CommentList({ comment, memberId }) {
+function CommentList({ comment, memberId, postId, refreshToken }) {
   const [openMore, setOpenMore] = useState(false);
   const [stateModify, setStateModify] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -20,6 +21,12 @@ function CommentList({ comment, memberId }) {
     setStateModify(false);
   };
 
+  const newCommentSubmit = (e) => {
+    if (e.key === 'Enter' && newComment.length > 0) {
+      useEditComment(postId, comment.commentId, newComment, refreshToken).then(() => location.reload());
+    }
+  };
+
   return (
     <CommentContainer>
       <Link to="/">
@@ -30,6 +37,7 @@ function CommentList({ comment, memberId }) {
           <InputEmoji
             value={newComment}
             onChange={setNewComment}
+            onKeyDown={(e) => newCommentSubmit(e)}
             borderRadius={10}
             borderColor="#b8b8b8"
             placeholder="comment here..."
