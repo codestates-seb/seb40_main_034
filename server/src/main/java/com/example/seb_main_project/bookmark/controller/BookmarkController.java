@@ -29,11 +29,15 @@ public class BookmarkController {
     private final PostMapper postMapper;
 
     @PostMapping("/main/{post-id}/bookmark")
-    public void createBookmark(
+    public ResponseEntity<BookmarkDto.ExistBookmarkResponseDto> createBookmark(
             @PathVariable("post-id") Integer postId,
             @RequestHeader("Authorization") String authorization) {
         Integer memberId = memberService.getTokenMember(authorization);
         bookmarkService.addBookmark(postId, memberId);
+
+        return new ResponseEntity<>(
+                bookmarkMapper.booleanToBookmarkResponseDto(
+                        bookmarkService.checkBookmark(postId, memberId)), HttpStatus.OK);
     }
 
     /**
