@@ -32,8 +32,8 @@ export const AppRouter = () => {
               <Routes>
                 <Route element={<LayoutHS />}>
                   <Route path="" element={<Main />} />
-                  <Route path="mypage" element={<Mypage />} />
-                  <Route path="edit" element={<MypageEdit />} />
+                  <Route path="profile/:memberId" element={<Mypage />} />
+                  <Route path="profile/:mamberId/edit" element={<MypageEdit />} />
                   <Route path="post/:postId/detail" element={<Detail />} />
                 </Route>
                 <Route element={<LayoutH />}>

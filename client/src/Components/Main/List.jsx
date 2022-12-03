@@ -9,7 +9,7 @@ export const List = ({ img, gpsY, profileImg, nickname, createdAt, postId }) => 
     <Container>
       <Thumbnail img={img} nickname={nickname}>
         <div className="thumbnailHover">
-          <GreenBtn text="북마크" />
+          <GreenBtn text="Bookmark" />
         </div>
         <Link to={detailurl} state={{ postId: postId }}>
           <div className="placeholder" />
@@ -37,6 +37,9 @@ const Thumbnail = styled.div`
   }
   :hover img {
     filter: brightness(85%);
+  }
+  a {
+    cursor: zoom-in;
   }
   :hover .thumbnailHover {
     position: absolute;

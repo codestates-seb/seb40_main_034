@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const MiniProfile = ({ profileImg, nickname, userId, className }) => {
-  const link = userId ? `/mypage/${userId}` : '/';
+const MiniProfile = ({ memberId, nickname, profileImg, className }) => {
+  const link = memberId ? `/profile/${memberId}` : '/';
   return (
     <Link to={link}>
       <Conatiner className={className}>
         <Profile />
-        <Id>{nickname ? nickname : 'nickname'}</Id>
+        <Id>{nickname ? nickname : 'load failed'}</Id>
       </Conatiner>
     </Link>
   );
