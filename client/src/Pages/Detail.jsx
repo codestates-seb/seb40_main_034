@@ -9,6 +9,7 @@ import { useConfirm, useGetComment, useGetDetail, usePostComment } from '../Api/
 import DetailModal from '../Components/Detail/DetailModal';
 import { getCookieToken } from '../storage/Cookie';
 import { useSelector } from 'react-redux';
+import { throttle } from 'lodash';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -91,9 +92,10 @@ function Detail() {
   };
 
   // 댓글 Post axios(완)
-  const postComment = () => {
+  const postComment = throttle(() => {
     usePostComment(postId, comment, refreshToken).then(() => location.reload());
-  };
+  }, 300);
+
   // 댓글 Post 엔터(완)
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && comment.length > 0) {
