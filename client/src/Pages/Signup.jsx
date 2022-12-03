@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { ReactComponent as Openeye } from '../Assets/img/eye.svg';
 import { ReactComponent as Closedeye } from '../Assets/img/eye2.svg';
 import { GreenBtn } from '../Components/Common/Btn';
@@ -21,6 +22,13 @@ const Signup = () => {
   const [nicknameDouble, setNicknameDouble] = useState(true);
 
   const navigate = useNavigate();
+  //로그인상태일때 로그인페이지 접근시 메인화면으로 보내기
+  const Selector = useSelector((state) => state.user.authenticated);
+  useEffect(() => {
+    if (Selector === true) {
+      return navigate('/');
+    }
+  }, []);
 
   const handleNickname = (e) => {
     setNickname(e.target.value);
