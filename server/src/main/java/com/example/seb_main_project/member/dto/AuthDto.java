@@ -22,6 +22,7 @@ public class AuthDto {
     public static class Response {
         private String memberId;
         private String accessToken;
+        private String refreshToken;
         private String nickname;
         private String email;
     }

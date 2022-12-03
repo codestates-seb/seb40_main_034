@@ -78,7 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization", "Bearer " + refreshToken);
 
-        sendResponse(accessToken, email, response);
+        sendResponse(accessToken, refreshToken, email, response);
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 
@@ -86,8 +86,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * 로그인 시에 응답
      */
     private void sendResponse(
-            String accessToken,
-            String email,
+            String accessToken, String refreshToken, String email,
             HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         Member findMember = jwtTokenizer.findMemberByEmail(email);
@@ -103,6 +102,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         AuthDto.Response authResponse = AuthDto.Response.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .nickname(findMember.getNickname())
                 .memberId(String.valueOf(findMember.getId()))
                 .email(email)
