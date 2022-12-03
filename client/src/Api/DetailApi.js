@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getCookieToken } from '../storage/Cookie';
 import instance from './root';
+import createTokenInstance from './tokenroot';
 
 // 이미지 더미 데이터
 let images = [
@@ -62,10 +63,9 @@ export const useGetComment = async (postId) => {
 };
 
 // 댓글 추가
-export const usePostComment = async (postId, contents) => {
+export const usePostComment = async (postId, contents, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
   try {
-    const token = getCookieToken();
-    console.log(token);
     const response = await instance.post(`/main/${postId}/comment`, {
       contents: contents,
     });

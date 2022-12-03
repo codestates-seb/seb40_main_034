@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
@@ -8,6 +8,7 @@ import InputEmoji from 'react-input-emoji';
 import { useConfirm, useGetComment, useGetDetail, usePostComment } from '../Api/DetailApi';
 import DetailModal from '../Components/Detail/DetailModal';
 import { getCookieToken } from '../storage/Cookie';
+import { useSelector } from 'react-redux';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -18,9 +19,15 @@ function Detail() {
     'https://images.unsplash.com/photo-1526306063970-d5498ad00f1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
     'https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
   ];
-  // post-Id props 불러오기(완)
-  const location = useLocation();
-  const { postId } = location.state;
+  // post-Id props 불러오기(첫 렌더링 / 완)
+  // const location = useLocation();
+  // console.log(location);
+  // const { postId } = location.state;
+  const { postId } = useParams();
+  console.log(postId);
+
+  // redux state 불러오기
+  const { refreshToken } = useSelector((state) => state.user);
 
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
@@ -51,6 +58,8 @@ function Detail() {
 
   // 글자수 제한(완)
   const textLimit = useRef(200);
+
+  const navigate = useNavigate();
 
   // 이미지 뒤로가기 앞으로 가기 버튼
   const prevImg = () => {
@@ -88,9 +97,14 @@ function Detail() {
   };
 
   // 댓글 Post axios
-  const postComment = (e) => {
-    e.preventDefault();
-    usePostComment(1, comment).then((res) => console.log(res));
+  const postComment = () => {
+    usePostComment(postId, comment, refreshToken).then(() => location.reload());
+  };
+  // 댓글 Post 엔터
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && comment.length > 0) {
+      postComment();
+    }
   };
 
   // detail 조회(완)
@@ -227,15 +241,16 @@ function Detail() {
                     <CommentList comment={data} key={idx} />
                   ))}
                 </D_CommentListContainer>
-                <form onSubmit={postComment}>
+                <form>
                   <InputEmoji
                     value={comment}
                     onChange={setComment}
+                    onKeyDown={(e) => handleKeyPress(e)}
                     borderRadius={10}
                     borderColor="#b8b8b8"
                     placeholder="comment here..."
                   />
-                  <button>
+                  <button onClick={postComment}>
                     <svg fill="#8e8e8e" height="33" viewBox="0 0 16 16" width="33" xmlns="http://www.w3.org/2000/svg">
                       <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
                       <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z" />
