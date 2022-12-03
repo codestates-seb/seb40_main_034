@@ -45,7 +45,7 @@ export const useGetDetail = async (postId) => {
   }
 };
 
-// 댓글 조회
+// 댓글 조회(완)
 export const useGetComment = async (postId) => {
   try {
     const response = await instance.get(`/post/${postId}/comment?page=1&size=6`);
@@ -62,7 +62,7 @@ export const useGetComment = async (postId) => {
   }
 };
 
-// 댓글 추가
+// 댓글 추가(완)
 export const usePostComment = async (postId, contents, refreshToken) => {
   const instance = createTokenInstance(refreshToken);
   try {
@@ -82,13 +82,31 @@ export const usePostComment = async (postId, contents, refreshToken) => {
   }
 };
 
-// 댓글 수정
+// 댓글 수정(완)
 export const useEditComment = async (postId, commentId, contents, refreshToken) => {
   const instance = createTokenInstance(refreshToken);
   try {
     const response = await instance.put(`/main/${postId}/${commentId}/edit`, {
       contents: contents,
     });
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
+// 댓글 삭제
+export const useDeleteComment = async (postId, commentId, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
+  try {
+    const response = await instance.delete(`/main/${postId}/${commentId}/delete`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
