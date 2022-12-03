@@ -63,7 +63,6 @@ const Login = () => {
 
             dispatch(setLoginUserInfo(res.data));
             console.log(res.data);
-            console.log(res.getHeader('Authorization'));
             navigate('/');
           }
         })
