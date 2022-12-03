@@ -52,4 +52,12 @@ public class AuthDto {
         private String modifiedAt;
         private LocalDateTime latestLogin;
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class Token {
+        private String accessToken;
+        private String refreshToken;
+    }
 }

@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -26,8 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-
-import static com.example.seb_main_project.security.utils.JwtConstants.REFRESH_TOKEN;
 
 /**
  * JWT 생성을 위한 클래스
@@ -172,23 +169,6 @@ public class JwtTokenizer {
         findMember.setLatestLogin(LocalDateTime.now());
         memberRepository.save(findMember);
         return findMember;
-    }
-
-
-    /**
-     * 전달받은 쿠키 값 중 리프레시 토큰이 있는지 확인하는 메서드
-     *
-     * @param cookies 전달받은 쿠키 값
-     * @return RefreshToken 존재 시 해당 토큰 값 반환
-     * @author dev32user
-     */
-    public String isExistRefresh(Cookie[] cookies) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(REFRESH_TOKEN)) {
-                log.info(String.valueOf(cookie));
-                return cookie.getValue();};
-        }
-        throw new BusinessLogicException(ExceptionCode.COOKIE_NOT_FOUND);
     }
 
 
