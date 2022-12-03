@@ -1,15 +1,38 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { GreenBtn } from '../Common/Btn';
+import { bookmark } from '../../Api/MainApi';
+import customAlert from '../../Utils/customAlert';
+import { GreenBtn, BlackBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 
-export const List = ({ img, gpsY, profileImg, nickname, createdAt, postId }) => {
+export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) => {
   const detailurl = `/post/${postId}/detail`;
+  const state = useSelector((state) => state.user);
+  const initialBookmarkState = bookmarked;
+  const { authenticated, refreshToken } = state;
+  const [bookmarkDisplay, setBookmarkDisplay] = useState(initialBookmarkState);
+  const handleBookmark = () => {
+    if (!authenticated) {
+      customAlert('로그인이 필요한 기능입니다.');
+      return;
+    }
+    bookmark(postId, refreshToken).then((res) => {
+      setBookmarkDisplay(res.bookmarked);
+      console.log(res);
+    });
+  };
   return (
     <Container>
       <Thumbnail img={img} nickname={nickname}>
         <div className="thumbnailHover">
-          <GreenBtn text="Bookmark" />
+          {authenticated &&
+            (bookmarkDisplay ? (
+              <GreenBtn text="북마크됨" callback={handleBookmark} />
+            ) : (
+              <BlackBtn text="북마크" callback={handleBookmark} />
+            ))}
         </div>
         <Link to={detailurl} state={{ postId: postId }}>
           <div className="placeholder" />

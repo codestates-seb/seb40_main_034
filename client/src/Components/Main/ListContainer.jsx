@@ -1,17 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getAllLists } from '../../Api/MainApi';
+import { getAllLists, getAllLists_Login } from '../../Api/MainApi';
 import Loading from '../../Pages/Loading';
 import { List } from './List';
+import { useSelector } from 'react-redux';
 
 const ListContainer = () => {
+  const state = useSelector((state) => state.user);
+  const { authenticated, refreshToken } = state;
+
   const pagesize = Math.floor((window.innerWidth - 14 * 16) / 235);
   const [postList, setPostList] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);
   const fetchList = useCallback(async () => {
-    const fetchData = await getAllLists({ page, size: pagesize });
+    const fetchData = authenticated
+      ? await getAllLists_Login({ page, size: pagesize }, refreshToken)
+      : await getAllLists({ page, size: pagesize });
     setPostList(postList.concat(fetchData.data));
     console.log('fetched', fetchData);
     setPage(fetchData.pageInfo.page + 1);
@@ -51,6 +57,7 @@ const ListContainer = () => {
               postId={post.postId}
               gpsY={post.gpsY}
               createdAt={post.createdAt}
+              bookmarked={post.bookmarked}
             />
           );
         })}

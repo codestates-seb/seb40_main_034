@@ -9,6 +9,7 @@ import Tagform from '../Components/Post/Tagform';
 import customAlert from '../Utils/customAlert';
 import PlaceSearchModal from '../Components/Post/PlaceSearchModal';
 import { useSelector } from 'react-redux';
+import grammarCheck from '../Utils/grammarCheck';
 
 const Post = () => {
   const state = useSelector((state) => state.user);
@@ -112,7 +113,8 @@ const Post = () => {
     if (tags.length === 0) {
       customAlert('최소 하나 이상의 태그를 선택하세요.');
       return;
-    } else {
+    }
+    if (grammarCheck(body)) {
       postArticle(data, refreshToken).then((res) => {
         if (res.postId) {
           navigate(`/post/${res.postId}/detail`);
