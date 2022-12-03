@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 const Post = () => {
   const state = useSelector((state) => state.user);
-  const { memberId, authenticated, nickname } = state;
+  const { memberId, authenticated, nickname, refreshToken } = state;
   const [userInfo, setUserInfo] = useState({});
   const [location, setLocation] = useState('');
   const [locationDetail, setLocationDetail] = useState('');
@@ -113,9 +113,9 @@ const Post = () => {
       customAlert('최소 하나 이상의 태그를 선택하세요.');
       return;
     } else {
-      postArticle(data).then((res) => {
-        if (res.id) {
-          navigate(`/post/${res.id}/detail`);
+      postArticle(data, refreshToken).then((res) => {
+        if (res.postId) {
+          navigate(`/post/${res.postId}/detail`);
         } else {
           customAlert(`글 작성에 실패했습니다. \n${res}`);
         }

@@ -1,10 +1,12 @@
 import axios from 'axios';
 import instance from './root';
-import tokenInstance from './tokenroot';
-export const postArticle = async (data) => {
+import createTokenInstance from './tokenroot';
+
+export const postArticle = async (data, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
   const url = '/main/submit';
   try {
-    const result = await tokenInstance.post(url, data);
+    const result = await instance.post(url, data);
     return result.data;
   } catch (err) {
     return [err];
