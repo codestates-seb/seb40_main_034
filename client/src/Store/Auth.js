@@ -4,8 +4,10 @@ import { PURGE } from 'redux-persist';
 const initialState = {
   memberId: null,
   authenticated: false, //authenticated : 현재 로그인 여부를 간단히 확인하기 위해 선언.
-  email: null, //accessToken : Access Token 저장
-  nickname: null, //expireTime : Access Token 의 만료 시간
+  email: null,
+  nickname: null,
+  refreshToken: null,
+  accessToken: null,
   tags: [],
 };
 
@@ -19,6 +21,8 @@ export const tokenSlice = createSlice({
       memberId: action.payload.memberId,
       email: action.payload.email,
       nickname: action.payload.nickname,
+      refreshToken: action.payload.refreshToken,
+      accessToken: action.payload.accessToken,
     }),
     deleteLoginUserInfo: (state) => ({
       ...state,
