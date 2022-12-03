@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 // const root = process.env.REACT_APP_SERVER_ROOT_TEST;
 const root = process.env.REACT_APP_SERVER_ROOT;
 const state = useSelector((state) => state.user);
-const { token } = state;
+const { refreshToken } = state;
 
 const axiosConfig = {
-  headers: { 'Content-Type': 'application/json; charset=UTF-8', Authorization: `${token}` },
+  headers: { 'Content-Type': 'application/json; charset=UTF-8', Authorization: `Bearer ${refreshToken}` },
   baseURL: root,
 };
 
