@@ -4,12 +4,13 @@ import { getAllLists, getAllLists_Login } from '../../Api/MainApi';
 import Loading from '../../Pages/Loading';
 import { List } from './List';
 import { useSelector } from 'react-redux';
+import { throttle } from 'lodash';
 
 const ListContainer = () => {
   const state = useSelector((state) => state.user);
   const { authenticated, refreshToken } = state;
 
-  const pagesize = Math.floor((window.innerWidth - 14 * 16) / 235);
+  const pagesize = Math.floor(((window.innerWidth - 14 * 16) * 3) / 235);
   const [postList, setPostList] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
@@ -28,14 +29,12 @@ const ListContainer = () => {
   // 받아온 데이터로 postlist, page, 다음 페이지 유무, 로딩 중인지의 여부를 세팅함
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
-      if (window.innerHeight + scrollTop === offsetHeight) {
+      if (window.innerHeight + scrollTop >= offsetHeight) {
         setFetching(true);
-        console.log('scroll-fetched');
       }
-      console.log(scrollTop, '+', window.innerHeight, '===', offsetHeight, '일 때 fetch됩니다');
-    };
+    }, 300);
     setFetching(true);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
