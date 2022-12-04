@@ -5,7 +5,16 @@ import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
-import { useConfirm, useGetComment, useGetDetail, usePostComment } from '../Api/DetailApi';
+import {
+  useConfirm,
+  useGetComment,
+  useGetDetail,
+  useGetFollow,
+  useGetLike,
+  usePostComment,
+  usePostFollow,
+  usePostLike,
+} from '../Api/DetailApi';
 import DetailModal from '../Components/Detail/DetailModal';
 import { getCookieToken } from '../storage/Cookie';
 import { useSelector } from 'react-redux';
@@ -75,24 +84,14 @@ function Detail() {
 
   // 구독 버튼 post onclick
   const subscribe = () => {
-    axios
-      .post('/follow/add')
-      .then((res) => {
-        setSubColor(!subColor);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    setSubColor(!subColor);
+    usePostFollow(subColor);
   };
 
   // 좋아요 클릭 axios
   const clickLike = () => {
-    axios
-      .post(`/main/1/like`)
-      .then((res) => {
-        console.log(res);
-        setIsLike(!isLike);
-      })
-      .catch((err) => console.log(err));
+    setIsLike(!isLike);
+    usePostLike(isLike);
   };
 
   // 댓글 Post axios(완)
@@ -119,6 +118,13 @@ function Detail() {
     useGetComment(postId).then((res) => {
       console.log(res);
       setCommentData(res.data);
+    });
+    useGetLike().then((res) => {
+      setIsLike(res.liked);
+    });
+    useGetFollow().then((res) => {
+      console.log(res);
+      setSubColor(res.follow);
     });
   }, []);
 
@@ -195,9 +201,9 @@ function Detail() {
                 </D_TopName>
               </D_ProSum>
               {subColor ? (
-                <BlackBtn text="UNSUBSCRIBE" onClick={subscribe} />
+                <BlackBtn text="UNSUBSCRIBE" callback={subscribe} />
               ) : (
-                <GreenBtn text="SUBSCRIBE" onClick={subscribe} />
+                <GreenBtn text="SUBSCRIBE" callback={subscribe} />
               )}
             </D_TopDesc>
             <D_LocateDesc>
