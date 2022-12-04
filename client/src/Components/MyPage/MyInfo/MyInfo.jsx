@@ -24,7 +24,8 @@ const MyInfo = () => {
   const [userName, setUserName] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const url = window.location.href;
-  const memberId = useSelector((state) => state.memberId);
+  const state = useSelector((state) => state.user);
+  const { nickname } = state;
 
   // follow 모달
   const openModalFollowing = () => {
@@ -54,14 +55,6 @@ const MyInfo = () => {
     navigate('/profile/:memberId/edit');
   };
 
-  useEffect(() => {
-    getFollowing().then((res) => {
-      console.log(res);
-      setUserName(res[0].nickname);
-      setUserProfile(res[0].profileImg);
-    });
-  }, []);
-
   return (
     <MyContainer>
       <ProfileContainer>
@@ -72,7 +65,7 @@ const MyInfo = () => {
             <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="UserPic" />
           )}
         </ProfilePic>
-        <div className="nickname-text">{userName}</div>
+        <div className="nickname-text">{nickname}</div>
       </ProfileContainer>
       <FollowContainer>
         <FollowingBtn onClick={openModalFollowing}>

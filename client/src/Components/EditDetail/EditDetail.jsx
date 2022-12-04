@@ -15,6 +15,7 @@ import { InputForm } from '../Common/InputForm';
 import { useState, useEffect, useRef } from 'react';
 import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
+import { useSelector } from 'react-redux';
 
 const EditDetail = () => {
   const photoInput = useRef();
@@ -22,6 +23,8 @@ const EditDetail = () => {
   const [file, setFile] = useState('');
   const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
+  const state = useSelector((state) => state.user);
+  const { refreshToken } = state;
   const [defaultImg, setDefaultImg] = useState(null);
   const initialInfo = {
     nickname: '',
@@ -49,7 +52,7 @@ const EditDetail = () => {
       password: userInfo.password,
       profileImg: previewURL,
     };
-    editUserInfo(data).then(() => {
+    editUserInfo(data, refreshToken).then(() => {
       console.log(data);
       alert('Save Succeess');
       setUserInfo(initialInfo);
