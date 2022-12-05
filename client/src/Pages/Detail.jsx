@@ -16,7 +16,6 @@ import {
   usePostLike,
 } from '../Api/DetailApi';
 import DetailModal from '../Components/Detail/DetailModal';
-import { getCookieToken } from '../storage/Cookie';
 import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 
