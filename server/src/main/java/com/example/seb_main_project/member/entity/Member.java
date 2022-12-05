@@ -63,4 +63,11 @@ public class Member extends Auditable implements Principal {
             bookmark.setMember(this);
         }
     }
+
+    public void addPostLike(PostLike postLike) {
+        this.postLikes.add(postLike);
+        if (postLike.getMember() != this) {
+            postLike.setMember(this);
+        }
+    }
 }
