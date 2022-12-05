@@ -1,5 +1,6 @@
 import instance from './root';
 import axios from 'axios';
+import createTokenInstance from './tokenroot';
 
 export const getUserInfo = async () => {
   try {
@@ -11,17 +12,17 @@ export const getUserInfo = async () => {
 };
 
 // export const getFollowing = async () => {
-// 	try {
-// 		const res = await instance.get('/following');
-// 		return res.data;
-// 	} catch (err) {
-// 		return err;
-// 	}
+//  try {
+//    const res = await instance.get('/following');
+//    return res.data;
+//  } catch (err) {
+//    return err;
+//  }
 // };
 
 export const getFollowing = async () => {
   try {
-    const res = await axios.get(`http://localhost:4000/following`);
+    const res = await axios.get('http://localhost:8080/following');
     return res.data;
   } catch (err) {
     return err;
@@ -30,7 +31,7 @@ export const getFollowing = async () => {
 
 export const getFollower = async () => {
   try {
-    const res = await instance.get('/follower');
+    const res = await instance.get('http://localhost:8080/follower');
     return res.data;
   } catch (err) {
     return err;
@@ -38,7 +39,7 @@ export const getFollower = async () => {
 };
 export const getFollowInfo = async () => {
   try {
-    const res = await instance.get('/follower');
+    const res = await instance.get('http://localhost:8080/following');
     return res.data;
   } catch (err) {
     return err;
@@ -46,16 +47,18 @@ export const getFollowInfo = async () => {
 };
 export const addFollow = async () => {
   try {
-    const res = await instance.post(`/follow/add`);
+    const res = await instance.post('/follow/add');
     return res;
   } catch (err) {
     return err;
   }
 };
 
-export const editUserInfo = async (id, data) => {
+export const editUserInfo = async (data, refreshToken) => {
+  const tokenInstance = createTokenInstance(refreshToken);
+  const url = '/member/member-info/edit';
   try {
-    const res = await instance.put(`/member/${id}/edit`);
+    const res = await tokenInstance.put(url, data);
     return res;
   } catch (err) {
     return err;
