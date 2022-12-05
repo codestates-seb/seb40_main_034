@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { getCookieToken } from '../storage/Cookie';
 import instance from './root';
 import createTokenInstance from './tokenroot';
 
@@ -13,10 +12,10 @@ let images = [
   'https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
 ];
 
-// 좋아요 조회
-export const useGetLike = async ({ postId }) => {
+// 좋아요 get
+export const useGetLike = async () => {
   try {
-    const response = await instance.get(`/post/${postId}/like`);
+    const response = await axios.get(`http://localhost:8080/like`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
@@ -24,6 +23,63 @@ export const useGetLike = async ({ postId }) => {
   } catch (err) {
     if (err.response.status === 404) {
       console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
+// 좋아요 클릭 post
+export const usePostLike = async (isLike) => {
+  try {
+    const response = await axios.put(`http://localhost:8080/like`, {
+      liked: isLike,
+    });
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
+// 구독 get
+export const useGetFollow = async () => {
+  try {
+    const response = await axios.get(`http://localhost:8080/follow`);
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
+// 구독 클릭 post
+export const usePostFollow = async (subColor) => {
+  try {
+    const response = await axios.put(`http://localhost:8080/follow`, {
+      follow: subColor,
+    });
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
     }
   }
 };
@@ -102,7 +158,7 @@ export const useEditComment = async (postId, commentId, contents, refreshToken) 
   }
 };
 
-// 댓글 삭제
+// 댓글 삭제(완)
 export const useDeleteComment = async (postId, commentId, refreshToken) => {
   const instance = createTokenInstance(refreshToken);
   try {

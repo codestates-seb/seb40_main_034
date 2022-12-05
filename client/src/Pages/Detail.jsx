@@ -5,9 +5,17 @@ import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
-import { useConfirm, useGetComment, useGetDetail, usePostComment } from '../Api/DetailApi';
+import {
+  useConfirm,
+  useGetComment,
+  useGetDetail,
+  useGetFollow,
+  useGetLike,
+  usePostComment,
+  usePostFollow,
+  usePostLike,
+} from '../Api/DetailApi';
 import DetailModal from '../Components/Detail/DetailModal';
-import { getCookieToken } from '../storage/Cookie';
 import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 
@@ -51,6 +59,9 @@ function Detail() {
   const [mayLocation, setMapLocation] = useState('');
   // 도로묭
   const [myGpsX, setMyGpsX] = useState('');
+  // post한 memberId
+  const [postMemberId, setPostMemberId] = useState('');
+  const myPageUrl = `/profile/${postMemberId}`;
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => console.log('삭제했습니다.');
@@ -75,24 +86,22 @@ function Detail() {
 
   // 구독 버튼 post onclick
   const subscribe = () => {
-    axios
-      .post('/follow/add')
-      .then((res) => {
-        setSubColor(!subColor);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    if (memberId === null) {
+      alert('로그인 후 이용해주세요');
+    } else {
+      setSubColor(!subColor);
+      usePostFollow(subColor);
+    }
   };
 
   // 좋아요 클릭 axios
   const clickLike = () => {
-    axios
-      .post(`/main/1/like`)
-      .then((res) => {
-        console.log(res);
-        setIsLike(!isLike);
-      })
-      .catch((err) => console.log(err));
+    if (memberId === null) {
+      alert('로그인 후 이용해주세요');
+    } else {
+      setIsLike(!isLike);
+      usePostLike(isLike);
+    }
   };
 
   // 댓글 Post axios(완)
@@ -115,10 +124,18 @@ function Detail() {
       setBodyText(res.contents);
       setMapLocation(res.gpsY);
       setMyGpsX(res.gpsX);
+      setPostMemberId(res.memberId);
     });
     useGetComment(postId).then((res) => {
       console.log(res);
       setCommentData(res.data);
+    });
+    useGetLike().then((res) => {
+      setIsLike(res.liked);
+    });
+    useGetFollow().then((res) => {
+      console.log(res);
+      setSubColor(res.follow);
     });
   }, []);
 
@@ -183,7 +200,7 @@ function Detail() {
             <D_TopDesc>
               <D_ProSum>
                 <D_TopProfile>
-                  <Link to="/profile/3">
+                  <Link to={myPageUrl}>
                     <img
                       src="https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
                       alt="profile"
@@ -191,17 +208,17 @@ function Detail() {
                   </Link>
                 </D_TopProfile>
                 <D_TopName>
-                  <Link to="/profile/3">{nickname}</Link>
+                  <Link to={myPageUrl}>{nickname}</Link>
                 </D_TopName>
               </D_ProSum>
               {subColor ? (
-                <BlackBtn text="UNSUBSCRIBE" onClick={subscribe} />
+                <BlackBtn text="UNSUBSCRIBE" callback={subscribe} />
               ) : (
-                <GreenBtn text="SUBSCRIBE" onClick={subscribe} />
+                <GreenBtn text="SUBSCRIBE" callback={subscribe} />
               )}
             </D_TopDesc>
             <D_LocateDesc>
-              <Link to="/">
+              <Link to="/map" state={{ gpsX: myGpsX, gpsY: mayLocation }}>
                 <svg
                   width="35"
                   height="35"
@@ -245,34 +262,41 @@ function Detail() {
                       memberId={memberId}
                       refreshToken={refreshToken}
                       postId={postId}
+                      myPageUrl={myPageUrl}
                       key={idx}
                     />
                   ))}
                 </D_CommentListContainer>
-                <form>
-                  <InputEmoji
-                    value={comment}
-                    onChange={setComment}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                    borderRadius={10}
-                    borderColor="#b8b8b8"
-                    placeholder="comment here..."
-                  />
-                  <button onClick={postComment}>
-                    <svg fill="#8e8e8e" height="33" viewBox="0 0 16 16" width="33" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
-                      <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z" />
-                    </svg>
-                  </button>
-                </form>
+                {memberId !== null && (
+                  <form>
+                    <InputEmoji
+                      value={comment}
+                      onChange={setComment}
+                      onKeyDown={(e) => handleKeyPress(e)}
+                      borderRadius={10}
+                      borderColor="#b8b8b8"
+                      placeholder="comment here..."
+                    />
+                    <button onClick={postComment}>
+                      <svg fill="#8e8e8e" height="33" viewBox="0 0 16 16" width="33" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 1.59 2.498C8 14 8 13 8 12.5a4.5 4.5 0 0 1 5.026-4.47L15.964.686Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
+                        <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z" />
+                      </svg>
+                    </button>
+                  </form>
+                )}
               </D_CommentDesc>
               <D_BottomDesc>
-                <button onClick={confirmDelete} className="delete">
-                  <span>삭제</span>
-                </button>
-                <button onClick={() => setIsEdit(true)}>
-                  <span>수정</span>
-                </button>
+                {`${memberId}` === `${postMemberId}` && (
+                  <>
+                    <button onClick={confirmDelete} className="delete">
+                      <span>삭제</span>
+                    </button>
+                    <button onClick={() => setIsEdit(true)}>
+                      <span>수정</span>
+                    </button>
+                  </>
+                )}
                 {isEdit && <DetailModal setIsEdit={setIsEdit} />}
               </D_BottomDesc>
             </D_CommentBottomDesc>
@@ -483,6 +507,7 @@ const D_CommentDesc = styled.div`
 `;
 
 const D_CommentListContainer = styled.div`
+  flex-grow: 1;
   flex-basis: 242px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
