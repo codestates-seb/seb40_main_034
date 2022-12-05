@@ -287,12 +287,16 @@ function Detail() {
                 )}
               </D_CommentDesc>
               <D_BottomDesc>
-                <button onClick={confirmDelete} className="delete">
-                  <span>삭제</span>
-                </button>
-                <button onClick={() => setIsEdit(true)}>
-                  <span>수정</span>
-                </button>
+                {`${memberId}` === `${postMemberId}` && (
+                  <>
+                    <button onClick={confirmDelete} className="delete">
+                      <span>삭제</span>
+                    </button>
+                    <button onClick={() => setIsEdit(true)}>
+                      <span>수정</span>
+                    </button>
+                  </>
+                )}
                 {isEdit && <DetailModal setIsEdit={setIsEdit} />}
               </D_BottomDesc>
             </D_CommentBottomDesc>
