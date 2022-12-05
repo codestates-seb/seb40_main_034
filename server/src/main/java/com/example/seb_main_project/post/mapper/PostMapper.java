@@ -18,6 +18,7 @@ public interface PostMapper {
     Post postPatchDtoToPost(PostDto.PostPatchDto postPatchDto);
 
     @Mapping(source = "post.member.nickname", target = "nickname")
+    @Mapping(source = "post.member.id", target = "memberId")
     PostDto.PostResponseDto postToPostResponseDto(Post post);
 
     List<PostDto.PostResponseDto> postToPostResponseDto(List<Post> posts);
