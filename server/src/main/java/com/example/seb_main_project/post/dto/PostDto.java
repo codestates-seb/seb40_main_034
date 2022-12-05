@@ -34,6 +34,7 @@ public class PostDto {
     @ToString
     public static class PostResponseDto {
         private Integer postId;
+        private Integer memberId;
         private String nickname;
         private String contents;
         private Integer likeCount;
