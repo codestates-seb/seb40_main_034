@@ -53,7 +53,7 @@ const Login = () => {
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
       axios
-        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/login', {
+        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/login', {
           email: email,
           password: password,
         })
