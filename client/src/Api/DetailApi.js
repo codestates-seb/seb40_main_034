@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import instance from './root';
 import createTokenInstance from './tokenroot';
 
@@ -191,7 +190,7 @@ export const useGetBookmark = ({ postId }) => {
   }
 };
 
-// 삭제 api
+// 삭제 확인
 export const useConfirm = (message = null, onConfirm, onCancel) => {
   if (!onConfirm || typeof onConfirm !== 'function') {
     return;
@@ -202,14 +201,6 @@ export const useConfirm = (message = null, onConfirm, onCancel) => {
 
   const confirmAction = () => {
     if (window.confirm(message)) {
-      axios
-        .delete(`/main/1/delete`)
-        .then((res) => {
-          const navigate = useNavigate();
-          navigate(`/`);
-          console.log(res);
-        })
-        .catch((err) => console.error(err));
       onConfirm();
     } else {
       onCancel();
@@ -217,4 +208,21 @@ export const useConfirm = (message = null, onConfirm, onCancel) => {
   };
 
   return confirmAction;
+};
+
+// 삭제 api
+export const useDeletePost = async (postId, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
+  try {
+    const response = await instance.delete(`/main/${postId}/delete`);
+    if (response.status === 200) {
+      console.log('Okay');
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
 };

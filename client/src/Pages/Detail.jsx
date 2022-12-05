@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
 import {
   useConfirm,
+  useDeletePost,
   useGetComment,
   useGetDetail,
   useGetFollow,
@@ -63,8 +64,13 @@ function Detail() {
   const [postMemberId, setPostMemberId] = useState('');
   const myPageUrl = `/profile/${postMemberId}`;
 
+  const navigate = useNavigate();
+
   // customHook 삭제하기 버튼 확인 modal
-  const deleteConfirm = () => console.log('삭제했습니다.');
+  const deleteConfirm = () =>
+    useDeletePost(postId, refreshToken).then(() => {
+      navigate('/');
+    });
   const cancelConfirm = () => console.log('취소했습니다.');
   const confirmDelete = useConfirm('삭제하시겠습니까?', deleteConfirm, cancelConfirm);
 
