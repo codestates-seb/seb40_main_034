@@ -47,7 +47,7 @@ const Signup = () => {
     }
     if (nickname !== undefined && nickname !== '') {
       axios
-        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
           nickname: nickname,
         })
         .then((res) => {
