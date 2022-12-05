@@ -17,7 +17,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/")
 @RequiredArgsConstructor
 public class PostLikeController {
 
