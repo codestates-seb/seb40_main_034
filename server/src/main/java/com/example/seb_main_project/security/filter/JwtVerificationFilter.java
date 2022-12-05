@@ -47,6 +47,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             FilterChain filterChain) throws ServletException, IOException {
         String accessToken = request.getHeaders(AUTHORIZATION).toString();
         log.warn(accessToken);
+        log.error(accessToken);
+        log.error(accessToken);
         try {
             jwtTokenizer.verifiedExistRefresh(accessToken);
             Map<String, Object> claims = verifyJws(request);
