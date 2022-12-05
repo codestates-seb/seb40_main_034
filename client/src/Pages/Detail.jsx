@@ -503,6 +503,7 @@ const D_CommentDesc = styled.div`
 `;
 
 const D_CommentListContainer = styled.div`
+  flex-grow: 1;
   flex-basis: 242px;
   overflow-y: scroll;
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
