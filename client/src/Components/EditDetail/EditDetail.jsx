@@ -61,7 +61,7 @@ const EditDetail = () => {
     };
     editUserInfo(data, refreshToken).then(() => {
       console.log(data);
-      alert('Save Succeess');
+      customAlert('변경이 완료되었습니다');
       setUserInfo(initialInfo);
     });
   };
