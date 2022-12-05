@@ -17,6 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class PostLikeController {
 
@@ -24,7 +25,7 @@ public class PostLikeController {
     private final MemberService memberService;
     private final PostLikeMapper postLikeMapper;
 
-    @PostMapping("/main/{post-id}/postLike")
+    @PostMapping("/main/{post-id}/like")
     public ResponseEntity<PostLikeDto.ExistPostLikeResponseDto> createPostLike(
             @PathVariable("post-id") Integer postId,
             @RequestHeader("Authorization") String authorization) {
@@ -39,7 +40,7 @@ public class PostLikeController {
     /**
      * 해당 게시글을 좋아요 했는지 확인하는 요청
      */
-    @GetMapping("/post/{post-id}/postLike")
+    @GetMapping("/post/{post-id}/like")
     public ResponseEntity<PostLikeDto.ExistPostLikeResponseDto> checkPostLike(
             @PathVariable("post-id") Integer postId,
             @RequestHeader("Authorization") String authorization) {
@@ -50,7 +51,7 @@ public class PostLikeController {
                         postLikeService.checkPostLike(postId, memberId)), HttpStatus.OK);
     }
 
-    @GetMapping("/member/{member-id}/postLike")
+    @GetMapping("/member/{member-id}/like")
     public ResponseEntity<List<PostLikeDto.MultiPostLikeResponseDto>> getPostLikes(
             @PathVariable("member-id") Integer memberId) {
         List<PostLike> postLikes = postLikeService.findPostLikes(memberId);
