@@ -61,7 +61,7 @@ const EditDetail = () => {
     };
     editUserInfo(data, refreshToken).then(() => {
       console.log(data);
-      alert('Save Succeess');
+      customAlert('Save Succeess');
       setUserInfo(initialInfo);
     });
   };
