@@ -6,7 +6,6 @@ import { BlackBtn, GreenBtn } from '../Components/Common/Btn';
 import CommentList from '../Components/Detail/CommentList';
 import InputEmoji from 'react-input-emoji';
 import {
-  useConfirm,
   useDeletePost,
   useGetComment,
   useGetDetail,
@@ -19,6 +18,8 @@ import {
 import DetailModal from '../Components/Detail/DetailModal';
 import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
+import Swal from 'sweetalert2';
+import { deleteAlert } from '../Utils/deleteAlert';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -67,12 +68,15 @@ function Detail() {
   const navigate = useNavigate();
 
   // customHook 삭제하기 버튼 확인 modal
-  const deleteConfirm = () =>
-    useDeletePost(postId, refreshToken).then(() => {
-      navigate('/');
+  const deleteConfirm = () => {
+    deleteAlert().then((result) => {
+      if (result.isConfirmed) {
+        useDeletePost(postId, refreshToken).then(() => {
+          navigate('/');
+        });
+      }
     });
-  const cancelConfirm = () => console.log('취소했습니다.');
-  const confirmDelete = useConfirm('삭제하시겠습니까?', deleteConfirm, cancelConfirm);
+  };
 
   // 글자수 제한(완)
   const textLimit = useRef(200);
@@ -295,7 +299,7 @@ function Detail() {
               <D_BottomDesc>
                 {`${memberId}` === `${postMemberId}` && (
                   <>
-                    <button onClick={confirmDelete} className="delete">
+                    <button onClick={deleteConfirm} className="delete">
                       <span>삭제</span>
                     </button>
                     <button onClick={() => setIsEdit(true)}>

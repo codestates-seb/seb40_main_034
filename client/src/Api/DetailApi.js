@@ -190,26 +190,6 @@ export const useGetBookmark = ({ postId }) => {
   }
 };
 
-// 삭제 확인
-export const useConfirm = (message = null, onConfirm, onCancel) => {
-  if (!onConfirm || typeof onConfirm !== 'function') {
-    return;
-  }
-  if (onCancel && typeof onCancel !== 'function') {
-    return;
-  }
-
-  const confirmAction = () => {
-    if (window.confirm(message)) {
-      onConfirm();
-    } else {
-      onCancel();
-    }
-  };
-
-  return confirmAction;
-};
-
 // 삭제 api
 export const useDeletePost = async (postId, refreshToken) => {
   const instance = createTokenInstance(refreshToken);
