@@ -110,8 +110,7 @@ const EditDetail = () => {
           } else {
             console.log(res);
             customAlert('사용중인 닉네임입니다');
-
-            setUserInfo.nickname('');
+            setNicknameDouble(true);
           }
         })
         .catch((error) => {

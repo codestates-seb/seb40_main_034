@@ -103,7 +103,7 @@ const Signup = () => {
         nickname: nickname,
       };
       axios
-        .post('http://ec2-3-34-198-63.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
+        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
             customAlert('회원가입에 성공했습니다. 로그인 해 주세요.');
@@ -144,6 +144,7 @@ const Signup = () => {
   };
 
   const onBlurPassword = () => {
+    console.log('onBlur');
     if (!validPw(password)) {
       setPwValid(validPw(password));
     } else if (validPw(password)) {
