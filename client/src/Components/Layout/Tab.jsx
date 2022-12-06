@@ -7,18 +7,23 @@ import { Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { GreenBtn, BlackBtn, GreyBtn } from '../Common/Btn';
 import { useSelector } from 'react-redux';
+import { getProfile } from '../../Api/HeaderApi';
 
 const Tab = () => {
   const state = useSelector((state) => state.user);
-  const { memberId, authenticated, nickname } = state;
-
+  const { authenticated, refreshToken } = state;
+  const [userInfo, setUserInfo] = useState([]);
   const [clicked, setClicked] = useState(false);
   const modal = useRef(null);
   const profile = useRef(null);
   const handleClick = () => {
     clicked === false ? setClicked(true) : setClicked(false);
   };
-
+  useEffect(() => {
+    getProfile(refreshToken).then((res) => {
+      setUserInfo(res);
+    });
+  }, []);
   useEffect(() => {
     function handleClickOutside(e) {
       if (authenticated) {
@@ -52,7 +57,7 @@ const Tab = () => {
             </Link>
           </CategoryMid2>
           <CategoryRight>
-            <Link to={`/profile/${memberId}`}>
+            <Link to={`/profile/${userInfo.memberId}`}>
               <div className="tabMenu" />
             </Link>
           </CategoryRight>
@@ -85,11 +90,11 @@ const Tab = () => {
             <div className="hi">
               <div className="loginconfirm">
                 Logged in as <br />
-                <span>{nickname}</span>
+                <span>{userInfo.nickname}</span>
               </div>
             </div>
             <div className="link">
-              <Link to={`/profile/${memberId}`}>Profile</Link>
+              <Link to={`/profile/${userInfo.memberId}`}>Profile</Link>
             </div>
             <div className="link">
               <Link to="/logout">Sign Out</Link>

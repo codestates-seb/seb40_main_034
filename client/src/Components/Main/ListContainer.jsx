@@ -53,6 +53,7 @@ const ListContainer = () => {
             <List
               key={post.postId}
               img={post.image}
+              creatorId={post.memberId}
               nickname={post.nickname}
               postId={post.postId}
               gpsY={post.gpsY}
