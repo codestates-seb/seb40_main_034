@@ -47,12 +47,12 @@ const ListContainer = () => {
 
   return (
     <Container>
-      {postList.length !== 0 &&
+      {postList.length !== 0 ? (
         postList.map((post) => {
           return (
             <List
               key={post.postId}
-              img={post.img}
+              img={post.image}
               nickname={post.nickname}
               postId={post.postId}
               gpsY={post.gpsY}
@@ -60,7 +60,10 @@ const ListContainer = () => {
               bookmarked={post.bookmarked}
             />
           );
-        })}
+        })
+      ) : (
+        <Loading />
+      )}
       {isFetching && <Loading />}
     </Container>
   );
