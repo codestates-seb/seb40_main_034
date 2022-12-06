@@ -57,7 +57,7 @@ const EditDetail = () => {
     var data = {
       nickname: userInfo.nickname,
       password: userInfo.password,
-      profileImg: previewURL,
+      profileImg: file,
     };
     editUserInfo(data, refreshToken).then(() => {
       console.log(data);
