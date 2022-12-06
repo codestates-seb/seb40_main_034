@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "POSTLIKE")
 @Table(name = "POSTLIKE")
 @NoArgsConstructor
 public class PostLike extends Auditable {
