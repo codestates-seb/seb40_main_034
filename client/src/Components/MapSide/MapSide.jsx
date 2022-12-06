@@ -1,17 +1,26 @@
 import { Container, Box, ListContainer, ListBox, ImageBox, ContentBox, ProfileBox, Profile, Id } from './style';
 import { useState, useEffect } from 'react';
 import { handlePostInfo } from '../../Api/MapApi';
+import axios from 'axios';
+
 const MapSide = ({ posts }) => {
+  const [postList, setPostList] = useState([]);
+
+  axios
+    .get('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/main/list?page=1&size=5')
+    .then((res) => setPostList(res.data.data));
+  console.log(postList[0]);
+
   return (
     <Box>
       <ListContainer>
-        {posts.map((review, idx) => {
+        {postList.map((review, idx) => {
           return (
             <ListBox key={idx}>
               <ProfileBox>
                 <Profile>
-                  {review.profileImg ? (
-                    <img src={review.profileImg} alt="place" />
+                  {review.image ? (
+                    <img src={review.image} alt="place" />
                   ) : (
                     <img
                       src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png"
@@ -22,7 +31,7 @@ const MapSide = ({ posts }) => {
                 <Id>{review.nickname}</Id>
               </ProfileBox>
               <ImageBox>
-                <img src={review.placeImg} alt="reviewphoto" />
+                <img src={review.image} alt="reviewphoto" />
               </ImageBox>
               <ContentBox>{review.contents}</ContentBox>
             </ListBox>
