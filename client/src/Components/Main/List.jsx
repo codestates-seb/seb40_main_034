@@ -20,12 +20,11 @@ export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) =>
     }
     bookmark(postId, refreshToken).then((res) => {
       setBookmarkDisplay(res.bookmarked);
-      console.log(res);
     });
   };
   return (
     <Container>
-      <Thumbnail img={img} nickname={nickname}>
+      <Thumbnail img={atob(img)} nickname={nickname}>
         <div className="thumbnailHover">
           {authenticated &&
             (bookmarkDisplay ? (
@@ -40,7 +39,7 @@ export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) =>
         </Link>
       </Thumbnail>
       <InfoContainer>
-        <Location gpsY={gpsY}>{gpsY ? gpsY : 'NOWHERE'}</Location>
+        <Location gpsY={gpsY}>{gpsY ? gpsY : ''}</Location>
         <MiniProfile nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>

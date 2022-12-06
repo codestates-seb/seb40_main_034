@@ -59,11 +59,11 @@ const Post = () => {
   // };
   const uploadImage = (e) => {
     const fileList = e.target.files;
-
     const url = URL.createObjectURL(fileList[0]); //임시로 파일 1개만 가능하도록 했음
+
     setImgs([
       {
-        file: fileList[0],
+        file: btoa(fileList[0]),
         thumbnail: url,
       },
     ]);
@@ -99,7 +99,7 @@ const Post = () => {
       gpsX: location,
       gpsY: locationDetail,
       contents: body,
-      imageURL: imgs,
+      image: [imgs.file],
       tag: tags,
     };
     if (!authenticated) {
