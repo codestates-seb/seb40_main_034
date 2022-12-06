@@ -1,6 +1,8 @@
 # Post-On, 주변의 모든 즐길거리
 <img width="2880" alt="썸네일" src="https://user-images.githubusercontent.com/87458626/206040660-f4ddba8e-9cfd-401b-98ed-f87ca3900d56.png">
 
+[배포 페이지](http://poston.s3-website.ap-northeast-2.amazonaws.com/)
+
 [발표 영상 및 상세 문서](https://www.notion.so/40-Team034-Post-On-0bbaf6a753bf43e7b8cba73225995c6d)
 
 장소에 대한 사진을 보고 가고 싶다고 생각했지만,
