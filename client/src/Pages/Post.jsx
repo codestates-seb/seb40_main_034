@@ -10,7 +10,6 @@ import customAlert from '../Utils/customAlert';
 import PlaceSearchModal from '../Components/Post/PlaceSearchModal';
 import { useSelector } from 'react-redux';
 import grammarCheck from '../Utils/grammarCheck';
-import { debounce } from 'lodash';
 
 const Post = () => {
   const state = useSelector((state) => state.user);
@@ -21,9 +20,9 @@ const Post = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
-  const [base64Imgs, setBase64Img] = useState([]);
+  const [base64Imgs, setBase64Img] = useState('');
   const [tags, setTags] = useState([]);
-  const [tagselected, setTagSelected] = useState(false);
+  const [tagSelected, setTagSelected] = useState(false);
   const [maintext, setMaintext] = useState(0);
 
   useEffect(() => {
@@ -78,11 +77,12 @@ const Post = () => {
       },
     ]);
     processImg(fileList[0]).then((data) => {
-      setBase64Img([...base64Imgs, { file: data, imgId: base64Imgs.length + 1 }]);
+      setBase64Img(data);
     });
   };
   const deleteImg = () => {
-    setImgs(imgs.pop());
+    setImgs([]);
+    setBase64Img([]);
   };
   const showPreviewImg = useMemo(() => {
     if (imgs[0]) {
@@ -97,10 +97,10 @@ const Post = () => {
 
   const handleTags = (str, selected) => {
     if (tags.includes(str)) {
-      setTags([...tags.slice(0, tags.indexOf(str), ...tags.slice(tags.indexOf(str)))]);
+      setTags([]);
       setTagSelected(selected);
     } else {
-      setTags([...tags, str]);
+      setTags([str]);
       setTagSelected(selected);
     }
   };
@@ -112,17 +112,26 @@ const Post = () => {
       contents: body,
       image: base64Imgs,
       tag: tags,
+      creatorId: memberId,
     };
     console.log(data);
     if (!authenticated) {
       customAlert('로그인이 정상적으로 되어있지 않습니다.');
       throw new Error('글 작성에 실패했습니다.');
     }
-    if (body.length <= 10) {
+    if (data.gpsX === '' || data.gpsY === '') {
+      customAlert('위치를 지정해야 합니다.');
+      return;
+    }
+    if (data.image.length === 0) {
+      customAlert('사진을 넣어주세요.');
+      return;
+    }
+    if (data.contents.length <= 10) {
       customAlert('리뷰는 최소 10자 이상 작성하세요.');
       return;
     }
-    if (tags.length === 0) {
+    if (data.tag.length === 0) {
       customAlert('최소 하나 이상의 태그를 선택하세요.');
       return;
     }
@@ -131,7 +140,7 @@ const Post = () => {
         if (res.postId) {
           navigate(`/post/${res.postId}/detail`);
         } else {
-          customAlert(`글 작성에 실패했습니다. \n${res}`);
+          customAlert(`글 작성에 실패했습니다. ${res}`);
         }
       });
     }
@@ -171,7 +180,7 @@ const Post = () => {
             </div>
             <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
             <MaintxtValidator>{remain}</MaintxtValidator>
-            <Tagform callback={handleTags} />
+            <Tagform callback={handleTags} tags={tags} />
           </Description>
         </Body>
       </Container>
