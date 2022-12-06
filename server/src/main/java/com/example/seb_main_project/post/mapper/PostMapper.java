@@ -19,18 +19,21 @@ public interface PostMapper {
 
     @Mapping(source = "post.member.nickname", target = "nickname")
     @Mapping(source = "post.member.id", target = "memberId")
+    @Mapping(source = "post.tag", target = "tag")
     PostDto.PostResponseDto postToPostResponseDto(Post post);
 
     List<PostDto.PostResponseDto> postToPostResponseDto(List<Post> posts);
 
     @Mapping(source = "key.postId", target = "postId")
     @Mapping(source = "key.member.nickname", target = "nickname")
+    @Mapping(source = "key.member.id", target = "memberId")
     @Mapping(source = "key.contents", target = "contents")
     @Mapping(source = "key.gpsX", target = "gpsX")
     @Mapping(source = "key.gpsY", target = "gpsY")
     @Mapping(source = "key.createdAt", target = "createdAt")
     @Mapping(source = "key.modifiedAt", target = "modifiedAt")
     @Mapping(source = "key.image", target = "image")
+    @Mapping(source = "key.tag", target = "tag")
     @Mapping(source = "value", target = "bookmarked")
     PostDto.PostListResponseDto postToPostListResponseDto(Map.Entry<Post, Boolean> postWithBookmarked);
 

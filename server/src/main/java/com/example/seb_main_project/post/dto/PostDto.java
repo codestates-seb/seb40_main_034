@@ -13,6 +13,7 @@ public class PostDto {
         private String gpsY;
         private String contents;
         private String image;
+        private Integer tag;
     }
 
     @NoArgsConstructor
@@ -26,6 +27,7 @@ public class PostDto {
         private String contents;
         private String image;
         private Integer postId;
+        private Integer tag;
     }
 
     @NoArgsConstructor
@@ -44,6 +46,7 @@ public class PostDto {
         private LocalDateTime modifiedAt;
         private Boolean bookmarked = false;
         private String image;
+        private Integer tag;
     }
 
     @NoArgsConstructor
@@ -53,6 +56,7 @@ public class PostDto {
     @ToString
     public static class PostListResponseDto implements Comparable<PostListResponseDto> {
         private Integer postId;
+        private Integer memberId;
         private String nickname;
         private String contents;
         private String image;
@@ -61,6 +65,7 @@ public class PostDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean bookmarked;
+        private Integer tag;
 
         @Override
         public int compareTo(PostListResponseDto o) {

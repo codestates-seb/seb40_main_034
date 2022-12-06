@@ -9,6 +9,8 @@ import com.example.seb_main_project.postlike.entity.PostLike;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +38,10 @@ public class Post extends Auditable {
     @Column
     private String gpsY;
 
+    @Min(1)
+    @Max(8)
     @Column
-    private String tags;
+    private Integer tag;
 
     @Column
     private String nickname;
