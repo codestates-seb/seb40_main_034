@@ -37,7 +37,6 @@ public class PostDto {
         private Integer memberId;
         private String nickname;
         private String contents;
-        private Integer likeCount;
         private String gpsX;
         private String gpsY;
         private LocalDateTime createdAt;
@@ -54,7 +53,6 @@ public class PostDto {
         private Integer postId;
         private String nickname;
         private String contents;
-        private Integer likeCount;
         private String gpsX;
         private String gpsY;
         private LocalDateTime createdAt;
