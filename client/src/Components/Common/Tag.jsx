@@ -7,7 +7,6 @@ const Tag = ({ className, tagName, type, callback }) => {
   const handleTagClick = (str) => {
     setSelected(!selected);
     callback(str, selected);
-    console.log(str);
   };
   return (
     <>

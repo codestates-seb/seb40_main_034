@@ -24,7 +24,7 @@ export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) =>
   };
   return (
     <Container>
-      <Thumbnail img={img && atob(img)} nickname={nickname}>
+      <Thumbnail img={img ? img : undefined} nickname={nickname}>
         <div className="thumbnailHover">
           {authenticated &&
             (bookmarkDisplay ? (
@@ -56,15 +56,18 @@ const Thumbnail = styled.div`
   img {
     display: ${(props) => (props.img === undefined ? 'none' : 'block')};
     cursor: zoom-in;
+    width: 100%;
+    border-radius: 16px;
   }
   :hover img {
-    filter: brightness(85%);
+    filter: brightness(75%);
   }
   a {
     cursor: zoom-in;
   }
   :hover .thumbnailHover {
     position: absolute;
+    z-index: 9;
     display: block;
     right: 0.5rem;
     top: 0.5rem;
