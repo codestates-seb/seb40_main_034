@@ -59,6 +59,7 @@ const ListContainer = () => {
               gpsY={post.gpsY}
               creaedAt={post.createdAt}
               bookmarked={post.bookmarked}
+              tag={post.tag}
             />
           );
         })}

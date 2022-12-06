@@ -95,12 +95,12 @@ const Post = () => {
     } else return;
   });
 
-  const handleTags = (str, selected) => {
-    if (tags.includes(str)) {
-      setTags([]);
+  const handleTags = (idx, selected) => {
+    if (tags === idx) {
+      setTags('');
       setTagSelected(selected);
     } else {
-      setTags([str]);
+      setTags(idx + 1);
       setTagSelected(selected);
     }
   };
@@ -131,8 +131,8 @@ const Post = () => {
       customAlert('리뷰는 최소 10자 이상 작성하세요.');
       return;
     }
-    if (data.tag.length === 0) {
-      customAlert('최소 하나 이상의 태그를 선택하세요.');
+    if (data.tag === '') {
+      customAlert('한 개의 태그를 고르세요.');
       return;
     }
     if (grammarCheck(body)) {
