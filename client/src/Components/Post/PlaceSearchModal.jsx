@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { locationSearch } from '../../Api/PostApi';
 import { BlackBtn, GreenBtn } from '../Common/Btn';
-const PlaceSearchModal = ({ callback }) => {
+const PlaceSearchModal = ({ className, callback }) => {
   const [locationsList, setLocationsList] = useState([]);
   const [value, setValue] = useState('');
   const handleChange = (e) => {
@@ -17,7 +17,7 @@ const PlaceSearchModal = ({ callback }) => {
     callback([], null, false);
   };
   return (
-    <Background>
+    <Background className={className}>
       <Container>
         <InputContainer>
           <SearchInput id="placesearch" placeholder="장소가 어디인가요?" onChange={handleChange} />
@@ -52,6 +52,12 @@ const Background = styled.div`
   flex-direction: column;
   .cancel {
     margin-top: 1rem;
+  }
+  &.edit {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-radius: 1rem;
   }
 `;
 const Container = styled.div`

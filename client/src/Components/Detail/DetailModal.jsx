@@ -1,12 +1,81 @@
-import { useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { GreenBtn } from '../Common/Btn';
+import { BlackBtn, GreenBtn, GreyBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
+import PlaceSearchModal from '../Post/PlaceSearchModal';
 
-function DetailModal({ mapLocation, setIsEdit, nickname, postMemberId }) {
+function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText }) {
   const [cancel, setCancel] = useState(false);
+  const [location, setLocation] = useState(myGpsX);
+  const [locationDetail, setLocationDetail] = useState(mapLocation);
+  const [isSearching, setIsSearching] = useState(false);
+  const [body, setBody] = useState(bodyText);
+  console.log(body);
+  const [imgs, setImgs] = useState([{}]);
+  const [base64ImgS, setBase64Img] = useState('');
+  const [maintext, setMaintext] = useState(0);
+
+  const handlePlaceSearch = () => {
+    setIsSearching(!isSearching);
+  };
+  const handleSearchResult = (arr, str, boolean) => {
+    setLocation(arr.address_name);
+    setLocationDetail(arr.place_name);
+    setIsSearching(boolean);
+  };
+
+  const remain = maintext ? 500 - maintext.length : 500;
+  const handleMaintext = (e) => {
+    setBody(e.target.value);
+    setMaintext(e.target.value);
+
+    if (maintext.length > 500) {
+      e.target.value = maintext.substring(0, 500);
+      setMaintext(maintext.substring(0, 500));
+    }
+  };
+
+  const fileInput = useRef(null);
+
+  const processImg = (file) => {
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => res(e.target.result);
+      reader.onerror = (err) => rej(err);
+    });
+  };
+
+  const uploadImage = (e) => {
+    const fileList = e.target.files;
+    const url = URL.createObjectURL(fileList[0]); //임시로 파일 1개만 가능하도록 했음
+    setImgs([
+      {
+        file: fileList[0],
+        thumbnail: url,
+      },
+    ]);
+    processImg(fileList[0]).then((data) => {
+      setBase64Img(data);
+    });
+  };
 
   const handleSubmit = () => {};
+
+  const deleteImg = () => {
+    setImgs([]);
+    setBase64Img([]);
+  };
+  const showPreviewImg = useMemo(() => {
+    if (imgs[0]) {
+      return (
+        <div className="preview">
+          <img src={imgs[0]?.thumbnail} alt={'image for' + mapLocation} />
+          <GreyBtn text="이미지 삭제" className="deleteImg" callback={deleteImg} />
+        </div>
+      );
+    } else return;
+  });
 
   return (
     <DialogContainer>
@@ -35,13 +104,42 @@ function DetailModal({ mapLocation, setIsEdit, nickname, postMemberId }) {
               <MiniProfile nickname={nickname} className="user" memberId={postMemberId}></MiniProfile>
               <GreenBtn text="저장" className="post" callback={handleSubmit} disabled />
             </Header>
-            <Body></Body>
+            <Body>
+              <ImageContainer>
+                <div>
+                  {!imgs[0] && (
+                    <>
+                      <label htmlFor="imgUpload">
+                        {imgs.length ? '클릭하여 이미지 추가' : '클릭하여 이미지 업로드'}
+                      </label>
+                      <input
+                        id="imgUpload"
+                        type="file"
+                        accept="image/jpg, image/jpeg, image/png"
+                        ref={fileInput}
+                        onChange={uploadImage}
+                      />
+                    </>
+                  )}
+                  {imgs.length !== 0 && showPreviewImg}
+                </div>
+              </ImageContainer>
+              <Description>
+                <div className="placeSearch">
+                  <Place placeholder="어디에 계신가요?" value={locationDetail} readOnly />
+                  <BlackBtn text="장소 검색" className="placeSearchBtn" callback={handlePlaceSearch} />
+                </div>
+                <Maintext placeholder="리뷰를 입력하세요." value={body} onChange={handleMaintext} />
+                <MaintxtValidator>{remain}</MaintxtValidator>
+              </Description>
+            </Body>
           </Container>
           {/* <Dialog_Form>
             <Dialog_From_Footer>
               <CompleteBtn>저장</CompleteBtn>
             </Dialog_From_Footer>
           </Dialog_Form> */}
+          {isSearching && <PlaceSearchModal className="edit" callback={handleSearchResult} />}
         </Dialog_Inner>
       </Dialog>
     </DialogContainer>
@@ -123,6 +221,84 @@ const Body = styled.div`
   flex-direction: row;
 `;
 
+const ImageContainer = styled.div`
+  width: 50%;
+  height: 30rem;
+  margin: 5rem 1rem 2rem 2rem;
+  background-color: #eee;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  input[type='file'] {
+    display: none;
+  }
+  label {
+    cursor: pointer;
+  }
+  .preview {
+    width: 100%;
+  }
+  .preview img {
+    max-width: 95%;
+    max-height: 90%;
+  }
+  .deleteImg {
+    margin-top: 0.5rem;
+  }
+`;
+
+const Description = styled.article`
+  width: 50%;
+  height: 31rem;
+  margin: 5rem 2rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .placeSearch {
+    display: flex;
+    flex-direction: row;
+  }
+  .placeSearchBtn {
+    position: absolute;
+    right: 0;
+  }
+`;
+
+const Place = styled.input`
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 15rem;
+  border: none;
+  &:focus {
+    outline: none;
+    border: none;
+  }
+`;
+
+const Maintext = styled.textarea`
+  font-size: 0.9rem;
+  font-family: inherit;
+  height: 24rem;
+  overflow: visible;
+  margin: 1.5rem 0 0 0;
+  padding: 0.325rem;
+  border: 2px solid #fff;
+  border-bottom: 2px solid #ddd;
+  &:focus {
+    border: 2px solid #91f841;
+    outline: none;
+  }
+`;
+
+const MaintxtValidator = styled.div`
+  font-size: 0.85rem;
+  text-align: right;
+  margin-bottom: 1.5rem;
+`;
+
 //
 const CloseBtn = styled.button`
   padding: 10px;
@@ -131,21 +307,6 @@ const CloseBtn = styled.button`
   border-radius: 6px;
   cursor: pointer;
   background-color: #fff;
-`;
-
-const Dialog_Form = styled.form`
-  padding: 1rem;
-`;
-
-const Dialog_From_Footer = styled.footer``;
-
-const CompleteBtn = styled.button`
-  width: 100%;
-  border-radius: 6px;
-  font-weight: 600;
-  padding: 0.5rem 0;
-  background-color: #91f841;
-  cursor: pointer;
 `;
 
 // 삭제확인 모달
@@ -159,6 +320,7 @@ const C_Body = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 `;
 
 const C_Container = styled.div`

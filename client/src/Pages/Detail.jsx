@@ -313,10 +313,13 @@ function Detail() {
                 )}
                 {isEdit && (
                   <DetailModal
+                    myGpsX={myGpsX}
                     mapLocation={mapLocation}
                     setIsEdit={setIsEdit}
                     nickname={nickname}
                     postMemberId={postMemberId}
+                    imgS={imgS}
+                    bodyText={bodyText}
                   />
                 )}
               </D_BottomDesc>
