@@ -19,7 +19,7 @@ import DetailModal from '../Components/Detail/DetailModal';
 import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 import Swal from 'sweetalert2';
-import { deleteAlert } from '../Utils/deleteAlert';
+import { deleteAlert } from '../Utils/customAlert';
 
 function Detail() {
   // 이미지 더미 데이터
