@@ -173,6 +173,7 @@ function Detail() {
               {/* {imgS.map((img, index) => (
                 <img src={img} className={index === imgIdx ? 'active' : ''} key={index} alt="" />
               ))} */}
+              <img src={imgS} alt={mapLocation} />
             </D_Images>
             <D_Thumbnails>
               {/* {imgS.map((img, index) => (
@@ -360,8 +361,8 @@ const D_Images = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0;
+    object-fit: fill;
+    /* opacity: 0; */
     transition: all 500ms ease-in-out;
     &.active {
       opacity: 1;

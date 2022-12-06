@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { GreenBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 
 function DetailModal({ mapLocation, setIsEdit, nickname, postMemberId }) {
   const [cancel, setCancel] = useState(false);
+
+  const handleSubmit = () => {};
 
   return (
     <DialogContainer>
@@ -30,7 +33,9 @@ function DetailModal({ mapLocation, setIsEdit, nickname, postMemberId }) {
           <Container>
             <Header>
               <MiniProfile nickname={nickname} className="user" memberId={postMemberId}></MiniProfile>
+              <GreenBtn text="저장" className="post" callback={handleSubmit} disabled />
             </Header>
+            <Body></Body>
           </Container>
           {/* <Dialog_Form>
             <Dialog_From_Footer>
@@ -109,9 +114,13 @@ const Header = styled.div`
   }
   .post {
     position: absolute;
-    top: 1.5rem;
     right: 2rem;
   }
+`;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 //
