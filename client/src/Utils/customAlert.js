@@ -14,9 +14,9 @@ const customAlert = (text) => {
     },
   });
 };
-export const deleteAlert = () => {
+export const deleteAlert = (text, text2) => {
   return Swal.fire({
-    text: '글을 정말 삭제할까요? 삭제한 글은 다시 되돌릴 수 없습니다.',
+    text: text,
     icon: 'question',
     showCancelButton: true,
     confirmButtonText: '확인',
@@ -32,7 +32,7 @@ export const deleteAlert = () => {
   }).then((result) => {
     if (result.isConfirmed) {
       return Swal.fire({
-        text: '삭제가 완료되었습니다.',
+        text: text2,
         icon: 'success',
         confirmButtonText: '확인',
         buttonsStyling: false,
