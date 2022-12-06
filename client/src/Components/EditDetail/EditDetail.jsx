@@ -14,25 +14,28 @@ import { GreenBtn } from '../Common/Btn';
 import { InputForm } from '../Common/InputForm';
 import { useState, useEffect, useRef } from 'react';
 import customAlert from '../../Utils/customAlert';
-import { editUserInfo, getFollowInfo } from '../../Api/MyinfoApi';
+import { editUserInfo, getUserInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { useSelector } from 'react-redux';
 
-const EditDetail = () => {
+const EditDetail = ({ userProfile }) => {
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
-  const [file, setFile] = useState('');
-  const [previewURL, setPreviewURL] = useState('');
+  // const [file, setFile] = useState('');
+  // const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
   const [defaultImg, setDefaultImg] = useState(null);
+
   const initialInfo = {
     nickname: '',
     password: '',
-    profileImg: '',
+    profileImg: userProfile,
+    previewURL: '',
+    file: null,
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
   const state = useSelector((state) => state.user);
-  const { refreshToken } = state;
+  const { refreshToken, memberId } = state;
 
   const handleInput = (e) => {
     //이미지파일 제외 회원정보
@@ -46,15 +49,14 @@ const EditDetail = () => {
     let reader = new FileReader();
 
     reader.onload = () => {
-      setFile(reader.result);
-      setPreviewURL(reader.result);
-      setUserInfo({ ...userInfo, profileImg: file });
+      setUserInfo({ ...userInfo, profileImg: reader.result, previewURL: reader.result, file: reader.result });
     };
     if (file) reader.readAsDataURL(file);
   };
   const handleSubmit = () => {
     var data = {
-      nickname: file,
+      profileImg: userInfo.profileImg,
+      nickname: userInfo.nickname,
     };
     editUserInfo(data, refreshToken).then(() => {
       console.log(data);
@@ -74,18 +76,20 @@ const EditDetail = () => {
     setModalOpen(false);
   };
   useEffect(() => {
-    if (file !== '') setPreview(<img src={previewURL} alt="preview" />);
+    if (userInfo.file !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
     return () => {
-      getFollowInfo().then((res) => {
-        if (res[0]?.profileImg !== null) {
-          setDefaultImg(<img src={res[0]?.profileImg} alt="UserPic" />);
+      getUserInfo(memberId).then((res) => {
+        if (res.profileImg !== '') {
+          setUserInfo({ ...userInfo, profileImg: res.profileImg });
         }
-        setDefaultImg(
-          <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="defaultPic" />,
-        );
+
+        setUserInfo({
+          ...userInfo,
+          profileImg: 'https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png',
+        });
       });
     };
-  }, [previewURL]);
+  }, [userInfo.previewURL]);
 
   return (
     <div>
@@ -96,8 +100,8 @@ const EditDetail = () => {
             <EditText>Photo</EditText>
             <PhotoBox>
               <Photo>
-                {file !== '' ? preview : null}
-                {file === '' ? defaultImg : null}
+                {userInfo.file !== null ? preview : null}
+                {userInfo.file === null ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
               </Photo>
               <PhotoEditBtn>
                 <input

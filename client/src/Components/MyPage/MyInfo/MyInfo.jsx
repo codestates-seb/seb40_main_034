@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   MyContainer,
   ProfileContainer,
@@ -13,11 +13,10 @@ import {
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
-import { getFollowing } from '../../../Api/MyinfoApi';
+import { getUserInfo } from '../../../Api/MyinfoApi';
 import { useSelector } from 'react-redux';
 
 const MyInfo = () => {
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [shareModal, setShareModal] = useState(false);
   const [select, setSelect] = useState('');
@@ -50,16 +49,17 @@ const MyInfo = () => {
     setShareModal(false);
   };
 
-  const navigateEdit = () => {
-    // edit 화면 이동
-    navigate(`/profile/${memberId}/edit`);
-  };
+  // const navigateEdit = () => {
+  //   // edit 화면 이동
+  //   navigate(`/profile/${memberId}/edit`);
+  // };
+  const mypageEdit = `/profile/${memberId}/edit`;
 
   useEffect(() => {
-    getFollowing().then((res) => {
+    getUserInfo(memberId).then((res) => {
       console.log(res);
-      setUserName(res[0].nickname);
-      setUserProfile(res[0].profileImg);
+      setUserName(res.nickname);
+      setUserProfile(res.profileImg);
     });
   }, []);
 
@@ -90,7 +90,12 @@ const MyInfo = () => {
       <InfoContainer>
         <ShareBtn onClick={copyUrl}>Share</ShareBtn>
         {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
-        <EditBtn onClick={navigateEdit}>Edit</EditBtn>
+
+        <div>
+          <Link to={mypageEdit} userProfile={userProfile}>
+            Edit
+          </Link>
+        </div>
       </InfoContainer>
     </MyContainer>
   );
