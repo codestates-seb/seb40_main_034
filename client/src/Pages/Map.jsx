@@ -6,11 +6,13 @@ import MapView from '../Components/MapView/MapView';
 import MapPagination from '../Components/MapPagination/MapPagination';
 import { useEffect, useState } from 'react';
 import { handlePostInfo } from '../Api/MapApi';
+import { useLocation } from 'react-router-dom';
 const { kakao } = window;
 
-const Map = () => {
-  const gpsX = '서울 중구 남대문로 81 B1';
-  const gpsY = '해피베어데이';
+const Map = (state) => {
+  const location = useLocation();
+  const gpsX = location.state.gpsX;
+  const gpsY = location.state.gpsY;
   const [contentInfo, setContentInfo] = useState([]);
   const [page, setPage] = useState(1); //페이지
   const limit = 5; // posts가 보일 최대한의 갯수
