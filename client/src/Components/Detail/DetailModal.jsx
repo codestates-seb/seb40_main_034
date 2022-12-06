@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function DetailModal({ setIsEdit }) {
+function DetailModal({ mapLocation, setIsEdit }) {
   const [cancel, setCancel] = useState(false);
 
   return (
