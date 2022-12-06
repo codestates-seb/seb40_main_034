@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   MyContainer,
   ProfileContainer,
@@ -13,18 +13,18 @@ import {
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
-import { getFollowing } from '../../../Api/MyinfoApi';
+import { getMypageInfo } from '../../../Api/MyinfoApi';
 import { useSelector } from 'react-redux';
 
 const MyInfo = () => {
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [shareModal, setShareModal] = useState(false);
   const [select, setSelect] = useState('');
   const [userName, setUserName] = useState('');
-  const [userProfile, setUserProfile] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
   const url = window.location.href;
-  const memberId = useSelector((state) => state.memberId);
+  const state = useSelector((state) => state.user);
+  const { memberId, nickname, refreshToken } = state;
 
   // follow 모달
   const openModalFollowing = () => {
@@ -49,16 +49,22 @@ const MyInfo = () => {
     setShareModal(false);
   };
 
-  const navigateEdit = () => {
-    // edit 화면 이동
-    navigate('/profile/:memberId/edit');
-  };
+  // const navigateEdit = () => {
+  //   // edit 화면 이동
+  //   navigate(`/profile/${memberId}/edit`);
+  // };
+  const mypageEdit = `/profile/${memberId}/edit`;
 
   useEffect(() => {
-    getFollowing().then((res) => {
+    getMypageInfo(memberId).then((res) => {
       console.log(res);
-      setUserName(res[0].nickname);
-      setUserProfile(res[0].profileImg);
+      if (res.profileImg !== '') {
+        setUserProfile(res.profileImg);
+        setUserName(res.nickname);
+      } else {
+        setUserProfile('https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png');
+        setUserName(res.nickname);
+      }
     });
   }, []);
 
@@ -66,11 +72,7 @@ const MyInfo = () => {
     <MyContainer>
       <ProfileContainer>
         <ProfilePic>
-          {userProfile ? (
-            <img src={userProfile} alt="UserPic" />
-          ) : (
-            <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="UserPic" />
-          )}
+          <img src={userProfile} alt="UserPic" />
         </ProfilePic>
         <div className="nickname-text">{userName}</div>
       </ProfileContainer>
@@ -87,9 +89,18 @@ const MyInfo = () => {
         {modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
       </FollowContainer>
       <InfoContainer>
-        <ShareBtn onClick={copyUrl}>Share</ShareBtn>
+        <ShareBtn onClick={copyUrl}>
+          <div>Share</div>
+        </ShareBtn>
         {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
-        <EditBtn onClick={navigateEdit}>Edit</EditBtn>
+
+        <div>
+          <EditBtn>
+            <Link to={mypageEdit} state={{ userProfile: userProfile, nickname: nickname, refreshToken: refreshToken }}>
+              Edit
+            </Link>
+          </EditBtn>
+        </div>
       </InfoContainer>
     </MyContainer>
   );
