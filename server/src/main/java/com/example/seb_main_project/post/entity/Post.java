@@ -45,8 +45,6 @@ public class Post extends Auditable {
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-    @Column
-    private Integer likeCount;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
@@ -59,10 +57,6 @@ public class Post extends Auditable {
 
     public void setPostLikes(PostLike postLike) {
         this.postLikes.add(postLike);
-    }
-
-    public void updateLikeCount() {
-        this.likeCount = postLikes.size();
     }
 
     public void discountLike(PostLike postLike) {

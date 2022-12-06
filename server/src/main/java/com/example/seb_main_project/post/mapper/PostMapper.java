@@ -26,7 +26,6 @@ public interface PostMapper {
     @Mapping(source = "key.postId", target = "postId")
     @Mapping(source = "key.member.nickname", target = "nickname")
     @Mapping(source = "key.contents", target = "contents")
-    @Mapping(source = "key.likeCount", target = "likeCount")
     @Mapping(source = "key.gpsX", target = "gpsX")
     @Mapping(source = "key.gpsY", target = "gpsY")
     @Mapping(source = "key.createdAt", target = "createdAt")

@@ -1,39 +1,32 @@
 package com.example.seb_main_project.postlike.entity;
 
+
+
+import com.example.seb_main_project.audit.Auditable;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.post.entity.Post;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
 @Entity
-public class PostLike {
-
+@Table(name = "POSTLIKE")
+@NoArgsConstructor
+public class PostLike extends Auditable {
     @Id
+    @Column(name = "POSTLIKE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer postLikeId;
-
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public void setMember(Member member) {
-        this.member = member;
-        member.setPostLikes((PostLike) this.post.getPostLikes());
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-        post.setPostLikes((PostLike) this.post.getPostLikes());
-    }
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    private Member member;
 }
