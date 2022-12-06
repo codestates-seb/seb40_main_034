@@ -1,4 +1,4 @@
-# Post-On, 세상의 모든 즐길거리
+# Post-On, 주변의 모든 즐길거리
 <img width="2880" alt="썸네일" src="https://user-images.githubusercontent.com/87458626/206040660-f4ddba8e-9cfd-401b-98ed-f87ca3900d56.png">
 
 [발표 영상 및 상세 문서](https://www.notion.so/40-Team034-Post-On-0bbaf6a753bf43e7b8cba73225995c6d)
