@@ -12,9 +12,10 @@ let images = [
 ];
 
 // 좋아요 get
-export const useGetLike = async () => {
+export const useGetLike = async (postId, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
   try {
-    const response = await axios.get(`http://localhost:8080/like`);
+    const response = await instance.get(`/post/${postId}/like`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
@@ -29,11 +30,10 @@ export const useGetLike = async () => {
 };
 
 // 좋아요 클릭 post
-export const usePostLike = async (isLike) => {
+export const usePostLike = async (postId, refreshToken) => {
+  const instance = createTokenInstance(refreshToken);
   try {
-    const response = await axios.put(`http://localhost:8080/like`, {
-      liked: isLike,
-    });
+    const response = await instance.post(`/main/${postId}/like`);
     if (response.status === 200) {
       console.log('Okay...');
       return response.data;
