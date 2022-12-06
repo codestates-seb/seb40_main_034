@@ -53,6 +53,7 @@ function Detail() {
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
+  console.log(isLike);
   // edit modal(완)
   const [isEdit, setIsEdit] = useState(false);
   // 닉네임(완)
@@ -101,7 +102,6 @@ function Detail() {
     if (memberId === null) {
       alert('로그인 후 이용해주세요');
     } else {
-      setSubColor(!subColor);
       usePostFollow(subColor);
     }
   };
@@ -111,6 +111,7 @@ function Detail() {
     if (memberId === null) {
       alert('로그인 후 이용해주세요');
     } else {
+      setIsLike(!isLike);
       usePostLike(postId, refreshToken);
     }
   };
