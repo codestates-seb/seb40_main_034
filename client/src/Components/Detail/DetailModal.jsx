@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import MiniProfile from '../Common/MiniProfile';
 
-function DetailModal({ mapLocation, setIsEdit }) {
+function DetailModal({ mapLocation, setIsEdit, nickname, postMemberId }) {
   const [cancel, setCancel] = useState(false);
 
   return (
@@ -26,11 +27,16 @@ function DetailModal({ mapLocation, setIsEdit }) {
               </C_Container>
             </C_Body>
           )}
-          <Dialog_Form>
+          <Container>
+            <Header>
+              <MiniProfile nickname={nickname} className="user" memberId={postMemberId}></MiniProfile>
+            </Header>
+          </Container>
+          {/* <Dialog_Form>
             <Dialog_From_Footer>
               <CompleteBtn>저장</CompleteBtn>
             </Dialog_From_Footer>
-          </Dialog_Form>
+          </Dialog_Form> */}
         </Dialog_Inner>
       </Dialog>
     </DialogContainer>
@@ -47,10 +53,11 @@ const DialogContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 11;
 `;
 
 const Dialog = styled.div`
-  width: 30rem;
+  width: 50vw;
   background-color: rgb(255, 255, 255);
 
   padding: 0;
@@ -87,6 +94,27 @@ const Dialog_Inner = styled.div`
   color: #838282;
 `;
 
+// 수정 폼
+const Container = styled.div`
+  height: 60vh;
+  border-radius: 1rem;
+  background-color: white;
+`;
+
+const Header = styled.div`
+  position: relative;
+  .user {
+    position: absolute;
+    left: 2rem;
+  }
+  .post {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+  }
+`;
+
+//
 const CloseBtn = styled.button`
   padding: 10px;
   align-self: flex-end;

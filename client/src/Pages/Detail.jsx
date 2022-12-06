@@ -39,7 +39,7 @@ function Detail() {
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
   // fetching img 데이터
-  const [imgS, setImgS] = useState(images);
+  const [imgS, setImgS] = useState('');
   // 구독 버튼 state (나중에 삭제할거)
   const [subColor, setSubColor] = useState(false);
   // 더보기 열기/닫기 스위치(완)
@@ -53,7 +53,6 @@ function Detail() {
   // 좋아요에 따른 하트색상
   // 데이터 get해올때 좋아요가 눌러진 상태면 그 상태에 따라 default value를 바꿔줘야할 것 같음
   const [isLike, setIsLike] = useState(false);
-  console.log(isLike);
   // edit modal(완)
   const [isEdit, setIsEdit] = useState(false);
   // 닉네임(완)
@@ -102,6 +101,7 @@ function Detail() {
     if (memberId === null) {
       alert('로그인 후 이용해주세요');
     } else {
+      setSubColor(!subColor);
       usePostFollow(subColor);
     }
   };
@@ -137,6 +137,7 @@ function Detail() {
       setMapLocation(res.gpsY);
       setMyGpsX(res.gpsX);
       setPostMemberId(res.memberId);
+      setImgS(res.image);
     });
     useGetComment(postId).then((res) => {
       console.log(res);
@@ -169,12 +170,12 @@ function Detail() {
         <D_Detail_box>
           <D_Img_Slider>
             <D_Images>
-              {imgS.map((img, index) => (
+              {/* {imgS.map((img, index) => (
                 <img src={img} className={index === imgIdx ? 'active' : ''} key={index} alt="" />
-              ))}
+              ))} */}
             </D_Images>
             <D_Thumbnails>
-              {imgS.map((img, index) => (
+              {/* {imgS.map((img, index) => (
                 <img
                   src={img}
                   role="presentation"
@@ -183,7 +184,7 @@ function Detail() {
                   key={index}
                   alt=""
                 />
-              ))}
+              ))} */}
             </D_Thumbnails>
             <D_BackBtn onClick={prevImg}>
               <svg
@@ -309,7 +310,14 @@ function Detail() {
                     </button>
                   </>
                 )}
-                {isEdit && <DetailModal mapLocation={mapLocation} setIsEdit={setIsEdit} />}
+                {isEdit && (
+                  <DetailModal
+                    mapLocation={mapLocation}
+                    setIsEdit={setIsEdit}
+                    nickname={nickname}
+                    postMemberId={postMemberId}
+                  />
+                )}
               </D_BottomDesc>
             </D_CommentBottomDesc>
           </D_BodySection>
