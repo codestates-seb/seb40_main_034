@@ -96,7 +96,7 @@ const MyInfo = () => {
 
         <div>
           <EditBtn>
-            <Link to={mypageEdit} state={{ userProfile: userProfile, nickname: nickname, refreshToken: refreshToken }}>
+            <Link to={mypageEdit} state={{ userProfile: userProfile, userName: userName, refreshToken: refreshToken }}>
               Edit
             </Link>
           </EditBtn>
