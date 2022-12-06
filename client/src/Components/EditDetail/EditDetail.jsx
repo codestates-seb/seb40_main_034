@@ -63,9 +63,10 @@ const EditDetail = (state) => {
       nickname: userInfo.nickname,
     };
     editUserInfo(data, refreshToken).then(() => {
-      console.log(data);
       customAlert('변경이 완료되었습니다');
-      setUserInfo(initialInfo);
+      setUserInfo(initialInfo).then(() => {
+        window.location.reload();
+      });
     });
   };
   const handleEditBtn = (e) => {
