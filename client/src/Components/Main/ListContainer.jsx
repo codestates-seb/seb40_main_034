@@ -4,7 +4,7 @@ import { getAllLists, getAllLists_Login } from '../../Api/MainApi';
 import Loading from '../../Pages/Loading';
 import { List } from './List';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
+import { isNull, throttle } from 'lodash';
 
 const ListContainer = () => {
   const state = useSelector((state) => state.user);
@@ -47,21 +47,20 @@ const ListContainer = () => {
 
   return (
     <Container>
-      {postList.length !== 0
-        ? postList.map((post) => {
-            return (
-              <List
-                key={post.postId}
-                img={post.image}
-                nickname={post.nickname}
-                postId={post.postId}
-                gpsY={post.gpsY}
-                creaedAt={post.createdAt}
-                bookmarked={post.bookmarked}
-              />
-            );
-          })
-        : null}
+      {postList.length !== 0 &&
+        postList.map((post) => {
+          return (
+            <List
+              key={post.postId}
+              img={post.image}
+              nickname={post.nickname}
+              postId={post.postId}
+              gpsY={post.gpsY}
+              creaedAt={post.createdAt}
+              bookmarked={post.bookmarked}
+            />
+          );
+        })}
       {isFetching && <Loading />}
     </Container>
   );

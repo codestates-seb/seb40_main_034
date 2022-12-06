@@ -14,6 +14,7 @@ const Image = styled.div`
   background-image: url(${Ball});
   width: 10rem;
   height: 10rem;
+  background-size: 10rem;
   background-repeat: no-repeat;
   margin-bottom: 2rem;
 `;
