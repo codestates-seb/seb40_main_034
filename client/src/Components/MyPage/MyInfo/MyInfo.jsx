@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   MyContainer,
   ProfileContainer,
@@ -24,8 +24,7 @@ const MyInfo = () => {
   const [userName, setUserName] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const url = window.location.href;
-  const state = useSelector((state) => state.user);
-  const { memberId } = state;
+  const memberId = useSelector((state) => state.memberId);
 
   // follow 모달
   const openModalFollowing = () => {
@@ -52,13 +51,14 @@ const MyInfo = () => {
 
   const navigateEdit = () => {
     // edit 화면 이동
-
-    navigate(`/profile/${memberId}/edit`);
+    navigate('/profile/:memberId/edit');
   };
 
   useEffect(() => {
     getFollowing().then((res) => {
       console.log(res);
+      setUserName(res[0].nickname);
+      setUserProfile(res[0].profileImg);
     });
   }, []);
 
@@ -66,10 +66,10 @@ const MyInfo = () => {
     <MyContainer>
       <ProfileContainer>
         <ProfilePic>
-          {userProfile !== '' ? (
+          {userProfile ? (
             <img src={userProfile} alt="UserPic" />
           ) : (
-            <img src="https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png" alt="DefaultPic" />
+            <img src="https://pcmap.place.naver.com/assets/shared/images/icondefaultprofile.png" alt="UserPic" />
           )}
         </ProfilePic>
         <div className="nickname-text">{userName}</div>
@@ -89,8 +89,7 @@ const MyInfo = () => {
       <InfoContainer>
         <ShareBtn onClick={copyUrl}>Share</ShareBtn>
         {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
-
-        <Link to={`/profile/${memberId}/edit`}>Edit</Link>
+        <EditBtn onClick={navigateEdit}>Edit</EditBtn>
       </InfoContainer>
     </MyContainer>
   );
