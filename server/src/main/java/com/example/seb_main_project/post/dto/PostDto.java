@@ -38,6 +38,7 @@ public class PostDto {
     public static class PostResponseDto {
         private Integer postId;
         private Integer memberId;
+        private String profileImg;
         private String nickname;
         private String contents;
         private String gpsX;

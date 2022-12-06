@@ -20,6 +20,7 @@ public interface PostMapper {
     @Mapping(source = "post.member.nickname", target = "nickname")
     @Mapping(source = "post.member.id", target = "memberId")
     @Mapping(source = "post.tag", target = "tag")
+    @Mapping(source = "post.member.profileImg", target = "profileImg")
     PostDto.PostResponseDto postToPostResponseDto(Post post);
 
     List<PostDto.PostResponseDto> postToPostResponseDto(List<Post> posts);
