@@ -65,4 +65,19 @@ public class MemberController {
 
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping("/delete")
+    public void deleteMember(@RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
+
+        memberService.deleteMember(memberId);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/logout")
+    public void logout(@RequestHeader("Authorization") String authorization){
+        Integer memberId = memberService.getTokenMember(authorization);
+        memberService.logout(memberId);
+    }
 }

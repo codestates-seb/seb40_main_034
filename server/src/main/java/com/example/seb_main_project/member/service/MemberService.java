@@ -13,4 +13,8 @@ public interface MemberService {
     Integer getTokenMember(String authorization);
 
     Member getMember(Integer memberId);
+
+    void deleteMember(Integer memberId);
+
+    void logout(Integer memberId);
 }

@@ -41,6 +41,9 @@ public class Member extends Auditable implements Principal {
     @Column
     private String profileImg;
 
+    @Column
+    private Boolean active;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<>();
 

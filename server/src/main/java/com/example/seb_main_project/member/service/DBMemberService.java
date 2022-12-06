@@ -39,6 +39,7 @@ public class DBMemberService implements MemberService {
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         member.setPassword(encryptedPassword);
         member.setRoles(customAuthorityUtils.createAuthorities(member.getEmail()));
+        member.setActive(true);
         log.info("# Create Member in DB");
 
         return memberRepository.save(member);
@@ -91,6 +92,18 @@ public class DBMemberService implements MemberService {
     public Member getMember(Integer memberId) {
         return this.memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    public void deleteMember(Integer memberId) {
+        Member member = getMember(memberId);
+        member.setActive(false);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void logout(Integer memberId) {
+        refreshTokenRepository.deleteByMemberId(memberId);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.seb_main_project.security.filter;
 
+import com.example.seb_main_project.exception.BusinessLogicException;
 import com.example.seb_main_project.member.dto.AuthDto;
 import com.example.seb_main_project.member.entity.Member;
 import com.example.seb_main_project.security.dto.LoginDto;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,13 +62,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(authenticationToken);
     }
 
-    @SneakyThrows
+
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain,
-            Authentication authResult) {
+            Authentication authResult) throws IOException, ServletException, BusinessLogicException {
         Member member = (Member) authResult.getPrincipal();
         String email = member.getEmail();
         Member findMember = jwtTokenizer.findMemberByEmail(email);

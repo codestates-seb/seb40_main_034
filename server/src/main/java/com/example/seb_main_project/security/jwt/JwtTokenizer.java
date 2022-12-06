@@ -157,7 +157,8 @@ public class JwtTokenizer {
 
     /**
      * 인증 성공 시 사용되는 사용자 엔티티를 반환하는 메서드 <br>
-     * 데이터베이스에서 멤버를 찾고 없으면 예외 반환, 있을 경우 최근 로그인 일자 갱신 후 찾은 멤버를 반환한다.
+     * 데이터베이스에서 멤버를 찾고 없으면 예외 반환, 있을 경우 해당 회원의 비활성화 여부를 확인한다.
+     * 최근 로그인 일자 갱신 후 찾은 멤버를 반환한다.
      *
      * @param email 찾을 멤버의 이메일
      * @return 찾은 멤버 객체
@@ -166,6 +167,10 @@ public class JwtTokenizer {
     public Member findMemberByEmail(String email) {
         Member findMember = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if(!findMember.getActive()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
         findMember.setLatestLogin(LocalDateTime.now());
         memberRepository.save(findMember);
         return findMember;
