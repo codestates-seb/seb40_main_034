@@ -1,17 +1,34 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-const Tag = ({ className, tagName, type, callback }) => {
+const Tag = ({
+  className,
+  tagName,
+  type,
+  callback,
+  idx,
+  selected,
+  setSelected,
+  selectedtag,
+  setSelectedTag,
+  display,
+}) => {
   const tagType = type;
-  const [selected, setSelected] = useState(false);
+
   const handleTagClick = (str) => {
     setSelected(!selected);
-    callback(str, selected);
+    callback(idx, selected);
+    setSelectedTag(idx);
   };
   return (
     <>
       {tagType === 'post' ? (
-        <TagStyle className="selected" selected={selected} onClick={() => handleTagClick(tagName)}>
+        <TagStyle
+          className="selected"
+          selected={selected}
+          selectedtag={selectedtag}
+          onClick={() => handleTagClick(tagName)}
+          display={display}>
           {tagName}
         </TagStyle>
       ) : (
@@ -23,6 +40,7 @@ const Tag = ({ className, tagName, type, callback }) => {
   );
 };
 // 태그 선택 여부(정렬)을 redux로 전역 상태로 올려볼까... 고민임
+
 const TagStyle = styled.button`
   padding: 0.25rem 0.75rem 0.25rem 0.75rem;
   margin: 0 0.25rem 0.25rem 0;
@@ -32,6 +50,7 @@ const TagStyle = styled.button`
   text-align: center;
   cursor: pointer;
   border: 1px solid #91f841;
+  display: ${(props) => props.display};
   background-color: ${(props) => (props.selected === true ? '#91f841' : 'white')};
   color: #333333;
   &:hover {
