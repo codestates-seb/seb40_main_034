@@ -7,7 +7,7 @@ import customAlert from '../../Utils/customAlert';
 import { GreenBtn, BlackBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 
-export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) => {
+export const List = ({ img, gpsY, profileImg, creatorId, nickname, postId, bookmarked }) => {
   const detailurl = `/post/${postId}/detail`;
   const state = useSelector((state) => state.user);
   const initialBookmarkState = bookmarked;
@@ -40,7 +40,7 @@ export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) =>
       </Thumbnail>
       <InfoContainer>
         <Location gpsY={gpsY}>{gpsY ? gpsY : ''}</Location>
-        <MiniProfile nickname={nickname} profileImg={profileImg} />
+        <MiniProfile memberId={creatorId} nickname={nickname} profileImg={profileImg} />
       </InfoContainer>
     </Container>
   );
