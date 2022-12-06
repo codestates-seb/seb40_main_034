@@ -52,7 +52,7 @@ const Tab = () => {
             <div className="tabMenu" />
           </CategoryMid>
           <CategoryMid2>
-            <Link to="/map" state={{ gpsX: ' 서울특별시 중구 소공동 세종대로18길 2', gpsY: '서울역' }}>
+            <Link to="/map" state={{ gpsX: '서울 중구 한강대로 405', gpsY: '서울역' }}>
               <div className="tabMenu" />
             </Link>
           </CategoryMid2>
