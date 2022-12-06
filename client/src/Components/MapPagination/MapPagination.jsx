@@ -7,8 +7,6 @@ const MapPagination = ({ page, totalPosts, limit, setPage }) => {
   let firstNum = currPage - (currPage % 5) + 1;
   let lastNum = currPage - (currPage % 5) + 5;
 
-  //console.log({"currPage is":currPage, "firsNum is" : firstNum, "page is" : page})
-
   return (
     <PageSection>
       <ButtonWrap>

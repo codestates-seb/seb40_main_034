@@ -99,25 +99,20 @@ const EditDetail = (state) => {
         })
         .then((res) => {
           if (res.data.existNickname === false) {
-            console.log(res);
             customAlert('가능한 닉네임입니다');
             setNicknameDouble(false);
           } else {
-            console.log(res);
             customAlert('사용중인 닉네임입니다');
             setNicknameDouble(true);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     } else if (userInfo.nickname === '') {
       customAlert('닉네임을 입력해주세요');
     }
   };
   const onBlurNickname = () => {
     if (!validNickname(userInfo.nickname)) {
-      console.log(validNickname);
       setNicknameValid(validNickname(userInfo.nickname));
     } else if (validNickname(userInfo.nickname)) {
       setNicknameValid(validNickname(userInfo.nickname));
@@ -133,9 +128,7 @@ const EditDetail = (state) => {
   };
   useEffect(() => {
     if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
-    return () => {
-      console.log(defaultName);
-    };
+    return () => {};
   }, [userInfo.previewURL]);
 
   return (

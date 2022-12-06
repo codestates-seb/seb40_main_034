@@ -63,7 +63,6 @@ const Login = () => {
             setCookieToken(accessToken);
 
             dispatch(setLoginUserInfo(res.data));
-            console.log(res.data);
             navigate('/');
           }
         })

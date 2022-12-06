@@ -9,7 +9,6 @@ const MapSide = ({ posts }) => {
   axios
     .get('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/main/list?page=1&size=5')
     .then((res) => setPostList(res.data.data));
-  console.log(postList[0]);
 
   return (
     <Box>
