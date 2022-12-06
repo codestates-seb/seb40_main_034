@@ -26,7 +26,7 @@ import { useLocation } from 'react-router-dom';
 const EditDetail = (state) => {
   const location = useLocation();
   const defaultImg = location.state.userProfile;
-  const nickname = location.state.nickname;
+  const defaultName = location.state.userName;
   const refreshToken = location.state.refreshToken;
 
   const [nicknameValid, setNicknameValid] = useState(true);
@@ -39,7 +39,7 @@ const EditDetail = (state) => {
   // const [defaultImg, setDefaultImg] = useState(null);
 
   const initialInfo = {
-    nickname: nickname,
+    nickname: defaultName,
     password: '',
     profileImg: defaultImg,
     previewURL: '',
@@ -49,6 +49,9 @@ const EditDetail = (state) => {
 
   const handleInput = (e) => {
     //이미지파일 제외 회원정보
+    if (e.target.value === '') {
+      return;
+    }
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
@@ -66,11 +69,13 @@ const EditDetail = (state) => {
   };
 
   const handleSubmit = () => {
-    const saveNickname = userInfo.nickname === '' ? nickname : userInfo.nickname;
-    var data = {
+    let data = {
       profileImg: userInfo.profileImg,
       nickname: userInfo.nickname,
     };
+    if (userInfo.nickname === '') {
+      data.nickname = defaultName;
+    }
 
     editUserInfo(data, refreshToken).then(() => {
       customAlert('변경이 완료되었습니다');
@@ -129,7 +134,7 @@ const EditDetail = (state) => {
   useEffect(() => {
     if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
     return () => {
-      console.log(defaultImg);
+      console.log(defaultName);
     };
   }, [userInfo.previewURL]);
 
