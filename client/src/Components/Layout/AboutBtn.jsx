@@ -10,7 +10,7 @@ const AboutBtn = () => {
 const Container = styled.button`
   position: fixed;
   bottom: 2rem;
-  right: 6.5rem;
+  right: 2rem;
   width: 3.5rem;
   height: 3.5rem;
   font-size: 1.5rem;
