@@ -6,8 +6,11 @@ import { bookmark } from '../../Api/MainApi';
 import customAlert from '../../Utils/customAlert';
 import { GreenBtn, BlackBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
+import Tag from '../Common/Tag';
 
-export const List = ({ img, gpsY, profileImg, creatorId, nickname, postId, bookmarked }) => {
+export const List = ({ img, gpsY, profileImg, creatorId, nickname, postId, bookmarked, tag }) => {
+  const tagsArr = ['관광명소', '문화시설', '음식점/주점', '카페', '공원', '쇼핑몰', '레저/스포츠', '캠핑장'];
+  const tagName = tagsArr[tag - 1];
   const detailurl = `/post/${postId}/detail`;
   const state = useSelector((state) => state.user);
   const initialBookmarkState = bookmarked;
@@ -32,6 +35,9 @@ export const List = ({ img, gpsY, profileImg, creatorId, nickname, postId, bookm
             ) : (
               <BlackBtn text="북마크" callback={handleBookmark} />
             ))}
+        </div>
+        <div className="tagbtn">
+          <Tag tagName={tagName} selected={true} />
         </div>
         <Link to={detailurl} state={{ postId: postId }}>
           <div className="placeholder" />
@@ -83,6 +89,12 @@ const Thumbnail = styled.div`
   }
   .thumbnailHover {
     display: none;
+  }
+  .tagbtn {
+    z-index: 9;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
   }
 `;
 const InfoContainer = styled.div`
