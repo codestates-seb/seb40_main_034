@@ -17,25 +17,28 @@ import customAlert from '../../Utils/customAlert';
 import { editUserInfo, getUserInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+const EditDetail = (state) => {
+  const location = useLocation();
+  const defaultImg = location.state.userProfile;
+  const nickname = location.state.nickname;
+  const refreshToken = location.state.refreshToken;
 
-const EditDetail = ({ userProfile }) => {
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
-  // const [file, setFile] = useState('');
+  const [file, setFile] = useState('');
   // const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
-  const [defaultImg, setDefaultImg] = useState(null);
+  // const [defaultImg, setDefaultImg] = useState(null);
 
   const initialInfo = {
     nickname: '',
     password: '',
-    profileImg: userProfile,
+    profileImg: defaultImg,
     previewURL: '',
-    file: null,
+    incodefile: null,
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
-  const state = useSelector((state) => state.user);
-  const { refreshToken, memberId } = state;
 
   const handleInput = (e) => {
     //이미지파일 제외 회원정보
@@ -49,7 +52,8 @@ const EditDetail = ({ userProfile }) => {
     let reader = new FileReader();
 
     reader.onload = () => {
-      setUserInfo({ ...userInfo, profileImg: reader.result, previewURL: reader.result, file: reader.result });
+      setFile(reader.result);
+      setUserInfo({ ...userInfo, profileImg: reader.result, previewURL: reader.result, incodefile: reader.result });
     };
     if (file) reader.readAsDataURL(file);
   };
@@ -76,18 +80,9 @@ const EditDetail = ({ userProfile }) => {
     setModalOpen(false);
   };
   useEffect(() => {
-    if (userInfo.file !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
+    if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
     return () => {
-      getUserInfo(memberId).then((res) => {
-        if (res.profileImg !== '') {
-          setUserInfo({ ...userInfo, profileImg: res.profileImg });
-        }
-
-        setUserInfo({
-          ...userInfo,
-          profileImg: 'https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png',
-        });
-      });
+      console.log(defaultImg);
     };
   }, [userInfo.previewURL]);
 
@@ -100,8 +95,8 @@ const EditDetail = ({ userProfile }) => {
             <EditText>Photo</EditText>
             <PhotoBox>
               <Photo>
-                {userInfo.file !== null ? preview : null}
-                {userInfo.file === null ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
+                {file !== '' ? preview : null}
+                {file === '' ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
               </Photo>
               <PhotoEditBtn>
                 <input

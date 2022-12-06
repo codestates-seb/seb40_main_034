@@ -13,7 +13,7 @@ import {
 } from './style';
 import FollowModal from '../FollowModal/FollowModal';
 import ShareModal from '../ShareModal/ShareModal';
-import { getUserInfo } from '../../../Api/MyinfoApi';
+import { getMypageInfo } from '../../../Api/MyinfoApi';
 import { useSelector } from 'react-redux';
 
 const MyInfo = () => {
@@ -21,10 +21,10 @@ const MyInfo = () => {
   const [shareModal, setShareModal] = useState(false);
   const [select, setSelect] = useState('');
   const [userName, setUserName] = useState('');
-  const [userProfile, setUserProfile] = useState('');
+  const [userProfile, setUserProfile] = useState(null);
   const url = window.location.href;
   const state = useSelector((state) => state.user);
-  const { memberId } = state;
+  const { memberId, nickname, refreshToken } = state;
 
   // follow 모달
   const openModalFollowing = () => {
@@ -56,10 +56,15 @@ const MyInfo = () => {
   const mypageEdit = `/profile/${memberId}/edit`;
 
   useEffect(() => {
-    getUserInfo(memberId).then((res) => {
+    getMypageInfo(memberId).then((res) => {
       console.log(res);
-      setUserName(res.nickname);
-      setUserProfile(res.profileImg);
+      if (res.profileImg !== '') {
+        setUserProfile(res.profileImg);
+        setUserName(res.nickname);
+      } else {
+        setUserProfile('https://pcmap.place.naver.com/assets/shared/images/icon_default_profile.png');
+        setUserName(res.nickname);
+      }
     });
   }, []);
 
@@ -67,11 +72,7 @@ const MyInfo = () => {
     <MyContainer>
       <ProfileContainer>
         <ProfilePic>
-          {userProfile ? (
-            <img src={userProfile} alt="UserPic" />
-          ) : (
-            <img src="https://pcmap.place.naver.com/assets/shared/images/icondefaultprofile.png" alt="UserPic" />
-          )}
+          <img src={userProfile} alt="UserPic" />
         </ProfilePic>
         <div className="nickname-text">{userName}</div>
       </ProfileContainer>
@@ -88,13 +89,17 @@ const MyInfo = () => {
         {modalOpen && <FollowModal open={modalOpen} close={closeModal} header="" select={select}></FollowModal>}
       </FollowContainer>
       <InfoContainer>
-        <ShareBtn onClick={copyUrl}>Share</ShareBtn>
+        <ShareBtn onClick={copyUrl}>
+          <div>Share</div>
+        </ShareBtn>
         {shareModal && <ShareModal open={shareModal} close={closeShareModal} header=""></ShareModal>}
 
         <div>
-          <Link to={mypageEdit} userProfile={userProfile}>
-            Edit
-          </Link>
+          <EditBtn>
+            <Link to={mypageEdit} state={{ userProfile: userProfile, nickname: nickname, refreshToken: refreshToken }}>
+              Edit
+            </Link>
+          </EditBtn>
         </div>
       </InfoContainer>
     </MyContainer>

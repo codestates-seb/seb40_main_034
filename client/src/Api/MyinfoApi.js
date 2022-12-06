@@ -10,7 +10,14 @@ export const getUserInfo = async (memberId) => {
     return err;
   }
 };
-
+export const getMypageInfo = async (memberId) => {
+  try {
+    const res = await instance.get(`/member/${memberId}`);
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};
 // export const getFollowing = async () => {
 //  try {
 //    const res = await instance.get('/following');
