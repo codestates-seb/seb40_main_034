@@ -61,6 +61,7 @@ public class PostService {
                 .contents(post.getContents())
                 .member(member)
                 .nickname(member.getNickname())
+                .image(post.getImage())
                 .build();
 
         return postRepository.save(createdPost);
@@ -75,6 +76,12 @@ public class PostService {
 
         Optional.ofNullable(post.getContents())
                 .ifPresent(showPost::setContents);
+        Optional.ofNullable(post.getGpsX())
+                .ifPresent(showPost::setGpsX);
+        Optional.ofNullable(post.getGpsY())
+                .ifPresent(showPost::setGpsY);
+        Optional.ofNullable(post.getImage())
+                .ifPresent(showPost::setImage);
         Optional.ofNullable(post.getTags())
                 .ifPresent(showPost::setTags);
 

@@ -30,6 +30,7 @@ public interface PostMapper {
     @Mapping(source = "key.gpsY", target = "gpsY")
     @Mapping(source = "key.createdAt", target = "createdAt")
     @Mapping(source = "key.modifiedAt", target = "modifiedAt")
+    @Mapping(source = "key.image", target = "image")
     @Mapping(source = "value", target = "bookmarked")
     PostDto.PostListResponseDto postToPostListResponseDto(Map.Entry<Post, Boolean> postWithBookmarked);
 

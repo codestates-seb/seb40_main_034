@@ -12,6 +12,7 @@ public class PostDto {
         private String gpsX;
         private String gpsY;
         private String contents;
+        private String image;
     }
 
     @NoArgsConstructor
@@ -23,7 +24,7 @@ public class PostDto {
         private String gpsX;
         private String gpsY;
         private String contents;
-
+        private String image;
         private Integer postId;
     }
 
@@ -42,6 +43,7 @@ public class PostDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean bookmarked = false;
+        private String image;
     }
 
     @NoArgsConstructor
@@ -53,6 +55,7 @@ public class PostDto {
         private Integer postId;
         private String nickname;
         private String contents;
+        private String image;
         private String gpsX;
         private String gpsY;
         private LocalDateTime createdAt;
