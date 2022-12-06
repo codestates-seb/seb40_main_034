@@ -47,23 +47,21 @@ const ListContainer = () => {
 
   return (
     <Container>
-      {postList.length !== 0 ? (
-        postList.map((post) => {
-          return (
-            <List
-              key={post.postId}
-              img={post.image}
-              nickname={post.nickname}
-              postId={post.postId}
-              gpsY={post.gpsY}
-              creaedAt={post.createdAt}
-              bookmarked={post.bookmarked}
-            />
-          );
-        })
-      ) : (
-        <Loading />
-      )}
+      {postList.length !== 0
+        ? postList.map((post) => {
+            return (
+              <List
+                key={post.postId}
+                img={post.image}
+                nickname={post.nickname}
+                postId={post.postId}
+                gpsY={post.gpsY}
+                creaedAt={post.createdAt}
+                bookmarked={post.bookmarked}
+              />
+            );
+          })
+        : null}
       {isFetching && <Loading />}
     </Container>
   );
