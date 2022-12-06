@@ -52,19 +52,15 @@ const Signup = () => {
         })
         .then((res) => {
           if (res.data.existNickname === false) {
-            console.log(res);
             customAlert('가능한 닉네임입니다');
             setNicknameDouble(false);
           } else {
-            console.log(res);
             customAlert('사용중인 닉네임입니다');
 
             setNickname('');
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     } else if (nickname === '') {
       customAlert('닉네임을 입력해주세요');
     }
@@ -108,7 +104,6 @@ const Signup = () => {
           if (res.status === 200 || res.status === 201) {
             customAlert('회원가입에 성공했습니다. 로그인 해 주세요.');
             navigate('/login');
-            console.log(res.data);
           }
         })
         .catch((Error) => {
@@ -117,7 +112,6 @@ const Signup = () => {
             navigate('/login');
           } else {
             customAlert('회원가입에 실패했습니다.');
-            console.log(Error);
           }
         });
     }
@@ -144,7 +138,6 @@ const Signup = () => {
   };
 
   const onBlurPassword = () => {
-    console.log('onBlur');
     if (!validPw(password)) {
       setPwValid(validPw(password));
     } else if (validPw(password)) {
