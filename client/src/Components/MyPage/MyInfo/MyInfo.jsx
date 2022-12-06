@@ -24,7 +24,8 @@ const MyInfo = () => {
   const [userName, setUserName] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const url = window.location.href;
-  const memberId = useSelector((state) => state.memberId);
+  const state = useSelector((state) => state.user);
+  const { memberId } = state;
 
   // follow 모달
   const openModalFollowing = () => {
@@ -51,7 +52,7 @@ const MyInfo = () => {
 
   const navigateEdit = () => {
     // edit 화면 이동
-    navigate('/profile/:memberId/edit');
+    navigate(`/profile/${memberId}/edit`);
   };
 
   useEffect(() => {
