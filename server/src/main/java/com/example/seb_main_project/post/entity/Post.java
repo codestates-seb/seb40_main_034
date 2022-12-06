@@ -42,6 +42,10 @@ public class Post extends Auditable {
     @Column
     private String nickname;
 
+    @Lob
+    @Column
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

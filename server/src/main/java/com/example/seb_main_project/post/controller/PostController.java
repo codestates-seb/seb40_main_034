@@ -77,12 +77,7 @@ public class PostController {
     public ResponseEntity createPost(
             @RequestHeader("Authorization") String authorization,
             @RequestBody PostDto.PostCreateDto postCreateDto) {
-        log.error(authorization);
-        log.error(postCreateDto.toString());
-        log.error(postCreateDto.getContents());
-
         Integer memberId = memberService.getTokenMember(authorization);
-        log.error(memberId.toString());
 
         Post createdPost = postService.createPost(postCreateDto, memberId);
 
