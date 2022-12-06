@@ -56,7 +56,7 @@ const ListContainer = () => {
               nickname={post.nickname}
               postId={post.postId}
               gpsY={post.gpsY}
-              createdAt={post.createdAt}
+              creaedAt={post.createdAt}
               bookmarked={post.bookmarked}
             />
           );

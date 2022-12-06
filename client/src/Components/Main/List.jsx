@@ -24,7 +24,7 @@ export const List = ({ img, gpsY, profileImg, nickname, postId, bookmarked }) =>
   };
   return (
     <Container>
-      <Thumbnail img={atob(img)} nickname={nickname}>
+      <Thumbnail img={img && atob(img)} nickname={nickname}>
         <div className="thumbnailHover">
           {authenticated &&
             (bookmarkDisplay ? (
