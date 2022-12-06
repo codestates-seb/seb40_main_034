@@ -109,3 +109,38 @@ export const QuitBtn = styled.button`
     color: rgb(253, 58, 33);
   }
 `;
+
+export const NicknameWrap = styled.div`
+  position: relative;
+`;
+export const DoubleCheck = styled.div`
+  position: absolute;
+  top: 2.35rem;
+  left: 15.5rem;
+  border-radius: 0 2rem 2rem 0;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 4.5rem;
+
+  line-height: 2.55rem;
+  text-align: center;
+
+  font-weight: 500;
+  font-size: 0.85rem;
+  background-color: #91f841;
+  color: #333333;
+
+  &:hover {
+    filter: brightness(90%);
+  }
+  &:active {
+    filter: brightness(80%);
+  }
+`;
+export const ErrorNickname = styled.div`
+  color: gray;
+  width: 20rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+`;
