@@ -10,6 +10,7 @@ import customAlert from '../Utils/customAlert';
 import PlaceSearchModal from '../Components/Post/PlaceSearchModal';
 import { useSelector } from 'react-redux';
 import grammarCheck from '../Utils/grammarCheck';
+import { debounce } from 'lodash';
 
 const Post = () => {
   const state = useSelector((state) => state.user);
@@ -20,6 +21,7 @@ const Post = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
+  const [base64Imgs, setBase64Img] = useState([]);
   const [tags, setTags] = useState([]);
   const [tagselected, setTagSelected] = useState(false);
   const [maintext, setMaintext] = useState(0);
@@ -43,9 +45,10 @@ const Post = () => {
   const remain = maintext ? 500 - maintext.length : 500;
   const handleMaintext = (e) => {
     setMaintext(e.target.value);
+
     if (maintext.length > 500) {
-      e.target.value = maintext.substring(0, 5);
-      setMaintext(maintext.substring(0, 5));
+      e.target.value = maintext.substring(0, 500);
+      setMaintext(maintext.substring(0, 500));
     }
   };
 
@@ -57,16 +60,26 @@ const Post = () => {
   // const handleFileInput = () => {
   //   fileInput.current?.click();
   // };
+  const processImg = (file) => {
+    return new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => res(e.target.result);
+      reader.onerror = (err) => rej(err);
+    });
+  };
   const uploadImage = (e) => {
     const fileList = e.target.files;
     const url = URL.createObjectURL(fileList[0]); //임시로 파일 1개만 가능하도록 했음
-
     setImgs([
       {
-        file: btoa(fileList[0]),
+        file: fileList[0],
         thumbnail: url,
       },
     ]);
+    processImg(fileList[0]).then((data) => {
+      setBase64Img([...base64Imgs, { file: data, imgId: base64Imgs.length + 1 }]);
+    });
   };
   const deleteImg = () => {
     setImgs(imgs.pop());
@@ -86,11 +99,9 @@ const Post = () => {
     if (tags.includes(str)) {
       setTags([...tags.slice(0, tags.indexOf(str), ...tags.slice(tags.indexOf(str)))]);
       setTagSelected(selected);
-      console.log(tagselected, selected);
     } else {
       setTags([...tags, str]);
       setTagSelected(selected);
-      console.log(tagselected, selected);
     }
   };
 
@@ -99,9 +110,10 @@ const Post = () => {
       gpsX: location,
       gpsY: locationDetail,
       contents: body,
-      image: [imgs.file],
+      image: base64Imgs,
       tag: tags,
     };
+    console.log(data);
     if (!authenticated) {
       customAlert('로그인이 정상적으로 되어있지 않습니다.');
       throw new Error('글 작성에 실패했습니다.');
