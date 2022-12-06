@@ -19,7 +19,7 @@ import DetailModal from '../Components/Detail/DetailModal';
 import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 import Swal from 'sweetalert2';
-import { deleteAlert } from '../Utils/deleteAlert';
+import { deleteAlert } from '../Utils/customAlert';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -69,13 +69,15 @@ function Detail() {
 
   // customHook 삭제하기 버튼 확인 modal
   const deleteConfirm = () => {
-    deleteAlert().then((result) => {
-      if (result.isConfirmed) {
-        useDeletePost(postId, refreshToken).then(() => {
-          navigate('/');
-        });
-      }
-    });
+    deleteAlert('글을 정말 삭제하시겠습니까? 삭제한 글은 되돌릴 수 없습니다.', '삭제가 완료되었습니다.').then(
+      (result) => {
+        if (result.isConfirmed) {
+          useDeletePost(postId, refreshToken).then(() => {
+            navigate('/');
+          });
+        }
+      },
+    );
   };
 
   // 글자수 제한(완)

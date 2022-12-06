@@ -12,7 +12,7 @@ const WriteBtn = () => {
 const Container = styled.button`
   position: fixed;
   bottom: 2rem;
-  right: 2rem;
+  right: 6.5rem;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;

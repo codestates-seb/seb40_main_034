@@ -52,10 +52,11 @@ const ListContainer = () => {
           return (
             <List
               key={post.postId}
+              img={post.img}
               nickname={post.nickname}
               postId={post.postId}
               gpsY={post.gpsY}
-              createdAt={post.createdAt}
+              creaedAt={post.createdAt}
               bookmarked={post.bookmarked}
             />
           );

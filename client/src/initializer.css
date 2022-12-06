@@ -150,6 +150,17 @@ a {
   background-color: #91f841;
   color: #333333;
 }
+.customAlert-button2 {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 22px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #cccccc;
+  color: #333333;
+}
 .customAlert-button:hover {
   filter: brightness(90%);
 }
