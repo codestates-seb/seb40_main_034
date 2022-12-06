@@ -49,6 +49,7 @@ public class AuthDto {
     public static class MemberResponseDto {
         private String nickname;
         private Integer memberId;
+        private String profileImg;
         private String createdAt;
         private String modifiedAt;
         private LocalDateTime latestLogin;

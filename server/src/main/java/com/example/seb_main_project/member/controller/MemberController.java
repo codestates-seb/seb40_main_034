@@ -47,4 +47,22 @@ public class MemberController {
         Member member = memberService.updateMember(updateDto, memberId);
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
+
+    @GetMapping("/{member-id}")
+    public ResponseEntity<AuthDto.MemberResponseDto> getMember(
+            @PathVariable(name = "member-id") Integer memberId) {
+        Member member = memberService.getMember(memberId);
+
+        return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
+    }
+
+    @GetMapping("/member-info")
+    public ResponseEntity<AuthDto.MemberResponseDto> getMyInfo(
+            @RequestHeader("Authorization") String authorization) {
+        Integer memberId = memberService.getTokenMember(authorization);
+
+        Member member = memberService.getMember(memberId);
+
+        return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
+    }
 }

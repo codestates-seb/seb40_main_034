@@ -11,4 +11,6 @@ public interface MemberService {
     Member updateMember(AuthDto.Update updateDto, Integer memberId);
 
     Integer getTokenMember(String authorization);
+
+    Member getMember(Integer memberId);
 }
