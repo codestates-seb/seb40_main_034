@@ -131,7 +131,6 @@ function Detail() {
   // detail 조회(완)
   useEffect(() => {
     useGetDetail(postId).then((res) => {
-      console.log(res);
       setNickname(res.nickname);
       setBodyText(res.contents);
       setMapLocation(res.gpsY);
@@ -140,14 +139,12 @@ function Detail() {
       setImgS(res.image);
     });
     useGetComment(postId).then((res) => {
-      console.log(res);
       setCommentData(res.data);
     });
     useGetLike(postId, refreshToken).then((res) => {
       setIsLike(res.postLiked);
     });
     useGetFollow().then((res) => {
-      console.log(res);
       setSubColor(res.follow);
     });
   }, []);

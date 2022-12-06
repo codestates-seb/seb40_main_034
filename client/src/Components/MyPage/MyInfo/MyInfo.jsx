@@ -57,7 +57,6 @@ const MyInfo = () => {
 
   useEffect(() => {
     getMypageInfo(memberId).then((res) => {
-      console.log(res);
       if (res.profileImg !== '') {
         setUserProfile(res.profileImg);
         setUserName(res.nickname);

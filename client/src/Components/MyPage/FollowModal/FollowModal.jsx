@@ -22,9 +22,7 @@ const FollowModal = (props) => {
   };
   const removeFollowing = (id) => {
     setFollowingList(followingList.filter((user) => user.id !== id));
-    addFollow(id).then((res) => {
-      console.log(res);
-    });
+    addFollow(id).then((res) => {});
   };
 
   useEffect(() => {
