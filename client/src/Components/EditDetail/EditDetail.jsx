@@ -9,6 +9,9 @@ import {
   QuitBtn,
   SubmitBtn,
   BtnContainer,
+  NicknameWrap,
+  DoubleCheck,
+  ErrorNickname,
 } from './style';
 import { GreenBtn } from '../Common/Btn';
 import { InputForm } from '../Common/InputForm';
@@ -16,6 +19,8 @@ import { useState, useEffect, useRef } from 'react';
 import customAlert from '../../Utils/customAlert';
 import { editUserInfo, getUserInfo } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
+import { validNickname } from '../../Api/Valid';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 const EditDetail = (state) => {
@@ -24,6 +29,8 @@ const EditDetail = (state) => {
   const nickname = location.state.nickname;
   const refreshToken = location.state.refreshToken;
 
+  const [nicknameValid, setNicknameValid] = useState(true);
+  const [nicknameDouble, setNicknameDouble] = useState(true);
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
   const [file, setFile] = useState('');
@@ -32,7 +39,7 @@ const EditDetail = (state) => {
   // const [defaultImg, setDefaultImg] = useState(null);
 
   const initialInfo = {
-    nickname: '',
+    nickname: nickname,
     password: '',
     profileImg: defaultImg,
     previewURL: '',
@@ -57,22 +64,61 @@ const EditDetail = (state) => {
     };
     if (file) reader.readAsDataURL(file);
   };
+
   const handleSubmit = () => {
+    const saveNickname = userInfo.nickname === '' ? nickname : userInfo.nickname;
     var data = {
       profileImg: userInfo.profileImg,
       nickname: userInfo.nickname,
     };
+
     editUserInfo(data, refreshToken).then(() => {
       customAlert('변경이 완료되었습니다');
-      setUserInfo(initialInfo).then(() => {
-        window.location.reload();
-      });
+      window.location.reload();
     });
   };
   const handleEditBtn = (e) => {
     e.preventDefault();
     photoInput.current.click();
   };
+  const nickNameDoublecheck = () => {
+    if (!validNickname(userInfo.nickname)) {
+      customAlert('닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요');
+
+      return;
+    }
+    if (userInfo.nickname !== undefined && userInfo.nickname !== '') {
+      axios
+        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+          nickname: userInfo.nickname,
+        })
+        .then((res) => {
+          if (res.data.existNickname === false) {
+            console.log(res);
+            customAlert('가능한 닉네임입니다');
+            setNicknameDouble(false);
+          } else {
+            console.log(res);
+            customAlert('사용중인 닉네임입니다');
+            setNicknameDouble(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (userInfo.nickname === '') {
+      customAlert('닉네임을 입력해주세요');
+    }
+  };
+  const onBlurNickname = () => {
+    if (!validNickname(userInfo.nickname)) {
+      console.log(validNickname);
+      setNicknameValid(validNickname(userInfo.nickname));
+    } else if (validNickname(userInfo.nickname)) {
+      setNicknameValid(validNickname(userInfo.nickname));
+    }
+  };
+
   //회원탈퇴 모달
   const openDeleteModal = () => {
     setModalOpen(true);
@@ -114,9 +160,21 @@ const EditDetail = (state) => {
             </PhotoBox>
           </div>
           <div>
-            <EditText>Nickname</EditText>
-
-            <input type="text" name="nickname" value={userInfo.nickname} onChange={handleInput}></input>
+            <NicknameWrap>
+              <EditText>Nickname</EditText>
+              <input
+                type="text"
+                name="nickname"
+                value={userInfo.nickname}
+                onBlur={onBlurNickname}
+                onChange={handleInput}></input>
+              <DoubleCheck onClick={nickNameDoublecheck}>Check</DoubleCheck>
+              <div>
+                {!validNickname(userInfo.nickname) && userInfo.nickname.length > 0 && (
+                  <ErrorNickname>닉네임은 소문자,숫자를 사용해 8~16자리로 만들어 주세요</ErrorNickname>
+                )}
+              </div>
+            </NicknameWrap>
           </div>
           <div>
             <EditText>Password</EditText>
