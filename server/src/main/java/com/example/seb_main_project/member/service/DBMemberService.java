@@ -54,6 +54,7 @@ public class DBMemberService implements MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         member.setNickname(updateDto.getNickname());
+        member.setProfileImg(updateDto.getProfileImg());
         member.setModifiedAt(LocalDateTime.now());
         return memberRepository.save(member);
     }
@@ -84,6 +85,12 @@ public class DBMemberService implements MemberService {
                         authorization.substring(7))
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND))
                 .getMemberId();
+    }
+
+    @Override
+    public Member getMember(Integer memberId) {
+        return this.memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
 }
