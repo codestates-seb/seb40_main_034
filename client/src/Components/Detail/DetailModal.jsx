@@ -3,17 +3,20 @@ import styled from 'styled-components';
 import { BlackBtn, GreenBtn, GreyBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 import PlaceSearchModal from '../Post/PlaceSearchModal';
+import Tagform from '../Post/Tagform';
 
-function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText }) {
+function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText, myTag }) {
   const [cancel, setCancel] = useState(false);
   const [location, setLocation] = useState(myGpsX);
   const [locationDetail, setLocationDetail] = useState(mapLocation);
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState(bodyText);
-  console.log(body);
   const [imgs, setImgs] = useState([{}]);
   const [base64ImgS, setBase64Img] = useState('');
   const [maintext, setMaintext] = useState(0);
+  const [tags, setTags] = useState(myTag);
+  console.log(myTag);
+  const [tagSelected, setTagSelected] = useState(false);
 
   const handlePlaceSearch = () => {
     setIsSearching(!isSearching);
@@ -77,6 +80,16 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
     } else return;
   });
 
+  const handleTags = (idx, selected) => {
+    if (tags === idx) {
+      setTags('');
+      setTagSelected(selected);
+    } else {
+      setTags(idx + 1);
+      setTagSelected(selected);
+    }
+  };
+
   return (
     <DialogContainer>
       <Dialog>
@@ -131,6 +144,7 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
                 </div>
                 <Maintext placeholder="리뷰를 입력하세요." value={body} onChange={handleMaintext} />
                 <MaintxtValidator>{remain}</MaintxtValidator>
+                <Tagform callback={handleTags} tags={tags} />
               </Description>
             </Body>
           </Container>
@@ -252,7 +266,7 @@ const ImageContainer = styled.div`
 
 const Description = styled.article`
   width: 50%;
-  height: 31rem;
+  height: 30rem;
   margin: 5rem 2rem 2rem 1rem;
   display: flex;
   flex-direction: column;

@@ -64,6 +64,8 @@ function Detail() {
   // post한 memberId
   const [postMemberId, setPostMemberId] = useState('');
   const myPageUrl = `/profile/${postMemberId}`;
+  // 태그
+  const [myTag, setMyTag] = useState('');
 
   const navigate = useNavigate();
 
@@ -138,6 +140,7 @@ function Detail() {
       setMyGpsX(res.gpsX);
       setPostMemberId(res.memberId);
       setImgS(res.image);
+      setMyTag(res.tag);
     });
     useGetComment(postId).then((res) => {
       console.log(res);
@@ -320,6 +323,7 @@ function Detail() {
                     postMemberId={postMemberId}
                     imgS={imgS}
                     bodyText={bodyText}
+                    myTag={myTag}
                   />
                 )}
               </D_BottomDesc>
