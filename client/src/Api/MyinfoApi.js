@@ -72,9 +72,11 @@ export const editUserInfo = async (data, refreshToken) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (refreshToken) => {
+  const tokenInstance = createTokenInstance(refreshToken);
+  const url = '/member/delete';
   try {
-    const res = await instance.delete('member/delete');
+    const res = await tokenInstance.delete(url);
     return res;
   } catch (err) {
     return err;
