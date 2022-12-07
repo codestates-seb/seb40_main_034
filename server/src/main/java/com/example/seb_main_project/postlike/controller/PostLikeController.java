@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -27,9 +28,8 @@ public class PostLikeController {
 
     @PostMapping("/main/{post-id}/like")
     public ResponseEntity<PostLikeDto.ExistPostLikeResponseDto> createPostLike(
-            @PathVariable("post-id") Integer postId,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @PathVariable("post-id") Integer postId) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postLikeService.addPostLike(postId, memberId);
 
         return new ResponseEntity<>(
@@ -42,9 +42,8 @@ public class PostLikeController {
      */
     @GetMapping("/post/{post-id}/like")
     public ResponseEntity<PostLikeDto.ExistPostLikeResponseDto> checkPostLike(
-            @PathVariable("post-id") Integer postId,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @PathVariable("post-id") Integer postId) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return new ResponseEntity<>(
                 postLikeMapper.booleanToPostLikeResponseDto(
