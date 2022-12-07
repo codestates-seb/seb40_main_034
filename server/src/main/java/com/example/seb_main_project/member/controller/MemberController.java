@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,16 +20,12 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberMapper memberMapper;
 
-    /**
-     * 회원가입을 위한 컨트롤러 호출 메서드
-     *
-     * @param joinDto 회원가입 Dto
-     * @author dev32user
-     */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/signup")
-    public void joinMember(@RequestBody AuthDto.Join joinDto) {
-        memberService.createMember(memberMapper.joinToMemberEntity(joinDto));
+    public ResponseEntity<AuthDto.MemberResponseDto> joinMember(@RequestBody AuthDto.Join joinDto) {
+        return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(
+                memberService.createMember(memberMapper.joinToMemberEntity(joinDto))),
+                HttpStatus.CREATED);
     }
 
     @PostMapping("/nickname/check")
@@ -41,9 +38,8 @@ public class MemberController {
 
     @PutMapping("/member-info/edit")
     public ResponseEntity updateMember(
-            @RequestBody AuthDto.Update updateDto,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @RequestBody AuthDto.Update updateDto) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member member = memberService.updateMember(updateDto, memberId);
         return new ResponseEntity<>(memberMapper.memberToMemberResponseDto(member), HttpStatus.OK);
     }
@@ -57,9 +53,8 @@ public class MemberController {
     }
 
     @GetMapping("/member-info")
-    public ResponseEntity<AuthDto.MemberResponseDto> getMyInfo(
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+    public ResponseEntity<AuthDto.MemberResponseDto> getMyInfo() {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Member member = memberService.getMember(memberId);
 
@@ -68,16 +63,15 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/delete")
-    public void deleteMember(@RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+    public void deleteMember() {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         memberService.deleteMember(memberId);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/logout")
-    public void logout(@RequestHeader("Authorization") String authorization){
-        Integer memberId = memberService.getTokenMember(authorization);
-        memberService.logout(memberId);
+    public void logout(){
+        SecurityContextHolder.clearContext();
     }
 }

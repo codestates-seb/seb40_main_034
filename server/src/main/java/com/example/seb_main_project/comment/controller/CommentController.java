@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,9 +61,8 @@ public class CommentController {
     @PostMapping("/main/{post-id}/comment")
     public ResponseEntity postComment(
             @PathVariable("post-id") Integer postId,
-            @RequestBody CommentDto.CommentPostDto commentPostDto,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @RequestBody CommentDto.CommentPostDto commentPostDto) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment comment = commentService.createComment(commentPostDto, postId, memberId);
 
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(comment), HttpStatus.CREATED);
@@ -70,26 +70,24 @@ public class CommentController {
 
     @PutMapping("/main/{post-id}/{comment-id}/edit")
     public ResponseEntity updateComment(
-            @RequestHeader("Authorization") String authorization,
             @PathVariable("comment-id") Integer commentId,
             @RequestBody CommentDto.CommentPatchDto commentPatchDto,
             @PathVariable("post-id") String parameter) {
 
-        Integer memberId = memberService.getTokenMember(authorization);
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment updatedComment = commentService.updateComment(memberId, commentId, commentPatchDto);
 
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(updatedComment), HttpStatus.OK);
     }
 
     @DeleteMapping("/main/{post-id}/{comment-id}/delete")
-    public ResponseEntity deleteComment(
-            @RequestHeader("Authorization") String authorization,
+    public ResponseEntity<Object> deleteComment(
             @PathVariable("comment-id") Integer commentId,
             @PathVariable("post-id") String parameter) {
 
-        Integer memberId = memberService.getTokenMember(authorization);
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         commentService.deleteComment(memberId, commentId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
