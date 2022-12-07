@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -45,12 +46,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeaders(AUTHORIZATION).toString();
-        log.warn(accessToken);
-        log.error(accessToken);
-        log.error(accessToken);
         try {
-            jwtTokenizer.verifiedExistRefresh(accessToken);
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
         } catch (SignatureException se) {
@@ -71,11 +67,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
-        String email = (String) claims.get("email");
+        Integer id = (Integer) claims.get("id");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>) claims.get("roles"));
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                email, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+                id, null, authorities);
+        SecurityContext emptySecurityContext = SecurityContextHolder.createEmptyContext();
+        emptySecurityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(emptySecurityContext);
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {

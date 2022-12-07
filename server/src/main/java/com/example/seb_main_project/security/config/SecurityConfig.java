@@ -74,6 +74,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                                 .mvcMatchers("/h2/**").permitAll()
+                                .mvcMatchers("/member/signup").permitAll()
+                                .mvcMatchers("/member/login").permitAll()
                                 .anyRequest().permitAll()
                         // .mvcMatchers("/admin").hasRole("ADMIN")
                         // .access((authentication, request) ->
