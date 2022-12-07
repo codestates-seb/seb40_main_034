@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Tag from '../Common/Tag';
 
 const tagsArr = ['관광명소', '문화시설', '음식점/주점', '카페', '공원', '쇼핑몰', '레저/스포츠', '캠핑장'];
-const Tagform = ({ callback, tags }) => {
+const Tagform = ({ callback, tags, myTag }) => {
   const [selectedtag, setSelectedTag] = useState('');
   const [selected, setSelected] = useState(false);
   return (
