@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -36,14 +37,13 @@ public class PostController {
     @GetMapping("/main/list")
     public ResponseEntity getPosts(
             @RequestParam int page,
-            @RequestParam int size,
-            @RequestHeader(value = "Authorization", required = false) String authorization) {
+            @RequestParam int size) {
         Integer memberId;
         Page<Post> pagePosts = postService.findPosts(page - 1, size);
         List<Post> findPosts = pagePosts.getContent();
 
         try {
-            memberId = memberService.getTokenMember(authorization);
+            memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e) {
             return new ResponseEntity<>(
                     new MultiResponseDto<>(postMapper.postToPostResponseDto(findPosts), pagePosts),
@@ -75,9 +75,8 @@ public class PostController {
 
     @PostMapping("/main/submit")
     public ResponseEntity createPost(
-            @RequestHeader("Authorization") String authorization,
             @RequestBody PostDto.PostCreateDto postCreateDto) {
-        Integer memberId = memberService.getTokenMember(authorization);
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Post createdPost = postService.createPost(postCreateDto, memberId);
 
