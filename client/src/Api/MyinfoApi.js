@@ -82,3 +82,12 @@ export const deleteUser = async (refreshToken) => {
     return err;
   }
 };
+export const getAllBookmarks = async (memberId) => {
+  const url = `/member/${memberId}/bookmark`;
+  try {
+    const result = await instance.get(url);
+    return result.data;
+  } catch (err) {
+    return [err];
+  }
+};
