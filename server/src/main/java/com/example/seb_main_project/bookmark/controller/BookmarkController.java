@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -30,9 +31,8 @@ public class BookmarkController {
 
     @PostMapping("/main/{post-id}/bookmark")
     public ResponseEntity<BookmarkDto.ExistBookmarkResponseDto> createBookmark(
-            @PathVariable("post-id") Integer postId,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @PathVariable("post-id") Integer postId) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         bookmarkService.addBookmark(postId, memberId);
 
         return new ResponseEntity<>(
@@ -45,9 +45,8 @@ public class BookmarkController {
      */
     @GetMapping("/post/{post-id}/bookmark")
     public ResponseEntity<BookmarkDto.ExistBookmarkResponseDto> checkBookmark(
-            @PathVariable("post-id") Integer postId,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @PathVariable("post-id") Integer postId) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return new ResponseEntity<>(
                 bookmarkMapper.booleanToBookmarkResponseDto(
