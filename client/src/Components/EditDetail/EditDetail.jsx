@@ -16,15 +16,19 @@ import {
 import { GreenBtn } from '../Common/Btn';
 import { InputForm } from '../Common/InputForm';
 import { useState, useEffect, useRef } from 'react';
+import { persistor } from '../../Routes/AppRouter';
+import { removeCookieToken } from '../../storage/Cookie';
 import customAlert from '../../Utils/customAlert';
-import { editUserInfo, getUserInfo } from '../../Api/MyinfoApi';
+import { editUserInfo, getUserInfo, deleteUser } from '../../Api/MyinfoApi';
 import DeleteModal from './DeleteModal/DeleteModal';
 import { validNickname } from '../../Api/Valid';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 const EditDetail = (state) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
   const refreshToken = location.state.refreshToken;
@@ -118,7 +122,15 @@ const EditDetail = (state) => {
       setNicknameValid(validNickname(userInfo.nickname));
     }
   };
-
+  const handleDelete = () => {
+    deleteUser(refreshToken).then(() => {
+      const purge = async () => {
+        removeCookieToken();
+        await persistor.purge().then(customAlert('탈퇴가 완료되었습니다')); // persistStore의 데이터 전부 날림
+        // cookie초기화
+      };
+    });
+  };
   //회원탈퇴 모달
   const openDeleteModal = () => {
     setModalOpen(true);
@@ -181,7 +193,7 @@ const EditDetail = (state) => {
           </div>
         </form>
         <BtnContainer>
-          <QuitBtn onClick={openDeleteModal}>회원탈퇴</QuitBtn>
+          <QuitBtn onClick={handleDelete}>회원탈퇴</QuitBtn>
           {modalOpen && <DeleteModal open={modalOpen} close={closeModal} header=""></DeleteModal>}
           {GreenBtn({ callback: handleSubmit, text: 'Submit', className: 'submitBtn' })}
         </BtnContainer>
