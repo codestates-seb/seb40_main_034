@@ -64,6 +64,8 @@ function Detail() {
   // post한 memberId
   const [postMemberId, setPostMemberId] = useState('');
   const myPageUrl = `/profile/${postMemberId}`;
+  // 태그
+  const [myTag, setMyTag] = useState('');
 
   const navigate = useNavigate();
 
@@ -137,6 +139,7 @@ function Detail() {
       setMyGpsX(res.gpsX);
       setPostMemberId(res.memberId);
       setImgS(res.image);
+      setMyTag(res.tag);
     });
     useGetComment(postId).then((res) => {
       setCommentData(res.data);
@@ -310,10 +313,15 @@ function Detail() {
                 )}
                 {isEdit && (
                   <DetailModal
+                    myGpsX={myGpsX}
                     mapLocation={mapLocation}
                     setIsEdit={setIsEdit}
                     nickname={nickname}
                     postMemberId={postMemberId}
+                    imgS={imgS}
+                    bodyText={bodyText}
+                    myTag={myTag}
+                    refreshToken={refreshToken}
                   />
                 )}
               </D_BottomDesc>
@@ -358,7 +366,7 @@ const D_Images = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     /* opacity: 0; */
     transition: all 500ms ease-in-out;
     &.active {
