@@ -43,6 +43,7 @@ const Post = () => {
   };
   const remain = maintext ? 500 - maintext.length : 500;
   const handleMaintext = (e) => {
+    setBody(e.target.value);
     setMaintext(e.target.value);
 
     if (maintext.length > 500) {
@@ -178,7 +179,7 @@ const Post = () => {
               <Place placeholder="어디에 계신가요?" value={locationDetail} readOnly />
               <BlackBtn text="장소 검색" className="placeSearchBtn" callback={handlePlaceSearch} />
             </div>
-            <Maintext placeholder="리뷰를 입력하세요." onChange={handleMaintext} onKeyDown={handleBody} />
+            <Maintext placeholder="리뷰를 입력하세요." value={body} onChange={handleMaintext} />
             <MaintxtValidator>{remain}</MaintxtValidator>
             <Tagform callback={handleTags} tags={tags} />
           </Description>

@@ -133,7 +133,6 @@ function Detail() {
   // detail 조회(완)
   useEffect(() => {
     useGetDetail(postId).then((res) => {
-      console.log(res);
       setNickname(res.nickname);
       setBodyText(res.contents);
       setMapLocation(res.gpsY);
@@ -143,14 +142,12 @@ function Detail() {
       setMyTag(res.tag);
     });
     useGetComment(postId).then((res) => {
-      console.log(res);
       setCommentData(res.data);
     });
     useGetLike(postId, refreshToken).then((res) => {
       setIsLike(res.postLiked);
     });
     useGetFollow().then((res) => {
-      console.log(res);
       setSubColor(res.follow);
     });
   }, []);
@@ -324,6 +321,7 @@ function Detail() {
                     imgS={imgS}
                     bodyText={bodyText}
                     myTag={myTag}
+                    refreshToken={refreshToken}
                   />
                 )}
               </D_BottomDesc>
@@ -368,7 +366,7 @@ const D_Images = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     /* opacity: 0; */
     transition: all 500ms ease-in-out;
     &.active {

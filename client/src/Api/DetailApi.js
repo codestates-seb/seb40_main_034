@@ -100,6 +100,24 @@ export const useGetDetail = async (postId) => {
   }
 };
 
+// 게시글 수정 put
+export const usePutDetail = async (postId, refreshToken, data) => {
+  const instance = createTokenInstance(refreshToken);
+  try {
+    const response = await instance.put(`/main/${postId}/edit`, data);
+    if (response.status === 200) {
+      console.log('Okay...');
+      return response.data;
+    }
+  } catch (err) {
+    if (err.response.status === 404) {
+      console.log('404 Error...');
+    } else if (err.response.status === 400) {
+      console.log('400 Error...');
+    }
+  }
+};
+
 // 댓글 조회(완)
 export const useGetComment = async (postId) => {
   try {

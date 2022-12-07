@@ -1,22 +1,31 @@
 import { useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { usePutDetail } from '../../Api/DetailApi';
 import { BlackBtn, GreenBtn, GreyBtn } from '../Common/Btn';
 import MiniProfile from '../Common/MiniProfile';
 import PlaceSearchModal from '../Post/PlaceSearchModal';
 import Tagform from '../Post/Tagform';
 
-function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText, myTag }) {
+function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText, myTag, refreshToken }) {
   const [cancel, setCancel] = useState(false);
   const [location, setLocation] = useState(myGpsX);
   const [locationDetail, setLocationDetail] = useState(mapLocation);
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState(bodyText);
-  const [imgs, setImgs] = useState([{}]);
-  const [base64ImgS, setBase64Img] = useState('');
+  const [imgs, setImgs] = useState([
+    {
+      thumbnail: imgS,
+    },
+  ]);
+  const [base64ImgS, setBase64Img] = useState(imgS);
   const [maintext, setMaintext] = useState(0);
   const [tags, setTags] = useState(myTag);
-  console.log(myTag);
   const [tagSelected, setTagSelected] = useState(false);
+
+  const { postId } = useParams();
+
+  const navigate = useNavigate();
 
   const handlePlaceSearch = () => {
     setIsSearching(!isSearching);
@@ -63,8 +72,6 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
     });
   };
 
-  const handleSubmit = () => {};
-
   const deleteImg = () => {
     setImgs([]);
     setBase64Img([]);
@@ -88,6 +95,18 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
       setTags(idx + 1);
       setTagSelected(selected);
     }
+  };
+
+  const handleSubmit = () => {
+    const data = {
+      gpsX: location,
+      gpsY: locationDetail,
+      contents: body,
+      image: base64ImgS,
+    };
+    usePutDetail(postId, refreshToken, data).then((res) => {
+      navigate(`post/${res.postId}/detail`);
+    });
   };
 
   return (
@@ -115,7 +134,7 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
           <Container>
             <Header>
               <MiniProfile nickname={nickname} className="user" memberId={postMemberId}></MiniProfile>
-              <GreenBtn text="저장" className="post" callback={handleSubmit} disabled />
+              <GreenBtn text="저장" className="post" callback={handleSubmit} />
             </Header>
             <Body>
               <ImageContainer>
