@@ -77,17 +77,6 @@ public class DBMemberService implements MemberService {
                 });
     }
 
-    /**
-     * refreshToken 존재 여부 확인 후 해당 토큰의 memberId 반환
-     */
-    @Override
-    public Integer getTokenMember(String authorization) {
-        return refreshTokenRepository.findRefreshTokenByTokenValue(
-                        authorization.substring(7))
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND))
-                .getMemberId();
-    }
-
     @Override
     public Member getMember(Integer memberId) {
         return this.memberRepository.findById(memberId)

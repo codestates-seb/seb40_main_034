@@ -2,13 +2,11 @@ package com.example.seb_main_project.post.controller;
 
 
 import com.example.seb_main_project.bookmark.service.BookmarkService;
-import com.example.seb_main_project.member.service.MemberService;
 import com.example.seb_main_project.post.dto.PostDto;
 import com.example.seb_main_project.post.entity.Post;
 import com.example.seb_main_project.post.mapper.PostMapper;
 import com.example.seb_main_project.post.service.PostService;
 import com.example.seb_main_project.response.MultiResponseDto;
-import com.example.seb_main_project.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,8 +29,6 @@ public class PostController {
     private final PostService postService;
     private final BookmarkService bookmarkService;
     private final PostMapper postMapper;
-    private final MemberService memberService;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @GetMapping("/main/list")
     public ResponseEntity getPosts(
@@ -86,11 +82,10 @@ public class PostController {
 
     @PutMapping("/main/{post-id}/edit")
     public ResponseEntity updatePost(
-            @RequestHeader("Authorization") String authorization,
             @PathVariable("post-id") Integer postId,
             @RequestBody PostDto.PostPatchDto postPatchDto) {
 
-        Integer memberId = memberService.getTokenMember(authorization);
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postPatchDto.setPostId(postId);
         Post updatedPost = postService.updatePost(memberId, postMapper.postPatchDtoToPost(postPatchDto));
 
@@ -101,9 +96,8 @@ public class PostController {
 
     @DeleteMapping("/main/{post-id}/delete")
     public void deletePost(
-            @PathVariable(name = "post-id") Integer postId,
-            @RequestHeader("Authorization") String authorization) {
-        Integer memberId = memberService.getTokenMember(authorization);
+            @PathVariable(name = "post-id") Integer postId) {
+        Integer memberId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         postService.deletePost(postId, memberId);
     }
 }
