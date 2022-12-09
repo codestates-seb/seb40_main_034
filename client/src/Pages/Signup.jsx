@@ -13,7 +13,7 @@ const Signup = () => {
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const url = process.env.REACT_APP_SERVER_ROOT;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [pwValid, setPwValid] = useState(true);
@@ -47,7 +47,7 @@ const Signup = () => {
     }
     if (nickname !== undefined && nickname !== '') {
       axios
-        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+        .post(url + '/member/nickname/check', {
           nickname: nickname,
         })
         .then((res) => {
@@ -99,7 +99,7 @@ const Signup = () => {
         nickname: nickname,
       };
       axios
-        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/signup', registerBody)
+        .post(url + '/member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
             customAlert('회원가입에 성공했습니다. 로그인 해 주세요.');

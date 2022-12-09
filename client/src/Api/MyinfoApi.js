@@ -61,8 +61,8 @@ export const addFollow = async () => {
   }
 };
 
-export const editUserInfo = async (data, refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const editUserInfo = async (data, accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = '/member/member-info/edit';
   try {
     const res = await tokenInstance.put(url, data);
@@ -72,8 +72,8 @@ export const editUserInfo = async (data, refreshToken) => {
   }
 };
 
-export const deleteUser = async (refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const deleteUser = async (accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = '/member/delete';
   try {
     const res = await tokenInstance.delete(url);

@@ -31,8 +31,8 @@ const EditDetail = (state) => {
   const navigate = useNavigate();
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
-  const refreshToken = location.state.refreshToken;
-
+  const accessToken = location.state.accessToken;
+  const clientId = process.env.REACT_APP_IMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [nicknameDouble, setNicknameDouble] = useState(true);
   const photoInput = useRef();
@@ -41,7 +41,7 @@ const EditDetail = (state) => {
   // const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
   // const [defaultImg, setDefaultImg] = useState(null);
-
+  const fileInput = document.getElementById('upload');
   const initialInfo = {
     nickname: defaultName,
     password: '',
@@ -80,11 +80,11 @@ const EditDetail = (state) => {
     if (userInfo.nickname === '') {
       data.nickname = defaultName;
     }
-
-    editUserInfo(data, refreshToken).then(() => {
-      customAlert('변경이 완료되었습니다');
-      window.location.reload();
-    });
+    uploadFile();
+    // editUserInfo(data, refreshToken).then(() => {
+    //   customAlert('변경이 완료되었습니다');
+    //   window.location.reload();
+    // });
   };
   const handleEditBtn = (e) => {
     e.preventDefault();
@@ -123,7 +123,7 @@ const EditDetail = (state) => {
     }
   };
   const handleDelete = () => {
-    deleteUser(refreshToken).then(() => {
+    deleteUser(accessToken).then(() => {
       const purge = async () => {
         removeCookieToken();
         await persistor.purge().then(customAlert('탈퇴가 완료되었습니다')); // persistStore의 데이터 전부 날림
@@ -138,6 +138,37 @@ const EditDetail = (state) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+  const uploadFile = () => {
+    const fileInput = document.getElementById('upload');
+    const upload = (file) => {
+      if (file && file.size < 5000000) {
+        const formData = new FormData();
+
+        formData.append('image', file);
+        fetch('https://api.imgur.com/3/image', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Client-ID clientId',
+            Accept: 'application/json',
+          },
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            console.log(response);
+            // do Something
+          });
+      } else {
+        console.error('파일 용량 초과');
+      }
+    };
+
+    fileInput &&
+      fileInput.addEventListener('change', () => {
+        upload(fileInput.files[0]);
+      });
+  };
+
   useEffect(() => {
     if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
     return () => {};
@@ -157,9 +188,9 @@ const EditDetail = (state) => {
               </Photo>
               <PhotoEditBtn>
                 <input
-                  id="file"
+                  id="upload"
                   type="file"
-                  name="profileImg"
+                  name="image"
                   accept="image/*"
                   ref={photoInput}
                   hidden={true}
