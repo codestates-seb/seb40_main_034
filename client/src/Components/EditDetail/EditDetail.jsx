@@ -32,6 +32,7 @@ const EditDetail = (state) => {
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
   const accessToken = location.state.accessToken;
+  const url = process.env.REACT_APP_SERVER_ROOT;
   const clientId = process.env.REACT_APP_IMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [nicknameDouble, setNicknameDouble] = useState(true);
@@ -62,26 +63,31 @@ const EditDetail = (state) => {
   const handleFileOnChange = (event) => {
     //이미지 URL 삭제
     event.preventDefault();
-    let file = event.target.files[0];
-    let reader = new FileReader();
-
-    reader.onload = () => {
-      setFile(reader.result);
-      setUserInfo({ ...userInfo, profileImg: reader.result, previewURL: reader.result, incodefile: reader.result });
-    };
-    if (file) reader.readAsDataURL(file);
+    setFile({ file: event.target.files[0] });
   };
 
-  const handleSubmit = () => {
-    let data = {
-      profileImg: userInfo.profileImg,
-      nickname: userInfo.nickname,
-    };
-    if (userInfo.nickname === '') {
-      data.nickname = defaultName;
-    }
-    uploadFile();
-    // editUserInfo(data, refreshToken).then(() => {
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    formData.append('image', file);
+    fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        Authorization: `Client-ID ${clientId}`,
+        Accept: 'application/json',
+      },
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        const { data } = res.data;
+        setUserInfo({ ...userInfo, profileImg: data?.link, previewURL: data?.link, incodefile: data?.link });
+
+        // do Something
+      });
+
+    // editUserInfo(data, accessToken).then(() => {
     //   customAlert('변경이 완료되었습니다');
     //   window.location.reload();
     // });
@@ -98,7 +104,7 @@ const EditDetail = (state) => {
     }
     if (userInfo.nickname !== undefined && userInfo.nickname !== '') {
       axios
-        .post('http://ec2-15-164-104-27.ap-northeast-2.compute.amazonaws.com:8080/member/nickname/check', {
+        .post(url + '/member/nickname/check', {
           nickname: userInfo.nickname,
         })
         .then((res) => {
@@ -138,36 +144,39 @@ const EditDetail = (state) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  const uploadFile = () => {
-    const fileInput = document.getElementById('upload');
-    const upload = (file) => {
-      if (file && file.size < 5000000) {
-        const formData = new FormData();
+  // const uploadFile = () => {
 
-        formData.append('image', file);
-        fetch('https://api.imgur.com/3/image', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Client-ID clientId',
-            Accept: 'application/json',
-          },
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            console.log(response);
-            // do Something
-          });
-      } else {
-        console.error('파일 용량 초과');
-      }
-    };
+  //   const upload = (file) => {
+  //     if (file && file.size < 5000000) {
+  //       const formData = new FormData();
 
-    fileInput &&
-      fileInput.addEventListener('change', () => {
-        upload(fileInput.files[0]);
-      });
-  };
+  //       formData.append('file', file);
+  //       fetch('https://api.imgur.com/3/image', {
+  //         method: 'POST',
+  //         headers: {
+  //           Authorization: `Client-ID ${clientId}`,
+  //           Accept: 'application/json',
+  //         },
+  //         body: formData,
+  //       })
+  //         .then((res) => res.json())
+  //         .then((res) => {
+  //           console.log(res);
+  //           const { data } = res.data;
+  //           setUserInfo({ ...userInfo, profileImg: data?.link, previewURL: data?.link, incodefile: data?.link });
+
+  //           // do Something
+  //         });
+  //     } else {
+  //       console.error('파일 용량 초과');
+  //     }
+  //   };
+
+  //   fileInput &&
+  //     fileInput.addEventListener('change', () => {
+  //       upload(fileInput.files[0]);
+  //     });
+  // };
 
   useEffect(() => {
     if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
@@ -188,9 +197,8 @@ const EditDetail = (state) => {
               </Photo>
               <PhotoEditBtn>
                 <input
-                  id="upload"
                   type="file"
-                  name="image"
+                  name="file"
                   accept="image/*"
                   ref={photoInput}
                   hidden={true}
