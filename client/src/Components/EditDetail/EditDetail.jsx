@@ -31,8 +31,8 @@ const EditDetail = (state) => {
   const navigate = useNavigate();
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
-  const refreshToken = location.state.refreshToken;
-
+  const accessToken = location.state.accessToken;
+  const clientId = process.env.REACT_APP_IMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [nicknameDouble, setNicknameDouble] = useState(true);
   const photoInput = useRef();
@@ -123,7 +123,7 @@ const EditDetail = (state) => {
     }
   };
   const handleDelete = () => {
-    deleteUser(refreshToken).then(() => {
+    deleteUser(accessToken).then(() => {
       const purge = async () => {
         removeCookieToken();
         await persistor.purge().then(customAlert('탈퇴가 완료되었습니다')); // persistStore의 데이터 전부 날림
@@ -148,7 +148,7 @@ const EditDetail = (state) => {
         fetch('https://api.imgur.com/3/image', {
           method: 'POST',
           headers: {
-            Authorization: 'Client-ID 2676ef9ea193ddf',
+            Authorization: 'Client-ID clientId',
             Accept: 'application/json',
           },
           body: formData,
