@@ -53,7 +53,7 @@ const Login = () => {
     //로그인 버튼을 눌렀을 때, 제대로 입력이 됐다면 axios를 보내는 기능
     if (emailValid && pwValid) {
       axios
-        .post(url + '/member/login', {
+        .post(url + 'member/login', {
           email: email,
           password: password,
         })
