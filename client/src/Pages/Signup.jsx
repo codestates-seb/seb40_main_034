@@ -47,7 +47,7 @@ const Signup = () => {
     }
     if (nickname !== undefined && nickname !== '') {
       axios
-        .post(url + '/member/nickname/check', {
+        .post(url + 'member/nickname/check', {
           nickname: nickname,
         })
         .then((res) => {
@@ -99,7 +99,7 @@ const Signup = () => {
         nickname: nickname,
       };
       axios
-        .post(url + '/member/signup', registerBody)
+        .post(url + 'member/signup', registerBody)
         .then((res) => {
           if (res.status === 200 || res.status === 201) {
             customAlert('회원가입에 성공했습니다. 로그인 해 주세요.');

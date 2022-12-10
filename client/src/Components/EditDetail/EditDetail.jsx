@@ -32,12 +32,12 @@ const EditDetail = (state) => {
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
   const accessToken = location.state.accessToken;
-  const url = process.env.REACT_APP_SERVER_ROOT;
   const clientId = process.env.REACT_APP_IMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [nicknameDouble, setNicknameDouble] = useState(true);
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
+  const url = process.env.REACT_APP_SERVER_ROOT;
   const [file, setFile] = useState('');
   // const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
@@ -104,7 +104,7 @@ const EditDetail = (state) => {
     }
     if (userInfo.nickname !== undefined && userInfo.nickname !== '') {
       axios
-        .post(url + '/member/nickname/check', {
+        .post(url + 'member/nickname/check', {
           nickname: userInfo.nickname,
         })
         .then((res) => {
