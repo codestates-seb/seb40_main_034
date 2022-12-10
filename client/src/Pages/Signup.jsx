@@ -47,7 +47,7 @@ const Signup = () => {
     }
     if (nickname !== undefined && nickname !== '') {
       axios
-        .post(url + 'member/nickname/check', {
+        .post(url + '/member/nickname/check', {
           nickname: nickname,
         })
         .then((res) => {
