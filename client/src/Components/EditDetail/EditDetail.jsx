@@ -104,7 +104,7 @@ const EditDetail = (state) => {
     }
     if (userInfo.nickname !== undefined && userInfo.nickname !== '') {
       axios
-        .post(url + 'member/nickname/check', {
+        .post(url + '/member/nickname/check', {
           nickname: userInfo.nickname,
         })
         .then((res) => {
