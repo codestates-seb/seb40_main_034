@@ -67,11 +67,12 @@ const EditDetail = (state) => {
   };
 
   const handleSubmit = async () => {
-    const formData = new FormData();
+    var formData = new FormData();
 
     formData.append('image', file);
     fetch('https://api.imgur.com/3/image', {
       method: 'POST',
+      timeout: 0,
       headers: {
         Authorization: `Client-ID ${clientId}`,
         Accept: 'application/json',
