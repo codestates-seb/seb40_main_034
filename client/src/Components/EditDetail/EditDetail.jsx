@@ -50,7 +50,7 @@ const EditDetail = (state) => {
     nickname: defaultName,
     password: '',
     profileImg: defaultImg,
-    previewURL: '',
+    previewUrl: '',
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
 
