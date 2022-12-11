@@ -32,14 +32,17 @@ const EditDetail = (state) => {
   const defaultImg = location.state.userProfile;
   const defaultName = location.state.userName;
   const accessToken = location.state.accessToken;
-  const clientId = process.env.REACT_APP_IMGUR_ID;
+  const url = process.env.REACTAPPSERVER_ROOT;
+  const clientId = process.env.REACTAPPIMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
   const [nicknameDouble, setNicknameDouble] = useState(true);
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
-  const url = process.env.REACT_APP_SERVER_ROOT;
   const [file, setFile] = useState('');
   // const [previewURL, setPreviewURL] = useState('');
+
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [imgData, setImgData] = useState(null);
   const [preview, setPreview] = useState(null);
   // const [defaultImg, setDefaultImg] = useState(null);
   const fileInput = document.getElementById('upload');
@@ -62,36 +65,53 @@ const EditDetail = (state) => {
   };
   const handleFileOnChange = (event) => {
     //이미지 URL 삭제
-    event.preventDefault();
-    setFile({ file: event.target.files[0] });
+    // event.preventDefault();
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onload = () => {
+      let result = reader.result;
+      handleImgur(result);
+    };
+    if (file) reader.readAsDataURL(file);
   };
+  const handleImgur = (result) => {
+    setFile(result.replace(/^data:image\/(png|jpg);base64,/, ''));
+    // let data = file.replace(/^data:image\/(png|jpg);base64,/, '');
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Client-ID ${clientId}`);
 
-  const handleSubmit = async () => {
-    var formData = new FormData();
+    var formdata = new FormData();
+    formdata.append('image', file);
+    formdata.append('type', 'base64');
 
-    formData.append('image', file);
-    fetch('https://api.imgur.com/3/image', {
+    var requestOptions = {
       method: 'POST',
-      timeout: 0,
-      headers: {
-        Authorization: `Client-ID ${clientId}`,
-        Accept: 'application/json',
-      },
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        const { data } = res.data;
-        setUserInfo({ ...userInfo, profileImg: data?.link, previewURL: data?.link, incodefile: data?.link });
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    };
 
-        // do Something
-      });
+    fetch('https://api.imgur.com/3/image', requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setImgData(result.data);
+      })
+      .then(() => {
+        setPreviewUrl(imgData.link);
+      })
+      .catch((error) => console.log('error', error));
+  };
+  const handleSubmit = async () => {
+    var data = {
+      profileImg: userInfo.profileImg,
+      nickname: userInfo.nickname,
+    };
 
-    // editUserInfo(data, accessToken).then(() => {
-    //   customAlert('변경이 완료되었습니다');
-    //   window.location.reload();
-    // });
+    editUserInfo(data, accessToken).then(() => {
+      customAlert('변경이 완료되었습니다');
+      window.location.reload();
+    });
   };
   const handleEditBtn = (e) => {
     e.preventDefault();
@@ -155,7 +175,7 @@ const EditDetail = (state) => {
   //       fetch('https://api.imgur.com/3/image', {
   //         method: 'POST',
   //         headers: {
-  //           Authorization: `Client-ID ${clientId}`,
+  //           Authorization: Client-ID ${clientId},
   //           Accept: 'application/json',
   //         },
   //         body: formData,
@@ -180,9 +200,9 @@ const EditDetail = (state) => {
   // };
 
   useEffect(() => {
-    if (userInfo.incodefile !== null) setPreview(<img src={userInfo.previewURL} alt="preview" />);
+    if (previewUrl !== null) setUserInfo({ ...userInfo, profileImg: previewUrl });
     return () => {};
-  }, [userInfo.previewURL]);
+  }, [previewUrl]);
 
   return (
     <div>
@@ -193,7 +213,7 @@ const EditDetail = (state) => {
             <EditText>Photo</EditText>
             <PhotoBox>
               <Photo>
-                {file !== '' ? preview : null}
+                {file !== '' ? <img src={previewUrl} alt="preview" /> : null}
                 {file === '' ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
               </Photo>
               <PhotoEditBtn>
