@@ -39,9 +39,9 @@ const EditDetail = (state) => {
   const photoInput = useRef();
   const [modalOpen, setModalOpen] = useState(false);
   const [file, setFile] = useState('');
+  const [changedFile, setChangedFile] = useState('');
   // const [previewURL, setPreviewURL] = useState('');
 
-  const [previewUrl, setPreviewUrl] = useState(null);
   const [imgData, setImgData] = useState(null);
   const [preview, setPreview] = useState(null);
   // const [defaultImg, setDefaultImg] = useState(null);
@@ -51,7 +51,6 @@ const EditDetail = (state) => {
     password: '',
     profileImg: defaultImg,
     previewURL: '',
-    incodefile: null,
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
 
@@ -69,19 +68,18 @@ const EditDetail = (state) => {
     let file = event.target.files[0];
     let reader = new FileReader();
     reader.onload = () => {
-      let result = reader.result;
-      handleImgur(result);
+      setChangedFile(reader.result);
     };
     if (file) reader.readAsDataURL(file);
   };
-  const handleImgur = (result) => {
-    setFile(result.replace(/^data:image\/(png|jpg);base64,/, ''));
+  const handleImgur = () => {
+    let data = changedFile.replace(/^data:image\/(png|jpg);base64,/, '');
     // let data = file.replace(/^data:image\/(png|jpg);base64,/, '');
     var myHeaders = new Headers();
     myHeaders.append('Authorization', 'Client-ID 8f448f22e066405');
 
     var formdata = new FormData();
-    formdata.append('image', file);
+    formdata.append('image', data);
     formdata.append('type', 'base64');
 
     var requestOptions = {
@@ -94,11 +92,7 @@ const EditDetail = (state) => {
     fetch('https://api.imgur.com/3/image', requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        setImgData(result.data);
-      })
-      .then(() => {
-        setPreviewUrl(imgData.link);
+        setUserInfo({ ...userInfo, profileImg: result.data.link, previewUrl: result.data.link });
       })
       .catch((error) => console.log('error', error));
   };
@@ -110,7 +104,8 @@ const EditDetail = (state) => {
 
     editUserInfo(data, accessToken).then(() => {
       customAlert('변경이 완료되었습니다');
-      window.location.reload();
+      console.log(data);
+      // window.location.reload();
     });
   };
   const handleEditBtn = (e) => {
@@ -200,9 +195,9 @@ const EditDetail = (state) => {
   // };
 
   useEffect(() => {
-    if (previewUrl !== null) setUserInfo({ ...userInfo, profileImg: previewUrl });
+    if (changedFile !== '') handleImgur();
     return () => {};
-  }, [previewUrl]);
+  }, [changedFile]);
 
   return (
     <div>
@@ -213,8 +208,8 @@ const EditDetail = (state) => {
             <EditText>Photo</EditText>
             <PhotoBox>
               <Photo>
-                {file !== '' ? <img src={previewUrl} alt="preview" /> : null}
-                {file === '' ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
+                {changedFile !== '' ? <img src={userInfo.previewUrl} alt="preview" /> : null}
+                {changedFile === '' ? <img src={userInfo.profileImg} alt="UserPic" /> : null}
               </Photo>
               <PhotoEditBtn>
                 <input
