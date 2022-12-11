@@ -12,26 +12,27 @@ import {
   NicknameWrap,
   DoubleCheck,
   ErrorNickname,
-} from './style';
-import { GreenBtn } from '../Common/Btn';
-import { InputForm } from '../Common/InputForm';
+} from '../Components/EditDetail/style';
+
+import { GreenBtn } from '../Components/Common/Btn';
+import { InputForm } from '../Components/Common/InputForm';
 import { useState, useEffect, useRef } from 'react';
-import { persistor } from '../../Routes/AppRouter';
-import { removeCookieToken } from '../../storage/Cookie';
-import customAlert from '../../Utils/customAlert';
-import { editUserInfo, getUserInfo, deleteUser } from '../../Api/MyinfoApi';
-import DeleteModal from './DeleteModal/DeleteModal';
-import { validNickname } from '../../Api/Valid';
+import { persistor } from '../Routes/AppRouter';
+import { removeCookieToken } from '../storage/Cookie';
+import customAlert from '../Utils/customAlert';
+import { editUserInfo, getUserInfo, deleteUser } from '../Api/MyinfoApi';
+
+import DeleteModal from '../Components/EditDetail/DeleteModal/DeleteModal';
+import { validNickname } from '../Api/Valid';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const EditDetail = (state) => {
-  const location = useLocation();
+const ImgurTest = () => {
   const navigate = useNavigate();
-  const defaultImg = location.state.userProfile;
-  const defaultName = location.state.userName;
-  const accessToken = location.state.accessToken;
+
+  const state = useSelector((state) => state.user);
+  const { authenticated, accessToken } = state;
   const url = process.env.REACTAPPSERVER_ROOT;
   const clientId = process.env.REACTAPPIMGUR_ID;
   const [nicknameValid, setNicknameValid] = useState(true);
@@ -40,6 +41,7 @@ const EditDetail = (state) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [file, setFile] = useState('');
   const [changedFile, setChangedFile] = useState('');
+
   // const [previewURL, setPreviewURL] = useState('');
 
   const [imgData, setImgData] = useState(null);
@@ -47,10 +49,11 @@ const EditDetail = (state) => {
   // const [defaultImg, setDefaultImg] = useState(null);
   const fileInput = document.getElementById('upload');
   const initialInfo = {
-    nickname: defaultName,
+    nickname: '',
     password: '',
-    profileImg: defaultImg,
+    profileImg: '',
     previewUrl: '',
+    incodefile: null,
   };
   const [userInfo, setUserInfo] = useState(initialInfo);
 
@@ -257,4 +260,4 @@ const EditDetail = (state) => {
   );
 };
 
-export default EditDetail;
+export default ImgurTest;

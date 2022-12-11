@@ -20,7 +20,7 @@ const ListContainer = () => {
       ? await getAllLists_Login({ page, size: pagesize }, refreshToken)
       : await getAllLists({ page, size: pagesize });
     setPostList(postList.concat(fetchData.data));
-    console.log('fetched', fetchData);
+
     setPage(fetchData.pageInfo.page + 1);
     setNextPage(!(fetchData.pageInfo.page === fetchData.pageInfo.totalPages));
     setFetching(false);

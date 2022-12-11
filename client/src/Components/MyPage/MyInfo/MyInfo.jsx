@@ -24,7 +24,7 @@ const MyInfo = () => {
   const [userProfile, setUserProfile] = useState(null);
   const url = window.location.href;
   const state = useSelector((state) => state.user);
-  const { memberId, nickname, refreshToken } = state;
+  const { memberId, nickname, accessToken } = state;
 
   // follow 모달
   const openModalFollowing = () => {
@@ -58,7 +58,7 @@ const MyInfo = () => {
   useEffect(() => {
     getMypageInfo(memberId).then((res) => {
       console.log(res);
-      if (res.profileImg !== '') {
+      if (res.profileImg !== null) {
         setUserProfile(res.profileImg);
         setUserName(res.nickname);
       } else {
@@ -96,7 +96,7 @@ const MyInfo = () => {
 
         <div>
           <EditBtn>
-            <Link to={mypageEdit} state={{ userProfile: userProfile, userName: userName, refreshToken: refreshToken }}>
+            <Link to={mypageEdit} state={{ userProfile: userProfile, userName: userName, accessToken: accessToken }}>
               Edit
             </Link>
           </EditBtn>

@@ -115,7 +115,7 @@ const Post = () => {
       tag: tags,
       creatorId: memberId,
     };
-    console.log(data);
+
     if (!authenticated) {
       customAlert('로그인이 정상적으로 되어있지 않습니다.');
       throw new Error('글 작성에 실패했습니다.');

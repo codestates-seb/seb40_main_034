@@ -1,7 +1,7 @@
 import createTokenInstance from './tokenroot';
 
-export const getProfile = async (refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const getProfile = async (accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = '/member/member-info';
   try {
     const result = await tokenInstance.get(url);

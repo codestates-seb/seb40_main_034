@@ -11,7 +11,7 @@ import { getProfile } from '../../Api/HeaderApi';
 
 const Tab = () => {
   const state = useSelector((state) => state.user);
-  const { authenticated, refreshToken } = state;
+  const { authenticated, accessToken } = state;
   const [userInfo, setUserInfo] = useState([]);
   const [clicked, setClicked] = useState(false);
   const modal = useRef(null);
@@ -20,7 +20,7 @@ const Tab = () => {
     clicked === false ? setClicked(true) : setClicked(false);
   };
   useEffect(() => {
-    getProfile(refreshToken).then((res) => {
+    getProfile(accessToken).then((res) => {
       setUserInfo(res);
     });
   }, []);

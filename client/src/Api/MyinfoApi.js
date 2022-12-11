@@ -61,8 +61,8 @@ export const addFollow = async () => {
   }
 };
 
-export const editUserInfo = async (data, refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const editUserInfo = async (data, accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = '/member/member-info/edit';
   try {
     const res = await tokenInstance.put(url, data);
@@ -72,11 +72,22 @@ export const editUserInfo = async (data, refreshToken) => {
   }
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
+  const url = '/member/delete';
   try {
-    const res = await instance.delete('member/delete');
+    const res = await tokenInstance.delete(url);
     return res;
   } catch (err) {
     return err;
+  }
+};
+export const getAllBookmarks = async (memberId) => {
+  const url = `/member/${memberId}/bookmark`;
+  try {
+    const result = await instance.get(url);
+    return result.data;
+  } catch (err) {
+    return [err];
   }
 };
