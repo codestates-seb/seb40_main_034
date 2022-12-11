@@ -78,7 +78,7 @@ const EditDetail = (state) => {
     setFile(result.replace(/^data:image\/(png|jpg);base64,/, ''));
     // let data = file.replace(/^data:image\/(png|jpg);base64,/, '');
     var myHeaders = new Headers();
-    myHeaders.append('Authorization', `Client-ID ${clientId}`);
+    myHeaders.append('Authorization', 'Client-ID ' + '8f448f22e066405');
 
     var formdata = new FormData();
     formdata.append('image', file);
