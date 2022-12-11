@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { throttle } from 'lodash';
 import Swal from 'sweetalert2';
 import { deleteAlert } from '../Utils/customAlert';
+import defaultProfile from '../Assets/img/profile.jpeg';
 
 function Detail() {
   // 이미지 더미 데이터
@@ -66,6 +67,8 @@ function Detail() {
   const myPageUrl = `/profile/${postMemberId}`;
   // 태그
   const [myTag, setMyTag] = useState('');
+  // 프로필
+  const [profile, setProfile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -133,6 +136,7 @@ function Detail() {
   // detail 조회(완)
   useEffect(() => {
     useGetDetail(postId).then((res) => {
+      console.log(res);
       setNickname(res.nickname);
       setBodyText(res.contents);
       setMapLocation(res.gpsY);
@@ -140,6 +144,7 @@ function Detail() {
       setPostMemberId(res.memberId);
       setImgS(res.image);
       setMyTag(res.tag);
+      setProfile(res.profileImg);
     });
     useGetComment(postId).then((res) => {
       setCommentData(res.data);
@@ -215,10 +220,7 @@ function Detail() {
               <D_ProSum>
                 <D_TopProfile>
                   <Link to={myPageUrl}>
-                    <img
-                      src="https://images.unsplash.com/photo-1552694477-2a18dd7d4de0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-                      alt="profile"
-                    />
+                    <img src={profile === null ? defaultProfile : profile} alt="profile" />
                   </Link>
                 </D_TopProfile>
                 <D_TopName>
