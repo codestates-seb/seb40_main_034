@@ -47,6 +47,12 @@ public class Member extends Auditable implements Principal {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    // @OneToMany(mappedBy = "member")
+    // private List<Follow> follows = new ArrayList<>();
+
+    // @OneToMany(mappedBy = "member")
+    // private List<Follow> followers = new ArrayList<>();
+
     // Security 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -77,4 +83,11 @@ public class Member extends Auditable implements Principal {
             postLike.setMember(this);
         }
     }
+
+    // public void addFollow(Follow follow) {
+    //     this.follows.add(follow);
+    // }
+    // public void addFollower(Follow follow) {
+    //     this.followers.add(follow);
+    // }
 }
