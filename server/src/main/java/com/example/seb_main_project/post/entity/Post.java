@@ -34,9 +34,13 @@ public class Post extends Auditable {
 
     @Column
     private String gpsX;
-
     @Column
     private String gpsY;
+
+    @Column
+    private String address;
+    @Column
+    private String subAddress;
 
     @Min(1)
     @Max(8)

@@ -25,6 +25,12 @@ public class BookmarkDto {
         private Integer memberId;
         private String nickname;
         private String contents;
+        private String profileImg;
+        private String gpsX;
+        private String gpsY;
+        private String address;
+        private String subAddress;
+
 
 
         @Override

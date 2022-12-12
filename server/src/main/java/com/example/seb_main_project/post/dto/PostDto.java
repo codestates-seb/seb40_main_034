@@ -11,6 +11,8 @@ public class PostDto {
     public static class PostCreateDto {
         private String gpsX;
         private String gpsY;
+        private String address;
+        private String subAddress;
         private String contents;
         private String image;
         private Integer tag;
@@ -24,6 +26,8 @@ public class PostDto {
     public static class PostPatchDto {
         private String gpsX;
         private String gpsY;
+        private String address;
+        private String subAddress;
         private String contents;
         private String image;
         private Integer postId;
@@ -43,6 +47,8 @@ public class PostDto {
         private String contents;
         private String gpsX;
         private String gpsY;
+        private String address;
+        private String subAddress;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean bookmarked = false;
@@ -63,6 +69,8 @@ public class PostDto {
         private String image;
         private String gpsX;
         private String gpsY;
+        private String address;
+        private String subAddress;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean bookmarked;
