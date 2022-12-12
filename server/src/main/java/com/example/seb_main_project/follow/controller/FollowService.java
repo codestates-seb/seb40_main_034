@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,8 +38,8 @@ public class FollowService {
             follow.setFollower(findFollower);
             follow.setFollowing(findFollowing);
             Follow savedFollow = followRepository.save(follow);
-            // findFollowing.addFollower(savedFollow);
-            // findFollower.addFollow(savedFollow);
+            findFollowing.addFollower(savedFollow);
+            findFollower.addFollowing(savedFollow);
         }
 
     }
@@ -45,5 +47,24 @@ public class FollowService {
     private Member findIfExistMember(Integer memberId) {
         return memberRepository.findById(memberId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    public List<Member> getFollowings(Integer memberId) {
+        List<Member> members = new ArrayList<>();
+        for(Follow follow : followRepository.findFollowsByFollower(findIfExistMember(memberId))
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND))) {
+            log.error(String.valueOf(follow.getFollowing().getId()));
+            members.add(follow.getFollowing());
+        }
+        return members;
+    }
+    public List<Member> getFollowers(Integer memberId) {
+        List<Member> members = new ArrayList<>();
+        for(Follow follow : followRepository.findFollowsByFollowing(findIfExistMember(memberId))
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND))) {
+            log.error(String.valueOf(follow.getFollower().getId()));
+            members.add(follow.getFollower());
+        }
+        return members;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.seb_main_project.follow.entity;
 
-import com.example.seb_main_project.audit.Auditable;
 import com.example.seb_main_project.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "FOLLOW")
-public class Follow extends Auditable {
+public class Follow {
     @Id
     @Column(name = "FOLLOW_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
