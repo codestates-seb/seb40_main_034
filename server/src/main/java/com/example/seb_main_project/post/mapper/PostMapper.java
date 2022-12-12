@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface PostMapper {
-
-    Post postPostDtoToPost(PostDto.PostCreateDto postPostCreateDto);
-
     Post postPatchDtoToPost(PostDto.PostPatchDto postPatchDto);
 
     @Mapping(source = "post.member.nickname", target = "nickname")
@@ -31,6 +28,8 @@ public interface PostMapper {
     @Mapping(source = "key.contents", target = "contents")
     @Mapping(source = "key.gpsX", target = "gpsX")
     @Mapping(source = "key.gpsY", target = "gpsY")
+    @Mapping(source = "key.address", target = "address")
+    @Mapping(source = "key.subAddress", target = "subAddress")
     @Mapping(source = "key.createdAt", target = "createdAt")
     @Mapping(source = "key.modifiedAt", target = "modifiedAt")
     @Mapping(source = "key.image", target = "image")

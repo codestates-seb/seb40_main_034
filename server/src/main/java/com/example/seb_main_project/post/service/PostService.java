@@ -58,6 +58,8 @@ public class PostService {
         Post createdPost = Post.builder()
                 .gpsX(post.getGpsX())
                 .gpsY(post.getGpsY())
+                .address(post.getAddress())
+                .subAddress(post.getSubAddress())
                 .contents(post.getContents())
                 .member(member)
                 .nickname(member.getNickname())
@@ -81,6 +83,10 @@ public class PostService {
                 .ifPresent(showPost::setGpsX);
         Optional.ofNullable(post.getGpsY())
                 .ifPresent(showPost::setGpsY);
+        Optional.ofNullable(post.getAddress())
+                .ifPresent(showPost::setAddress);
+        Optional.ofNullable(post.getSubAddress())
+                .ifPresent(showPost::setSubAddress);
         Optional.ofNullable(post.getImage())
                 .ifPresent(showPost::setImage);
         Optional.ofNullable(post.getTag())

@@ -17,8 +17,13 @@ public interface BookmarkMapper {
     @Mapping(source = "bookmark.id", target = "bookmarkId")
     @Mapping(source = "bookmark.post.postId", target = "postId")
     @Mapping(source = "bookmark.post.contents", target = "contents")
+    @Mapping(source = "bookmark.post.gpsX", target = "gpsX")
+    @Mapping(source = "bookmark.post.gpsY", target = "gpsY")
+    @Mapping(source = "bookmark.post.address", target = "address")
+    @Mapping(source = "bookmark.post.subAddress", target = "subAddress")
     @Mapping(source = "bookmark.member.id", target = "memberId")
     @Mapping(source = "bookmark.member.nickname", target = "nickname")
+    @Mapping(source = "bookmark.member.profileImg", target = "profileImg")
     BookmarkDto.MultiBookmarkResponseDto bookmarkToMultiBookmarkResponseDto(Bookmark bookmark);
     List<BookmarkDto.MultiBookmarkResponseDto> bookmarkToMultiBookmarkResponseDto(List<Bookmark> bookmarks);
 }
