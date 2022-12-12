@@ -1,27 +1,29 @@
 package com.example.seb_main_project.follow.entity;
 
 import com.example.seb_main_project.member.entity.Member;
-import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
-@Data
 @NoArgsConstructor
-@Table(name = "Follow")
+@Table(name = "FOLLOW")
 public class Follow {
     @Id
+    @Column(name = "FOLLOW_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "following")
+    @JoinColumn(name = "FOLLOWING")
     private Member following;
 
     @ManyToOne
-    @JoinColumn(name = "follower")
+    @JoinColumn(name = "FOLLOWER")
     private Member follower;
+
 }

@@ -11,7 +11,8 @@ public enum ExceptionCode {
     COOKIE_NOT_FOUND(504, "Cookie not found"),
     POSTLIKE_NOT_FOUND(504, "Post like not found"),
     TOKEN_NOT_FOUND(504, "Token not found"),
-    UNAUTHORIZED_USER(401, "Unauthorized user");
+    UNAUTHORIZED_USER(401, "Unauthorized user"),
+    CAN_NOT_FOLLOW_MYSELF(404, "Can not follow myself");
 
     @Getter
     private final int status;

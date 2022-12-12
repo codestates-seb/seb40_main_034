@@ -2,6 +2,7 @@ package com.example.seb_main_project.member.entity;
 
 import com.example.seb_main_project.audit.Auditable;
 import com.example.seb_main_project.bookmark.entity.Bookmark;
+import com.example.seb_main_project.follow.entity.Follow;
 import com.example.seb_main_project.postlike.entity.PostLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,12 @@ public class Member extends Auditable implements Principal {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "following")
+    private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> followers = new ArrayList<>();
+
     // Security 유저 권한
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -76,5 +83,12 @@ public class Member extends Auditable implements Principal {
         if (postLike.getMember() != this) {
             postLike.setMember(this);
         }
+    }
+
+    public void addFollowing(Follow follow) {
+        this.followings.add(follow);
+    }
+    public void addFollower(Follow follow) {
+        this.followers.add(follow);
     }
 }
