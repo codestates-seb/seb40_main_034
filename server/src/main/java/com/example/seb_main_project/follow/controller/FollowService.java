@@ -21,6 +21,10 @@ public class FollowService {
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     public void addFollow(Integer followingId, Integer followerId) {
+        if(followingId.equals(followerId)) {
+            throw new BusinessLogicException(ExceptionCode.CAN_NOT_FOLLOW_MYSELF);
+        }
+
         Member findFollowing = findIfExistMember(followingId);
         Member findFollower = findIfExistMember(followerId);
         Optional<Follow> findFollow = followRepository.findByFollowingAndFollower(findFollowing, findFollower);
