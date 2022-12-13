@@ -126,7 +126,7 @@ const Post = () => {
       customAlert('로그인이 정상적으로 되어있지 않습니다.');
       throw new Error('글 작성에 실패했습니다.');
     }
-    if (data.gpsX === '' || data.gpsY === '') {
+    if (data.address === '' || data.subAddress === '') {
       customAlert('위치를 지정해야 합니다.');
       return;
     }
