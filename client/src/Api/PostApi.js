@@ -2,8 +2,8 @@ import axios from 'axios';
 import instance from './root';
 import createTokenInstance from './tokenroot';
 
-export const postArticle = async (data, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const postArticle = async (data, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   const url = '/main/submit';
   try {
     const result = await instance.post(url, data);

@@ -13,10 +13,12 @@ import grammarCheck from '../Utils/grammarCheck';
 
 const Post = () => {
   const state = useSelector((state) => state.user);
-  const { memberId, authenticated, nickname, refreshToken } = state;
+  const { memberId, authenticated, nickname, accessToken } = state;
   const [userInfo, setUserInfo] = useState({});
   const [location, setLocation] = useState('');
   const [locationDetail, setLocationDetail] = useState('');
+  const [gpsX, setGpsX] = useState('');
+  const [gpsY, setGpsY] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [body, setBody] = useState('');
   const [imgs, setImgs] = useState([]);
@@ -37,8 +39,10 @@ const Post = () => {
     setIsSearching(!isSearching);
   };
   const handleSearchResult = (arr, str, boolean) => {
-    setLocation(arr.address_name);
+    setLocation(arr.road_address_name);
     setLocationDetail(arr.place_name);
+    setGpsX(arr.x);
+    setGpsY(arr.y);
     setIsSearching(boolean);
   };
   const remain = maintext ? 500 - maintext.length : 500;
@@ -108,10 +112,12 @@ const Post = () => {
 
   const handleSubmit = () => {
     const data = {
-      gpsX: location,
-      gpsY: locationDetail,
+      address: location,
+      subAddress: locationDetail,
+      gpsX: gpsX,
+      gpsY: gpsY,
       contents: body,
-      image: base64Imgs,
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb2zh6zvm1tTIEPVXPeFrNTrs6qffezu2MJmNr3iCAfg&s',
       tag: tags,
       creatorId: memberId,
     };
@@ -124,8 +130,9 @@ const Post = () => {
       customAlert('위치를 지정해야 합니다.');
       return;
     }
-    if (data.image.length === 0) {
-      customAlert('사진을 넣어주세요.');
+    if (data.image.length !== 0) {
+      //imgur 작동 시까지 이부분 0으로 두고 사진 없어도 작성 가능하게 함
+      customAlert('사진 아직 못 넣어요ㅠ');
       return;
     }
     if (data.contents.length <= 10) {
@@ -137,7 +144,7 @@ const Post = () => {
       return;
     }
     if (grammarCheck(body)) {
-      postArticle(data, refreshToken).then((res) => {
+      postArticle(data, accessToken).then((res) => {
         if (res.postId) {
           navigate(`/post/${res.postId}/detail`);
         } else {
