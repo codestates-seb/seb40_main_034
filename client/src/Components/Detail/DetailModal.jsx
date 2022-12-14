@@ -7,7 +7,7 @@ import MiniProfile from '../Common/MiniProfile';
 import PlaceSearchModal from '../Post/PlaceSearchModal';
 import Tagform from '../Post/Tagform';
 
-function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText, myTag, refreshToken }) {
+function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, imgS, bodyText, myTag, accessToken }) {
   const [cancel, setCancel] = useState(false);
   const [location, setLocation] = useState(myGpsX);
   const [locationDetail, setLocationDetail] = useState(mapLocation);
@@ -104,7 +104,7 @@ function DetailModal({ myGpsX, mapLocation, setIsEdit, nickname, postMemberId, i
       contents: body,
       image: base64ImgS,
     };
-    usePutDetail(postId, refreshToken, data).then((res) => {
+    usePutDetail(postId, accessToken, data).then((res) => {
       navigate(`post/${res.postId}/detail`);
     });
   };
