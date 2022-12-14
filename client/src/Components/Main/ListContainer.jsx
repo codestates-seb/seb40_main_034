@@ -4,11 +4,11 @@ import { getAllLists, getAllLists_Login } from '../../Api/MainApi';
 import Loading from '../../Pages/Loading';
 import { List } from './List';
 import { useSelector } from 'react-redux';
-import { isNull, throttle } from 'lodash';
+import { throttle } from 'lodash';
 
 const ListContainer = () => {
   const state = useSelector((state) => state.user);
-  const { authenticated, refreshToken } = state;
+  const { authenticated, accessToken } = state;
 
   const pagesize = Math.floor(((window.innerWidth - 14 * 16) * 3) / 235);
   const [postList, setPostList] = useState([]);
@@ -17,7 +17,7 @@ const ListContainer = () => {
   const [hasNextPage, setNextPage] = useState(true);
   const fetchList = useCallback(async () => {
     const fetchData = authenticated
-      ? await getAllLists_Login({ page, size: pagesize }, refreshToken)
+      ? await getAllLists_Login({ page, size: pagesize }, accessToken)
       : await getAllLists({ page, size: pagesize });
     setPostList(postList.concat(fetchData.data));
 

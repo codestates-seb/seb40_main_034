@@ -13,8 +13,8 @@ export const getAllLists = async ({ page, size }) => {
   }
 };
 
-export const getAllLists_Login = async ({ page, size }, refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const getAllLists_Login = async ({ page, size }, accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = '/main/list';
   try {
     const result = await tokenInstance.get(url, {
@@ -26,8 +26,8 @@ export const getAllLists_Login = async ({ page, size }, refreshToken) => {
   }
 };
 
-export const bookmark = async (postId, refreshToken) => {
-  const tokenInstance = createTokenInstance(refreshToken);
+export const bookmark = async (postId, accessToken) => {
+  const tokenInstance = createTokenInstance(accessToken);
   const url = `/main/${postId}/bookmark`;
   try {
     const result = await tokenInstance.post(url);
