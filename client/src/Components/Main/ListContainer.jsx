@@ -4,13 +4,15 @@ import { getAllLists, getAllLists_Login } from '../../Api/MainApi';
 import Loading from '../../Pages/Loading';
 import { List } from './List';
 import { useSelector } from 'react-redux';
-import { throttle } from 'lodash';
+import { set, throttle } from 'lodash';
 
 const ListContainer = () => {
   const state = useSelector((state) => state.user);
   const { authenticated, accessToken } = state;
 
-  const pagesize = Math.floor(((window.innerWidth - 14 * 16) * 3) / 235);
+  const inlinesize = Math.floor((window.innerWidth - 14 * 16) / 235);
+  const pagesize = Math.floor(((window.innerWidth - 14 * 16) * 4) / 235);
+
   const [postList, setPostList] = useState([]);
   const [page, setPage] = useState(1);
   const [isFetching, setFetching] = useState(false);
@@ -45,10 +47,44 @@ const ListContainer = () => {
     else if (!hasNextPage) setFetching(false);
   }, [isFetching]);
 
+  const [alignedPostList, setAlignedPostList] = useState({});
+  const [currentColumn, setCurrentColumn] = useState(1);
+  const [windowWidth, setWindowWidth] = useState(window.inndrWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (postList.length !== 0) {
+      postList.map((post, idx) => {
+        let key = (idx + 1) % inlinesize;
+
+        if (currentColumn <= inlinesize) {
+          setAlignedPostList((alignedPostList[key] = [post]));
+          setCurrentColumn(currentColumn + 1);
+          console.log(key);
+          console.log(alignedPostList);
+        } else {
+          setAlignedPostList(alignedPostList[key]?.push(post));
+          setCurrentColumn(currentColumn + 1);
+          console.log(alignedPostList);
+        }
+      });
+    }
+  }, [windowWidth]);
+
   return (
     <Container>
-      {postList.length !== 0 &&
-        postList.map((post) => {
+      {alignedPostList &&
+        postList.map((post, idx) => {
           return (
             <List
               key={post.postId}
@@ -74,5 +110,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `;
-
+const GridColumn = styled.div`
+  height: 100vh;
+`;
 export default ListContainer;
