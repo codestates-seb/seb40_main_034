@@ -22,6 +22,7 @@ const Map = lazy(() => import('../Pages/Map'));
 const MypageEdit = lazy(() => import('../Pages/MypageEdit'));
 const Logout = lazy(() => import('../Pages/Logout'));
 const ImgurTest = lazy(() => import('../Pages/ImgurTest'));
+const Landingpage = lazy(() => import('../Pages/Landingpage'));
 
 export const AppRouter = () => {
   return (
@@ -44,6 +45,7 @@ export const AppRouter = () => {
                   <Route path="post" element={<Post />} />
                 </Route>
                 <Route element={<Layout />}>
+                  <Route path="landing" element={<Landingpage />} />
                   <Route path="map" element={<Map />} />
                   <Route path="imgurtest" element={<ImgurTest />} />
                 </Route>
