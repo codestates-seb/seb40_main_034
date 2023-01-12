@@ -12,8 +12,8 @@ let images = [
 ];
 
 // 좋아요 get
-export const useGetLike = async (postId, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const useGetLike = async (postId, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.get(`/post/${postId}/like`);
     if (response.status === 200) {
@@ -30,8 +30,8 @@ export const useGetLike = async (postId, refreshToken) => {
 };
 
 // 좋아요 클릭 post
-export const usePostLike = async (postId, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const usePostLike = async (postId, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.post(`/main/${postId}/like`);
     if (response.status === 200) {
@@ -101,8 +101,8 @@ export const useGetDetail = async (postId) => {
 };
 
 // 게시글 수정 put
-export const usePutDetail = async (postId, refreshToken, data) => {
-  const instance = createTokenInstance(refreshToken);
+export const usePutDetail = async (postId, accessToken, data) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.put(`/main/${postId}/edit`, data);
     if (response.status === 200) {
@@ -136,8 +136,8 @@ export const useGetComment = async (postId) => {
 };
 
 // 댓글 추가(완)
-export const usePostComment = async (postId, contents, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const usePostComment = async (postId, contents, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.post(`/main/${postId}/comment`, {
       contents: contents,
@@ -156,8 +156,8 @@ export const usePostComment = async (postId, contents, refreshToken) => {
 };
 
 // 댓글 수정(완)
-export const useEditComment = async (postId, commentId, contents, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const useEditComment = async (postId, commentId, contents, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.put(`/main/${postId}/${commentId}/edit`, {
       contents: contents,
@@ -176,8 +176,8 @@ export const useEditComment = async (postId, commentId, contents, refreshToken) 
 };
 
 // 댓글 삭제(완)
-export const useDeleteComment = async (postId, commentId, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const useDeleteComment = async (postId, commentId, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.delete(`/main/${postId}/${commentId}/delete`);
     if (response.status === 200) {
@@ -209,8 +209,8 @@ export const useGetBookmark = ({ postId }) => {
 };
 
 // 삭제 api
-export const useDeletePost = async (postId, refreshToken) => {
-  const instance = createTokenInstance(refreshToken);
+export const useDeletePost = async (postId, accessToken) => {
+  const instance = createTokenInstance(accessToken);
   try {
     const response = await instance.delete(`/main/${postId}/delete`);
     if (response.status === 200) {

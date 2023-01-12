@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import InputEmoji from 'react-input-emoji';
 import { useDeleteComment, useEditComment } from '../../Api/DetailApi';
 
-function CommentList({ comment, memberId, postId, refreshToken, myPageUrl }) {
+function CommentList({ comment, memberId, postId, accessToken, myPageUrl }) {
   const [openMore, setOpenMore] = useState(false);
   const [stateModify, setStateModify] = useState(false);
   const [newComment, setNewComment] = useState('');
@@ -22,12 +22,12 @@ function CommentList({ comment, memberId, postId, refreshToken, myPageUrl }) {
   };
 
   const deleteComment = () => {
-    useDeleteComment(postId, comment.commentId, refreshToken).then(() => location.reload());
+    useDeleteComment(postId, comment.commentId, accessToken).then(() => location.reload());
   };
 
   const newCommentSubmit = (e) => {
     if (e.key === 'Enter' && newComment.length > 0) {
-      useEditComment(postId, comment.commentId, newComment, refreshToken).then(() => location.reload());
+      useEditComment(postId, comment.commentId, newComment, accessToken).then(() => location.reload());
     }
   };
 

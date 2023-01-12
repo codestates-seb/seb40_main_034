@@ -35,7 +35,7 @@ function Detail() {
   const { postId } = useParams();
 
   // redux state 불러오기(완)
-  const { refreshToken, memberId } = useSelector((state) => state.user);
+  const { accessToken, memberId } = useSelector((state) => state.user);
 
   // idx 이미지 순서
   const [imgIdx, setImgIdx] = useState(0);
@@ -77,7 +77,7 @@ function Detail() {
     deleteAlert('글을 정말 삭제하시겠습니까? 삭제한 글은 되돌릴 수 없습니다.', '삭제가 완료되었습니다.').then(
       (result) => {
         if (result.isConfirmed) {
-          useDeletePost(postId, refreshToken).then(() => {
+          useDeletePost(postId, accessToken).then(() => {
             navigate('/');
           });
         }
@@ -117,13 +117,13 @@ function Detail() {
       alert('로그인 후 이용해주세요');
     } else {
       setIsLike(!isLike);
-      usePostLike(postId, refreshToken);
+      usePostLike(postId, accessToken);
     }
   };
 
   // 댓글 Post axios(완)
   const postComment = throttle(() => {
-    usePostComment(postId, comment, refreshToken).then(() => location.reload());
+    usePostComment(postId, comment, accessToken).then(() => location.reload());
   }, 300);
 
   // 댓글 Post 엔터(완)
@@ -149,7 +149,7 @@ function Detail() {
     useGetComment(postId).then((res) => {
       setCommentData(res.data);
     });
-    useGetLike(postId, refreshToken).then((res) => {
+    useGetLike(postId, accessToken).then((res) => {
       setIsLike(res.postLiked);
     });
     useGetFollow().then((res) => {
@@ -276,7 +276,7 @@ function Detail() {
                     <CommentList
                       comment={data}
                       memberId={memberId}
-                      refreshToken={refreshToken}
+                      accessToken={accessToken}
                       postId={postId}
                       myPageUrl={myPageUrl}
                       key={idx}
@@ -323,7 +323,7 @@ function Detail() {
                     imgS={imgS}
                     bodyText={bodyText}
                     myTag={myTag}
-                    refreshToken={refreshToken}
+                    accessToken={accessToken}
                   />
                 )}
               </D_BottomDesc>
