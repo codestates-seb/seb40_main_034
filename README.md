@@ -5,6 +5,8 @@
 
 [발표 영상 및 상세 문서](https://www.notion.so/40-Team034-Post-On-0bbaf6a753bf43e7b8cba73225995c6d)
 
+https://youtu.be/eWVaR429lyE
+
 장소에 대한 사진을 보고 가고 싶다고 생각했지만,
 
 위치 정보가 부정확하거나 해당 위치를 찾을 수 없어 불편함을 겪었던 적이 있으신가요?
